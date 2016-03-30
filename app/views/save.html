@@ -1,0 +1,217 @@
+<link href="../../styles/checkout/invoice.css" rel="stylesheet"/>
+<!-- FIRST PAGE -->
+<div class="page">
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5BJDWF"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-5BJDWF');</script>
+  <!-- End Google Tag Manager -->
+  <div class="wrapper">
+    <div class="details">
+      <h2 ng-bind-html="wheelchair.getTitle()"></h2>
+      <table>
+        <tr>
+          <td class="invoice-label">Manufacturer:</td>
+          <td class="value" ng-bind-html="manufacturer"></td>
+        </tr>
+        <tr>
+          <td class="invoice-label">Price:</td>
+          <td class="value" ng-bind-html="wheelchair.getTotalPrice()"></td>
+        </tr>
+        <tr>
+          <td class="invoice-label">Model:</td>
+          <td class="value" ng-bind-html="model"></td>
+        </tr>
+        <tr>
+          <td class="invoice-label">Weight:</td>
+          <td class="value" ng-bind-html="wheelchair.getTotalWeight()"></td>
+        </tr>
+      </table>
+    </div>
+    <div class="images">
+      <img class="front-page-disp first-image"
+           ng-repeat="img in topImageSet"
+           ng-src="{{img.URL}}"
+           ng-style="{'z-index': $index }"/>
+      <img class="front-page-disp second-image"
+           ng-repeat="img in midImageSet"
+           ng-src="{{img.URL}}"
+           ng-style="{'z-index': $index }"/>
+      <img class="front-page-disp third-image"
+           ng-repeat="img in botImageSet"
+           ng-src="{{img.URL}}"
+           ng-style="{'z-index': $index }"/>
+    </div>
+  </div>
+  <span class="footer">Powered by</span>
+</div>
+
+<!-- PART DESCRIPTION PAGE -->
+<div class="page">
+  <div class="wrapper">
+    <div class="top_text">
+      <table class="desc_table dark_line">
+        <tr>
+          <td>
+            <p class="type">
+              Type
+            </p>
+          </td>
+          <td>
+            <p class="details">
+              Details
+            </p>
+          </td>
+          <td>
+            <p class="price_text">
+              Price
+            </p>
+          </td>
+        </tr>
+      </table>
+      <table class="desc_table dark_line">
+        <tr>
+          <td class="wheel-image">
+            <table class="wheel_frame">
+              <tr>
+                <td>
+                  <p class="desc_img">
+                    Frame
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td class="image_holder">
+                  <img class="frame_img"
+                       ng-repeat="img in frameImageSet"
+                       ng-src="{{img.URL}}"
+                       ng-style="{'z-index': $index }"/>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table>
+              <tbody ng-repeat="part in frameParts">
+              <tr>
+                <td>
+                  <p class="description" data-ng-bind="part.partName"></p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p class="description-result" data-ng-bind="part.optionName"></p>
+                </td>
+                <td>
+                  <p class="description-result price" data-ng-bind="part.priceString"></p>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <table class="desc_table dark_line">
+        <tr>
+          <td class="wheel-image">
+            <table class="wheel_frame wheel_alt">
+              <tr>
+                <td>
+                  <p class="desc_img">
+                    Wheel
+                  </p>
+                </td>
+              </tr>
+              <tr>
+                <td class="image_holder">
+                  <img class="frame_img_wheel"
+                       ng-repeat="img in wheelImageSet"
+                       ng-src="{{img.URL}}"
+                       ng-style="{'z-index': $index }"/>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            <table class="wheel_selection">
+              <tbody ng-repeat="part in wheelParts">
+              <tr>
+                <td>
+                  <p class="description" data-ng-bind="part.partName"></p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <p class="description-result" data-ng-bind="part.optionName"></p>
+                </td>
+                <td>
+                  <p class="description-result price" data-ng-bind="part.priceString"></p>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="bottom-text">
+        <span class="description left">
+          Subtotal
+        </span>
+        <span class="description-result price">
+          $<span data-ng-bind="wheelchair.getTotalPrice().toFixed(2)"></span>
+        </span>
+    </div>
+  </div>
+  <span class="footer">Powered by</span>
+</div>
+
+<!-- MEASUREMENTS PAGE -->
+<div class="page">
+  <div class="wrapper">
+    <div class="measurements dark_line">
+      <h3>Measurements</h3>
+    </div>
+    <table>
+      <tr>
+        <td>
+          <div class="measure" ng-repeat="measure in measures">
+            <p class="description" data-ng-bind="measure.name"></p>
+
+            <p class="description-result">
+              <span data-ng-bind="measure.optionString"></span> / <span data-ng-bind="measure.altOptionString"></span>
+            </p>
+          </div>
+        </td>
+        <td>
+          <img class="wheel_measurement_one" src="../../images/pangding.jpg"/>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <img class="wheel_measurement_one" src="../../images/pangding.jpg"/>
+        </td>
+        <td>
+          <img class="wheel_measurement_one" src="../../images/pangding.jpg"/>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <span class="footer">Powered by</span>
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64294275-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+

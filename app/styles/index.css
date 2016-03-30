@@ -1,0 +1,763 @@
+/* ----- CSS FOR INDEX.HTML ----- */
+
+html{
+  height:100%;
+}
+
+body {
+  padding-top: 0;
+  padding-bottom: 20px;
+  background-color: #FFF;
+  min-width: 1050px;
+}
+
+.preload {
+  display: none;
+}
+
+
+/* nav bar */
+.mainNavbar  {
+  position:relative;
+  z-index: 99999;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 40px;
+  line-height:0;
+  font-weight: 300;
+  color: #4F9DFF;
+  font-size: 14px;
+  /*border-bottom: solid 2px #eaeaea;*/
+  background-color: #ffffff;
+}
+
+.mainNavbar-header {
+  float: left;
+  height: 100%;
+  margin: 0 0 0 5px;
+  padding: 3px 5px 0 0;
+  border-right: 2px solid #eaeaea;
+}
+
+.mainNavbar-header:hover{
+  cursor: pointer;
+}
+
+.mainNavbar-left {
+  float: left;
+  margin: 0 0 0 20px;
+  padding: 0;
+  list-style: none;
+
+}
+.mainNavbar .mainNavbar-left > li {
+  float: left;
+  height: 20px;
+  margin: 10px 20px 0 0;
+  padding: 10px 0 0 25px;
+  background: no-repeat 0 0;
+  background-size: 20px 20px;
+  cursor: pointer;
+
+
+
+
+}
+
+.mainNavbar .mainNavbar-left > li.frameNavButton {
+  /*background-image: url("../images/icons/frames.png");*/
+}
+.mainNavbar .mainNavbar-left > li.aboutNavButton {
+  /*background-image: url("../images/icons/about_us.png");*/
+}
+.mainNavbar .mainNavbar-left > li.compareNavButton {
+  /*background-image: url("../images/icons/compare.png");*/
+}
+
+.mainNavbar .mainNavbar-left > li.frameNavButton:hover,
+.mainNavbar .mainNavbar-left > li.frameNavButton:focus,
+.mainNavbar .mainNavbar-left > li.frameNavButton.active,
+.mainNavbar .mainNavbar-left > li.frameNavButton.active:hover,
+.mainNavbar .mainNavbar-left > li.frameNavButton.active:focus {
+  color:#4f9dff;
+  /*background-image:url("../images/icons/on_frames.png");*/
+}
+.mainNavbar .mainNavbar-left > li.wheelsNavButton:hover,
+.mainNavbar .mainNavbar-left > li.wheelsNavButton:focus,
+.mainNavbar .mainNavbar-left > li.wheelsNavButton.active,
+.mainNavbar .mainNavbar-left > li.wheelsNavButton.active:hover,
+.mainNavbar .mainNavbar-left > li.wheelsNavButton.active:focus {
+  color:#4f9dff;
+  /*background-image:url("../images/icons/on_frames.png");*/
+}
+.mainNavbar .mainNavbar-left > li.aboutNavButton:hover,
+.mainNavbar .mainNavbar-left > li.aboutNavButton:focus,
+.mainNavbar .mainNavbar-left > li.aboutNavButton.active,
+.mainNavbar .mainNavbar-left > li.aboutNavButton.active:hover,
+.mainNavbar .mainNavbar-left > li.aboutNavButton.active:focus {
+  color:#4f9dff;
+  /*background-image: url("../images/icons/on_about_us.png");*/
+}
+
+.mainNavbar .mainNavbar-left > li.compareNavButton:hover,
+.mainNavbar .mainNavbar-left > li.compareNavButton:focus,
+.mainNavbar .mainNavbar-left > li.compareNavButton.active,
+.mainNavbar .mainNavbar-left > li.compareNavButton.active:hover,
+.mainNavbar .mainNavbar-left > li.compareNavButton.active:focus {
+  color:#4f9dff;
+  /*background-image: url("../images/icons/on_compare.png");*/
+}
+
+.mainNavbar .mainNavbar-left > li > a {
+  text-decoration: none;
+}
+
+
+
+/*********main Navigation bar right**************/
+.mainNavbar-right {
+  clear: right;
+  float: right;
+  margin: 0 0 0 0;
+  padding: 0;
+  list-style: none;
+}
+.mainNavbar .mainNavbar-right > li {
+  float: right;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.mainNavbar .mainNavbar-right .cartIcon{
+  position: absolute;
+  right: 25px;
+  top: 3px;
+}
+
+.mainNavbar .mainNavbar-right .cartButton {
+    height: 100%;
+    margin: 0px;
+    padding-top: 5px;
+    padding-right: 30px;
+    padding-left: 0px;
+}
+
+.mainNavbar .mainNavbar-right .cartButton:hover {
+  cursor: pointer;
+}
+
+.mainNavbar .mainNavbar-right > li > a {
+  margin: 0;
+  padding: 0;
+  text-decoration: none;
+}
+
+.mainNavbar .mainNavbar-right #searchID{
+  display: inline-block;
+  position: relative;
+  /*right: 103px;*/
+  padding-right: 30px;
+  padding-top: 5px;
+  /*top: 11px;*/
+}
+
+#searchID img{
+  /*height: 20px;*/
+}
+
+.mainNavbar .mainNavbar-right #searchID:hover{
+  cursor: pointer;
+}
+
+.mainNavbar .mainNavbar-right .loginButton {
+  height: 100%;
+  margin: 0 0 0 0;
+  padding: 0 10px 0 0;
+}
+.mainNavbar .mainNavbar-right .settingsButton {
+  position: relative;
+  height: 40px;
+  margin: 0 0 0 0;
+  padding: 20px 10px 0 0;
+}
+
+
+
+/* nav bar left colors */
+
+.mainNavbar .mainNavbar-left > li > a {
+  color: inherit;
+}
+.mainNavbar .mainNavbar-left > li {
+  color: #000000;
+  font-size: 14px;
+  font-weight: 300;
+}
+.mainNavbar .mainNavbar-left > li:hover,
+.mainNavbar .mainNavbar-left > li:focus {
+  color: #4F9DFF;
+}
+/*.mainNavbar .mainNavbar-left > .active > a,*/
+/*.mainNavbar .mainNavbar-left > .active > a:hover,*/
+/*.mainNavbar .mainNavbar-left > .active > a:focus {*/
+  /*color: #000000;*/
+/*}*/
+
+/* nav bar right styles */
+
+.userName{
+  color: #f2bc19;
+  font-family:inherit;
+}
+
+.userName:hover{
+  cursor: pointer;
+}
+
+.userName:hover,
+.userName:focus {
+  text-decoration: none;
+  color: #f2bc19;
+}
+
+/*login session*/
+
+.login{
+  position: relative;
+  height: 100%;
+  margin: 0 0 0 0;
+  padding: 0;
+}
+
+.login .loginText{
+  padding: 20px 15px;
+  color: #000000;
+  font-size: 14px;
+  /*border-right: 2px solid #eaeaea;*/
+}
+
+.login .loginText:hover{
+  cursor: pointer;
+  color: #4F9DFF;
+}
+
+.login .window{
+  color: #000000;
+  background-color: white;
+  width: 240px;
+  position: relative;
+  line-height: 1.3;
+  border: 1px solid black;
+  padding: 20px 20px 30px;
+  z-index: 10000;
+}
+
+.login input{
+  width: 100%;
+  border: 1px solid grey;
+  margin-bottom: 10px;
+}
+
+.login .window span{
+  font-size: 0.8em;
+}
+
+.login .window span:first-of-type{
+  color: grey;
+  font-style: oblique;
+  float: left;
+}
+.login .window span:last-of-type{
+  float: right;
+}
+
+
+.login-button:hover {
+  cursor: pointer;
+}
+
+.login .login-optionrow span:hover {
+  cursor: pointer;
+}
+
+.afterlogin {
+  position: absolute;
+  top: 39px;
+  right:-26px;
+  color: #000000;
+  background-color: white;
+  line-height: 1;
+  width: 240px;
+  border: 1px solid black;
+  padding: 8px 20px 14px;
+  z-index: 100000;
+}
+
+.afterlogin #divider{
+  border-bottom: 1px solid #939597;
+}
+
+.afterlogin >div{
+  padding: 0.1px 0;
+}
+
+.afterlogin .logout-button{
+  height: 44px;
+  text-align: center;
+  margin-top: 14px ;
+  padding-top: 15px;
+  background-color: #939597;
+  color: white;
+}
+
+.afterlogin >div:hover{
+  cursor:pointer;
+}
+
+
+/* the main container that can be found in the sub pages */
+#appContainer .appBody {
+  margin: auto;
+}
+
+
+.ng-cloak{
+  display: none;
+}
+
+
+/* FONTS AND STDS*/
+:root{
+	--main-font: 'Gotham A', 'Gotham B',Helvetica, Aria, Sans-serif;
+	--narrow-font: 'Gotham Narrow A','Gotham Narrow B';
+	--light-mint: "#88cbc3";
+	--darker-mint: "#00a8ac";
+	--very-light-grey: "#EAEAEA";
+	--light-grey:"#939597";
+}
+
+
+/****gotham font family*****/
+.light{
+  font-family: 'Gotham A', 'Gotham B';
+	font-weight: 300;
+	font-style: normal;
+}
+
+.book{
+	font-family: 'Gotham A', 'Gotham B';
+	font-weight: 400;
+	font-style: normal;
+}
+
+.book-italic{
+	font-family: 'Gotham A', 'Gotham B';
+	font-weight: 400;
+	font-style: italic;
+}
+
+.medium{
+	font-family: 'Gotham A', 'Gotham B';
+	font-weight: 500;
+	font-style: normal;
+}
+
+.medium-italic{
+	font-family: 'Gotham A', 'Gotham B';
+	font-weight: 500;
+	font-style: italic;
+}
+
+.bold{
+	font-family: 'Gotham-Bold', 'Gotham-Bold';
+	font-weight: 700;
+	font-style: normal;
+}
+
+.narrow-light{
+	font-family: 'Gotham Narrow A','Gotham Narrow B';
+	font-weight: 300;
+	font-style: normal;
+}
+
+.narrow-book{
+	font-family: 'Gotham Narrow A','Gotham Narrow B';
+	font-weight: 400;
+	font-style: normal;
+}
+
+.narrow-book-italic{
+	font-family: 'Gotham Narrow A','Gotham Narrow B';
+	font-weight: 400;
+	font-style: italic;
+}
+
+.narrow-medium{
+	font-family: 'Gotham Narrow A','Gotham Narrow B';
+	font-weight: 500;
+	font-style: normal;
+}
+
+.narrow-medium-italic{
+	font-family: 'Gotham Narrow A','Gotham Narrow B';
+	font-weight: 500;
+	font-style: italic;
+}
+
+.narrow-bold{
+	font-family: 'Gotham Narrow A','Gotham Narrow B';
+	font-weight: 500;
+	font-style: normal;
+}
+
+/**** Oswald font family*****/
+
+.oBold{
+  font-family: 'oswald-bold';
+  font-size: 1.4em;
+  font-weight: 700;
+}
+.oReg{
+  font-family: 'oswald-regular';
+  font-size: 1em;
+}
+
+
+/*********font book by number*****/
+.fontBook1{
+  font-family: 'oswald-bold';
+  font-size: 1.4em;
+  letter-spacing: .12em;
+  color: black;
+}
+
+.fontBook2{
+  font-family: 'Gotham A', 'Gotham B';
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1em;
+}
+
+.fontBook3{
+  font-family: 'Gotham A', 'Gotham B';
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1.2em;
+}
+
+.fontBook4{
+  font-family: 'Gotham A', 'Gotham B';
+  font-weight: 500;
+  font-style: normal;
+  font-size: .75em;
+}
+
+.fontBook5{
+  font-family: 'oswald-bold';
+  font-size: .75em;
+  color: #4f9dff;
+}
+
+.fontBook6{
+  font-family: 'oswald-regular';
+  font-size: .75em;
+  letter-spacing: .1em;
+  color: #4f9dff;
+}
+
+.fontBook7{
+  font-family: 'Gotham A', 'Gotham B';
+  font-weight: 400;
+  font-style: normal;
+  font-size: .75em;
+}
+
+.fontBook8{
+  font-family: 'oswald-regular';
+  font-size: 1em;
+  letter-spacing: .1em;
+  font-size: .75em;
+  color: white;
+}
+
+.fontBook9{
+  font-family: 'oswald-bold';
+  font-size: 1.2em;
+  color: white;
+}
+
+.fontBook10{
+  font-family: 'Gotham A', 'Gotham B';
+  font-weight: 400;
+  font-style: normal;
+  font-size: .8em;
+  color: white;
+}
+
+.fontBook11{
+  font-family: 'Gotham A', 'Gotham B';
+  font-weight: 400;
+  font-style: normal;
+  font-size: .7em;
+}
+
+.fontBook12{
+  font-family: 'Gotham A', 'Gotham B';
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1em;
+  color: white;
+}
+
+.fontBook13{
+  font-family: 'Gotham A', 'Gotham B';
+  font-weight: 500;
+  font-style: normal;
+  font-size: 1em;
+}
+
+.fontBook14{
+
+}
+
+.fontBook15{
+
+}
+
+.fontBook16{
+
+}
+
+.fontBook17{
+
+}
+
+.fontBook18{
+
+}
+
+.fontBook19{
+
+}
+
+.fontBook20{
+
+}
+
+.fontBook21{
+
+}
+
+
+
+
+.sexy-toggle{
+	border-radius: 0px;
+	-moz-appearance: none;
+	background: url("../images/icons/dropdown.svg") no-repeat scroll 100% top / 20px 20px #FFF;
+	color: #666;
+	width: 75px;
+	font-size: 9pt;
+	border: 1px solid #939597;
+}
+
+div{
+	font-family: 'Gotham A', 'Gotham B';
+}
+
+.login-button{
+  height: 30px;
+  line-height: 19px;
+  font-size: 12pt;
+  width: 60%;
+  margin: auto;
+}
+
+.login-button+.login-button{
+  margin-top: 5px;
+}
+
+/*******Save & reveiw drodown buttun***********/
+@keyframes expandLogin {
+  from {top: -200px;}
+  to {top: 40px;}
+}
+
+@keyframes leaveLogin {
+  from {top: 40px;}
+  to {top: -200px;}
+}
+
+.dropdownButtonReal {
+  background-color: white;
+}
+
+.fixPosition{
+  position: absolute;
+  background-color: #FFFFFF;
+  height: 230px;
+  width: 100%;
+  z-index: 99998;
+  top: 40px;
+}
+
+.fixPosition.ng-enter{
+  animation: expandLogin 0.5s;
+}
+
+.fixPosition.ng-leave{
+  animation: leaveLogin 0.5s;
+}
+
+#foreground{
+  position: absolute;
+  background: linear-gradient(0deg, gray, black);
+  top: 40px;
+  width: 100%;
+  height: calc(100vh - 40px);
+  z-index: 99997;
+  opacity: 0.8;
+}
+
+
+
+.dropdownTable {
+  height: 76%;
+  width: 80%;
+  position: relative;
+  top: 24px;
+  margin: auto ;
+  vertical-align: middle;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+  border-collapse: separate;
+}
+
+
+.dropdownTable td img {
+  top: 18px;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+}
+
+.dropdownTable td {
+  padding-left: 7.5%;
+}
+
+.dropdownTable td > div{
+  color: #939597;
+  display: inline-block;
+}
+
+.dropdownTable td > div > img {
+  margin-left: calc(50% - 35px);
+}
+
+.dropdownTable td > div:hover{
+  cursor: pointer;
+}
+
+.dropdownButton table tr  h4 {
+  position: relative;
+  top: 40px;
+  font-size: 12pt;
+  text-align: center;
+}
+
+
+.dropdownButton {
+  position: relative;
+  background-color: #FFFFFF;
+  height: 200px;
+  width: 100%;
+  z-index: 2;
+  top: 0;
+}
+
+.dropdownButton.ng-enter{
+  animation-name: expand;
+  animation-duration: 0.5s;
+}
+
+.dropdownButton.ng-leave{
+  animation-name: leave;
+  animation-duration: 0.5s;
+}
+
+
+
+.dropdownButton .iconHover:hover {
+  opacity: 0;
+  cursor: pointer;
+}
+
+
+
+
+.error-mesg{
+  color: red;
+  font-size: small;
+  padding-top: 5px;
+}
+
+.paddingtop-fontsize {
+    font-size: 12pt;
+    padding-top: 10px;
+}
+
+.pageTitle {
+  margin-bottom: 20px;
+  margin-top: 30px;
+  margin-left: 10%;
+  font-size: 27px;
+  height: 30px;
+}
+
+
+
+.button{
+  display: inline-block;
+  color: #60C2B1;
+  height: 40px;
+  margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px 15px;
+  border: solid 1px #60C2B1;
+  border-radius: 2px;
+}
+
+.button:hover {
+  background-color: #60C2B1;
+  color: white;
+  cursor: pointer;
+}
+
+.button:focus{
+  outline:none;
+}
+
+.button1{
+  display: inline-block;
+  color: #60C2B1;
+  height: 40px;
+  margin-top: 30px;
+  text-align: center;
+  font-size: 14px;
+  padding: 10px 15px;
+  border: solid 1px #60C2B1;
+  border-radius: 2px;
+}
+
+.button1:hover {
+  background-color: #60C2B1;
+  color: white;
+  cursor: pointer;
+}
+
+.button1:focus{
+  outline:none;
+}
+

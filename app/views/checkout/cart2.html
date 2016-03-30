@@ -1,0 +1,193 @@
+<link rel='stylesheet'  href="../../styles/checkout/cart2.css" rel="stylesheet"/>
+<!--<link href="../../styles/checkout/cart.css" rel="stylesheet"/>-->
+
+<div class="appBody">
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5BJDWF"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-5BJDWF');</script>
+  <!-- End Google Tag Manager -->
+
+<div id="wrapper">
+  <div id="contentWrapper">
+    <div id="mainDisplay">
+      <div id="header">
+        <p class="oBold">MY CART</p>
+        <button data-ng-if="wheelchairUIOpts.length !== 0" class="button c oReg compareButton"
+                ng-class="{'greyButton': numChecked() == 0}"
+                ng-click="goToCompare()">COMPARE ({{numChecked()}})</button>
+        <div class="buttonCover" ng-if="numChecked() == 0"
+             ng-click="openGuide()"></div>
+      </div>
+      <div id="mainContent">
+        <div id="emptyCart" data-ng-if="wheelchairs.length === 0">
+          <span class="medium">Your currently do not have any designs</span>
+          <p ng-click="jumpFrame()"> START A NEW DESIGN</p>
+        </div>
+        <ul class="chairBlock" ng-if="wheelchairs.length">
+          <li ng-repeat="w in wheelchairs" class="cart-item {{wheelchairUIOpts[$index].checked ? 'checked-item' : ''}}">
+            <div class="chairTitle" ng-class="{'selectedChair': wheelchairUIOpts[$index].checked }">
+              <span class="medium">{{w.wheelchair.getName()}}</span>
+              <input type="checkbox" class="checkbox-button pull-right" ng-model="w.checked"
+                     ng-click="closeGuide()"
+                     ng-disabled="numChecked() >= MAX_COMPARISON_CHAIRS && !w.checked">
+              <img ng-if="guideSection" src="images/icons/reminder_arrow.svg">
+            </div>
+            <div>
+             <div class="media-object">
+                <canvas my-canvas img_arr={{w.wheelchair.getPreviewImages(3)}} ng-mouseover="editPanelShow = true"
+                        ng-mouseleave="editPanelShow = false"
+                        ng-click="toggleImageDisplay($index)"
+                        width="{{WHEELCHAIR_CANVAS_WIDTH}}"
+                        alt="wheelchairImage">
+                </canvas>
+              </div>
+              <section class="media-body">
+                <div class="firstLine medium">
+                  <span class="pull-left">Design ID: xxxxxxx</span>
+                  <span class="pull-right bold">${{w.wheelchair.getTotalPrice().toFixed(2)}}</span>
+                </div>
+                <table class="actions oReg">
+                  <tbody>
+                    <tr>
+                      <td ng-click="editWheelchair($index)"><a>EDIT</a></td>
+                      <td ng-click="moveToWishlist($index)"><a>SAVE FOR LATER</a></td>
+                      <td ng-click="duplicateWheelchair($index)"><a>DOWNLOAD PDF</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <section class="moreInfoTitle oBold">
+                  <p class="clickable-text {{wheelchairUIOpts[$index].showInfo ? 'dropup' : ''}}" ng-click="wheelchairUIOpts[$index].showInfo = !wheelchairUIOpts[$index].showInfo">{{wheelchairUIOpts[$index].showInfo ? 'LESS' : 'MORE'}} INFO <span class="caret"></span></p>
+                  <a class="pull-right">
+                    <img data-ng-src="images/my_design_page/delete.png"
+                       width="20"
+                       ng-click="deleteWheelchair($index)"></a>
+                </section>
+                <div class="moreInfo" style="padding:{{WHEELCHAIR_CANVAS_WIDTH}};">
+                  <!-- Parts Table...only shown if toggled -->
+                  <h3 ng-if="wheelchairUIOpts[$index].showInfo">Parts</h3>
+                  <table ng-if="wheelchairUIOpts[$index].showInfo">
+                    <tr class="part-row" ng-repeat="part in parts">
+                      <td class="title-column">
+                        <p data-ng-bind="part.getName()"></p>
+                      </td>
+                      <td class="value-column pull-right">
+                        <p data-ng-bind="getPartOption(w, part)"></p>
+                      </td>
+                    </tr>
+                  </table>
+                  <br>
+
+                  <!-- Measurements Table...only shown if toggled -->
+                  <h3 ng-if="wheelchairUIOpts[$index].showInfo">Measurements</h3>
+                  <table ng-if="wheelchairUIOpts[$index].showInfo">
+                    <tr class="part-row" ng-repeat="measure in getWheelchairMeasures(w)">
+                      <td class="title-column">
+                        <p data-ng-bind="measure.getName()"></p>
+                      </td>
+                      <td class="value-column pull-right">
+                        <p data-ng-bind="getMeasureDetails(w, measure).optionString"></p>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </section>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <div id="summary" class="gBook">
+      <section>
+        <div>
+          <section id="totalPanel"><div>
+            <span class="pull-left">Subtotal</span>
+            <span class="pull-right">${{curOrder.getSubtotal() >= 0 ? curOrder.getSubtotal().toFixed(2) : '--'}}</span>
+          </div>
+          <div>
+            <span class="pull-left">Tax</span>
+            <span class="pull-right">${{curOrder.getTaxCost() >= 0 ? curOrder.getTaxCost().toFixed(2) : '--'}}</span>
+          </div>
+          <div>
+            <span class="pull-left">Shipping Est</span>
+            <span class="pull-right">${{curOrder.getShippingCost() >= 0 ? curOrder.getShippingCost().toFixed(2) : '--'}}</span>
+          </div></section>
+
+          <section id="orderType" class="oReg">
+            <p class="sectionTitle" data-ng-init="orderTypePanel = false"  ng-click="orderTypePanel = !orderTypePanel">Choose Order Type*</p>
+            <div class="btn-group dropDown"  ng-show="orderTypePanel === true">
+              <button type="button" class="btn btn-default dropdown-toggle cartpage-dropdown" data-toggle="dropdown">
+                Select<span class="pull-right caret caretShape"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a ng-click="choosePayment('insurance')">Insurance</a></li>
+                <li>
+                  <a ng-click="choosePayment('downPayment')">30% down payment</a>
+                </li>
+                <li>
+                  <a ng-click="choosePayment('payFull')">Pay in full</a>
+                </li>
+              </ul>
+            </div>
+            <button type="button" class="btn btn-default button apply-button pull-right" ng-show="orderTypePanel === true" ng-click="applyPaymentMethod()">Apply</button>
+          </section>
+
+          <section id="shippingPanel" class="oReg">
+            <p data-ng-init="shippingPanel = false"  ng-click="shippingPanel = !shippingPanel"class="sectionTitle">Enter zip code to estimate shipping cost</p>
+            <div  ng-show="shippingPanel === true" >
+              <input type="number" placeholder="Enter zipcode" class="zipcode-input" ng-model="zipcode"></input>
+              <button type="button" class="btn btn-default pull-right button {{zipcode === curOrder.zip ? 'apply-button' : 'invalidated-apply-button'}}" ng-click="applyZipcode()">Apply</button>
+            </div>
+          </section>
+
+          <div class="totalPrice">
+            <span class="pull-left"><strong>Total</strong></span>
+            <span class="pull-right"><strong>${{curOrder.getTotalCost() >= 0 ? curOrder.getTotalCost().toFixed(2) : '--'}}</strong></span>
+          </div>
+        </div>
+      </section>
+      <button type="button" class=" button oReg checkoutButton" ng-click="checkOut()">CHECKOUT</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+  <!-- Shows wheelchair on Modal Dialog if small canvas is clicked -->
+  <div ng-repeat="w in wheelchairs" ng-if="imageDisplay1 == $index" id="displayImage">
+    <div id="offClickArea" ng-show="imageDisplay1 >= 0" data-ng-click="toggleImageDisplay(-1)"></div>
+    <div class="mainDisplay">
+      <div id="designTitle"><h3 data-ng-bind="w.getTitle()"></h3></div>
+      <img class="leftButton" src="images/icons/left_button.svg" alt="Previous" width="30" height="30"
+           ng-show="wheelchairs.length > 1"
+           data-ng-click="rotate(-1)"/>
+      <img class="rightButton" src="images/icons/right_button.svg" alt="Next" width="30" height="30"
+           ng-show="wheelchairs.length > 1"
+           data-ng-click="rotate(1)"/>
+      <canvas my-canvas img_arr="{{w.getPreviewImages(3)}}"
+              width="518" height="400"></canvas>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64294275-1', 'auto');
+  ga('send', 'pageview');
+
+</script>

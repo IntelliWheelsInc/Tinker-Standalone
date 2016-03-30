@@ -1,0 +1,285 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <meta charset="utf-8">
+  <title>Tinker</title>
+  <meta name="description" content="Build and customize your wheelchair">
+  <meta name="Keyword" content="wheelchair,tinker,customize,build">
+  <meta name="author" content="Intelliwheels,Inc.">
+  <meta name="prerender-status-code" content="404">
+  <!--<meta name="fragment" content="!">-->
+  <meta name="robots" content="index, follow">
+  <!--<meta name="viewport" content="width=1200px">-->
+  <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+  <!-- build:css(.) styles/vendor.css -->
+  <!-- bower:css -->
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
+  <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog.css" />
+  <link rel="stylesheet" href="bower_components/ng-dialog/css/ngDialog-theme-default.css" />
+  <!-- endbower -->
+  <!-- endbuild -->
+  <!-- build:css(.tmp) styles/frame.css -->
+
+  <link href="styles/index.css" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="//cloud.typography.com/7097374/665808/css/fonts.css"/>
+  <link
+    href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic|Oswald:400,700,300'
+    rel='stylesheet' type='text/css'>
+  <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+  <!-- endbuild -->
+</head>
+<body ng-app="abacuApp" ng-cloak>
+
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5BJDWF"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5BJDWF');</script>
+<!-- End Google Tag Manager -->
+
+<div id="backgrounder"></div>
+
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div data-ng-controller="HeaderController">
+  <div >
+    <div class="mainNavbar" data-ng-if="!isActive('/')">
+      <div class="preload">
+        <img alt="frame" src="images/icons/on_frames.png"/>
+        <img alt="about us" src="images/icons/on_about_us.png"/>
+        <img alt="compare" src="images/icons/on_compare.png"/>
+
+      </div>
+
+      <div class="mainNavbar-header">
+        <a class="mainNavbar-brand" target="_blank" href="http://www.tinker.fit/" >
+          <img alt="Tinker" src="images/tinker_logo_small_beta1.png" width="100"/>
+        </a>
+      </div>
+      <ul class="mainNavbar-left">
+        <li ng-click="jumpFrame()" class="frameNavButton" ng-class="{ active: isActive('/frames')}">
+          <a class="medium">WHEELCHAIRS</a>
+        </li>
+	    <li ng-click="jumpWheels()" class="wheelsNavButton" ng-class="{ active: isActive('/frames')}">
+          <a class="medium">CUSTOM WHEELS</a>
+        </li>
+        <li ng-click="jumpAbout()" class="aboutNavButton" ng-class="{ active: isActive('/about')}">
+          <a class="medium">ABOUT</a>
+        </li>
+      </ul>
+
+      <ul class="mainNavbar-right">
+        <li class="cartButton" ng-click="jumpCart()"><img src="images/icons/cart-gray.png" width="30" alt="cart"/>
+        </li>
+        <li class="cartIcon" data-ng-show="cartIconShown() === 1"><img
+          data-ng-src="images/my_design_page/cartIcon/cart_total_1.png" width="17" alt="cartIcon"></li>
+        <li class="cartIcon" data-ng-show="cartIconShown() === 2"><img
+          data-ng-src="images/my_design_page/cartIcon/cart_total_2.png" width="17" alt="cartIcon"></li>
+        <li class="cartIcon" data-ng-show="cartIconShown() === 3"><img
+          data-ng-src="images/my_design_page/cartIcon/cart_total_3.png" width="17" alt="cartIcon"></li>
+        <li class="cartIcon" data-ng-show="cartIconShown() > 3"><img
+          data-ng-src="images/my_design_page/cartIcon/cart_total_more.png" width="17" alt="cartIcon"></li>
+        <li data-ng-click="jumpSearchid()" id="searchID">
+          <img src="images/icons/search-gray.png">
+        </li>
+	<li class="loginButton" data-ng-if="!user.isLoggedIn()">
+          <div data-ng-click="toggleLoginDropdown()" class="login">
+            <div class="loginText medium" data-ng-bind="loginText"></div>
+          </div>
+        </li>
+        <li class="settingsButton" data-ng-if="user.isLoggedIn()">
+          <div data-ng-click="toggleSettingsDropdown()" class="login">
+            <div class="userName medium" data-ng-bind="user.getFname()"></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div data-ng-if="loginDropdown() === true"  class="fixPosition" >
+      <table class="dropdownTable">
+        <tr>
+          <td class="panelIcon1">
+            <p class="book">Abacus</p>
+            <p class="book">Login</p>
+          </td>
+          <td>
+            <p class="book paddingtop-fontsize">Email Address</p>
+            <input type="text" data-ng-model="loginModel.email"/>
+
+            <p class="book paddingtop-fontsize">Password</p>
+            <input type="password" data-ng-model="loginModel.password"/>
+
+            <p class="book error-mesg" data-ng-bind="error"></p>
+          </td>
+          <td class="panelIcon3">
+            <div class="login-button button1" data-ng-click="login()">
+              <p class="medium">Login</p>
+            </div>
+            <div class="login-button button1" data-ng-click="register()">
+              <p class="medium">Register</p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div data-ng-if="settingsDropdown() === true"  class="fixPosition" >
+      <table class="dropdownTable">
+        <tr>
+          <td class="panelIcon1">
+            <div data-ng-click="loginSection('account')" data-ng-mouseenter="accountURL = 'on_my_account_big'" data-ng-mouseleave="accountURL = 'my_account_big'">
+              <img data-ng-src="images/icons/{{accountURL}}.png" alt="account">
+              <div class="medium">My Account</div>
+            </div>
+          </td>
+          <td>
+            <div data-ng-click="loginSection('orders')" data-ng-mouseenter="orderURL = 'on_my_orders'" data-ng-mouseleave="orderURL = 'my_orders'">
+              <img data-ng-src="images/icons/{{orderURL}}.png" alt="order">
+              <div class="medium">My Orders</div>
+            </div>
+          </td>
+          <td class="panelIcon3">
+            <div data-ng-click="loginSection('myDesigns')" data-ng-mouseenter="measureURL = 'on_my_measurement'" data-ng-mouseleave="measureURL = 'my_measurement'">
+              <img data-ng-src="images/icons/{{measureURL}}.png">
+              <div class="medium">My Design</div>
+            </div>
+          </td>
+          <td>
+            <div class="button1" data-ng-click="logout()">
+              <p class="medium">Logout</p>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="foreground" data-ng-if="loginDropdown() === true || settingsDropdown() === true"
+         data-ng-click="closeDropdown()"
+      ></div>
+  </div>
+
+  <div id="appContainer" ng-view=""></div>
+  <!-- Angular App -->
+</div>
+
+
+<!-- Google Analytics: -->
+
+<script>
+  (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+      }, i[r].l = 1 * new Date();
+    a = s.createElement(o),
+      m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+  ga('create', 'UA-64294275-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+
+<!-- build:js(.) scripts/oldieshim.js -->
+<!--[if lt IE 9]>
+<script src="bower_components/es5-shim/es5-shim.js"></script>
+<script src="bower_components/json3/lib/json3.js"></script>
+<![endif]-->
+<!-- endbuild -->
+
+<!-- build:js(.) scripts/vendor.js -->
+<!-- bower:js -->
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/angular/angular.js"></script>
+<script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+<script src="bower_components/angular-resource/angular-resource.js"></script>
+<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+<script src="bower_components/angular-animate/angular-animate.js"></script>
+<script src="bower_components/angular-touch/angular-touch.js"></script>
+<script src="bower_components/angular-route/angular-route.js"></script>
+<script src="bower_components/file-saver.js/FileSaver.js"></script>
+<script src="bower_components/angularytics/dist/angularytics.min.js"></script>
+<script src="bower_components/lodash/lodash.js"></script>
+<script src="bower_components/ng-dialog/js/ngDialog.js"></script>
+<!-- endbower -->
+<!-- endbuild -->
+
+
+<!-- build:js({.tmp,app}) scripts/scripts.js -->
+<script src="scripts/app.js"></script>
+<script src="scripts/controllers/FrameCtrl.js"></script>
+<script src="scripts/controllers/AboutCtrl.js"></script>
+<script src="scripts/controllers/AbacusCtrl.js"></script>
+<script src="scripts/controllers/CompareCtrl.js"></script>
+<script src="scripts/controllers/checkout/CartCtrl.js"></script>
+<script src="scripts/controllers/checkout/Cart2Ctrl.js"></script>
+<script src="scripts/controllers/checkout/CheckoutCtrl.js"></script>
+<script src="scripts/controllers/checkout/OrderCtrl.js"></script>
+<script src="scripts/controllers/modals/designIDModalCtrl.js"></script>
+<script src="scripts/controllers/modals/saveDesignMethodCtrl.js"></script>
+<script src="scripts/controllers/SearchIDCtrl.js"></script>
+<script src="scripts/controllers/SettingsCtrl.js"></script>
+<script src="scripts/controllers/HeaderController.js"></script>
+<script src="scripts/controllers/SaveCtrl.js"></script>
+<script src="scripts/controllers/register/RegisterCtrl.js"></script>
+<script src="scripts/controllers/register/WelcomeCtrl.js"></script>
+<script src="scripts/controllers/ConfirmCtrl.js"></script>
+<script src="scripts/controllers/LandingCtrl.js"></script>
+<script src="scripts/controllers/MyDesignsCtrl.js"></script>
+
+<!-- endbuild -->
+
+<!--services-->
+
+<script src="scripts/services/factories/colorFactory.js"></script>
+<script src="scripts/services/factories/optionFactory.js"></script>
+<script src="scripts/services/factories/partFactory.js"></script>
+<script src="scripts/services/factories/errorFactory.js"></script>
+<script src="scripts/services/factories/measureFactory.js"></script>
+<script src="scripts/services/factories/frameFactory.js"></script>
+<script src="scripts/services/factories/orderFactory.js"></script>
+<script src="scripts/services/factories/lodashFactory.js"></script>
+<script src="scripts/services/factories/wheelchairFactory.js"></script>
+<script src="scripts/services/factories/designFactory.js"></script>
+<script src="scripts/services/factories/previewImageFactory.js"></script>
+<script src="scripts/services/services/userService.js"></script>
+<script src="scripts/services/services/frameDataService.js"></script>
+<script src="scripts/services/services/comparedDesignsService.js"></script>
+<script src="scripts/services/services/localJSONStorage.js"></script>
+<script src="scripts/services/services/userService.js"></script>
+<script src="scripts/services/services/syncJSON.js"></script>
+<script src="scripts/services/services/angleService.js"></script>
+<script src="scripts/services/services/unitService.js"></script>
+<script src="scripts/services/services/dropService.js"></script>
+
+
+<script src="scripts/services/constants/bankConstants.js"></script>
+<script src="scripts/services/constants/costConstants.js"></script>
+
+<script src="scripts/directives/resize.js"></script>
+<script src="scripts/directives/myCanvas.js"></script>
+<script src="scripts/directives/phoneFilter.js"></script>
+<script src="scripts/directives/register.js"></script>
+<script src="scripts/directives/myDesigns.js"></script>
+<script src="scripts/canvas/imageStacker.js"></script>
+
+
+<script type="text/javascript">
+  // This identifies your website in the createToken call below
+  Stripe.setPublishableKey('pk_test_7ape2quK8HrcafwfsYjWDrBh');
+  // ...
+</script>
+</body>
+</html>

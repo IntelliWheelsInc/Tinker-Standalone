@@ -1,0 +1,250 @@
+/*******font******/
+.oBold{
+  font-family: 'oswald-bold';
+  font-size: 1em;
+}
+.oReg{
+  font-family: 'oswald-regular';
+  font-size: 1em;
+}
+
+.gBook{
+  font-family: 'gotham-book';
+  font-size: 1em;
+}
+
+
+#mainDisplay{
+  width: 700px;
+  float: left;
+  margin-top: 10px;
+  width: 100%;
+  margin: auto;
+  padding-top: 50px;
+}
+
+.compareButton{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.greyButton{
+  background-color: #b4b6b8 !important;
+  color: white !important;
+  border: none;
+}
+
+
+
+.compareButton .buttonCover{
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: transparent;
+  z-index: 8;
+}
+
+.buttonCover:hover{
+  cursor: pointer;
+}
+
+#offClickPanel{
+  position: absolute;
+  top: 0;
+  left: -57px;
+  height: 100vh;
+  width: 100vw;
+  z-index:9;
+}
+
+
+/********* wheelchair content display***/
+#mainContent{
+  width: 100%;
+  display: inline-block;
+  margin: auto;
+}
+
+#header{
+  position: relative;
+  margin: 0 15px 0;
+  margin-bottom: 50px;
+}
+
+.button{
+  margin-top: 0;
+  height: 35px;
+  background-color: #4896FF;
+  color: #FFFFFF;
+  border-color: #4896FF;
+  border-radius: 0px;
+  padding: 0 10px;
+
+}
+
+.button:hover {
+  background-color: white;
+  border-color: #4896FF;
+  color: #4896FF;
+}
+
+.compareButton{
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
+.oReg{
+  font-family: 'oswald-regular';
+  font-size: 1em;
+}
+
+#emptyCart{
+  position: relative;
+  top: 80px;
+  margin: auto;
+  width: 300px;
+}
+
+#emptyCart>p{
+  position: relative;
+  top: 25px;
+  left: 23px;
+  font-size: 1.4em;
+  color: #4f9dff;
+  letter-spacing: -1px;
+}
+
+#emptyCart>p:hover{
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+
+
+.chairBlock{
+  width: 100%;
+  list-style-type: none;
+  padding: 10px 15px;
+  margin-right: 20px;
+}
+
+.chairBlock .chairTitle{
+  position: relative;
+  width: 100%;
+  background-color: #4f9dff;
+  font-size: 1.1em;
+  padding:7px 20px;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.chairBlock .chairTitle img{
+  position: absolute;
+  height: 26px;
+  right: -47px;
+  top: 2px;
+  -webkit-animation: arrow-jump 1s infinite; /* Safari 4+ */
+  -moz-animation:    arrow-jump 1s infinite; /* Fx 5+ */
+  -o-animation:      arrow-jump 1s infinite; /* Opera 12+ */
+  animation:         arrow-jump 1s infinite; /* IE 10+, Fx 29+ */
+}
+
+@-webkit-keyframes arrow-jump {
+  0%   { opacity: 0.3;}
+  100% { opacity: 1;
+    -webkit-transform: translateX(10px);
+    -moz-transform: translateX(10px);
+    -o-transform: translateX(10px);
+    transform: translateX(10px);
+  }
+
+}
+
+
+
+.chairBlock .chairTitle input{
+  -ms-transform: scale(1.6); /* IE */
+  -moz-transform: scale(1.6); /* FF */
+  -webkit-transform: scale(1.6); /* Safari and Chrome */
+  -o-transform: scale(1.6); /* Opera */
+  position: relative;
+  z-index:10;
+}
+
+.chairBlock .selectedChair {
+  background-color:#4f9dff;
+}
+
+.cart-item{
+  background-color: white;
+  margin-bottom: 20px;
+}
+
+.media-object{
+  width: 30%;
+  position: relative;
+  display:inline-block;
+}
+
+.media-body {
+  overflow: visible;
+  display: inline-block;
+  width: 65%;
+  vertical-align: top;
+}
+.media-body .firstLine{
+  margin: 10px 0 58px;
+}
+
+.media-body a{
+  color: #4f9dff;
+}
+.media-body .actions table{
+  margin-bottom: 20px;
+}
+.media-body .actions td{
+  padding: 0 15px;
+  border-right: 2px solid black;
+}
+
+.media-body .actions td:hover{
+  cursor: pointer;
+}
+
+.media-body .actions td:first-of-type{
+  padding-left: 0;
+}
+
+.media-body .moreInfoTitle{
+  margin-top: 27px;
+  color: #4f9dff;
+
+}
+
+.checkbox-button {
+  position: relative;
+  bottom: 3px;
+}
+
+.moreInfoTitle .clickable-text{
+  display: inline-block;
+  border-radius: 0px;
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.moreInfoTitle .clickable-text:hover{
+  cursor: pointer;
+}
+
+.moreInfo table{
+  width: 100%;
+}
+
+.moreInfo .title-column{
+  color: #939597;
+}

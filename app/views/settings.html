@@ -1,0 +1,349 @@
+<link href="styles/settings.css" rel="stylesheet" />
+
+<!-- Background -->
+<div class="settingsBackground">
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5BJDWF"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-5BJDWF');</script>
+  <!-- End Google Tag Manager -->
+</div>
+
+<div class="appBody">
+
+  <div class="settingsHeader">
+    <div class="settingsHeaderTitle medium">SETTINGS <i class="fa fa-cog"></i></div>
+  </div>
+
+  <!-- SIDEBAR -->
+  <div class="settingsSidebar">
+    <ul class="settingsSidebarOptions">
+
+      <li class="settingsSidebarOption book" id="settingsSidebarOrdersOption"
+          ng-click="setContentSection(ContentSection.ORDERS)"
+          ng-class="{ 'active' : getContentSection() === ContentSection.ORDERS} ">
+        <i class="fa fa-list"></i>&nbsp; MY ORDERS
+      </li>
+      <li class="settingsSidebarOptionDivider"></li>
+
+      <li class="settingsSidebarOption book" id="settingsSidebarAccountOption"
+          ng-click="setContentSection(ContentSection.ACCOUNT)"
+          ng-class="{ 'active' : getContentSection() === ContentSection.ACCOUNT}">
+        <i class="fa fa-user"></i>&nbsp; MY ACCOUNT
+      </li>
+      <li class="settingsSidebarOptionDivider"></li>
+
+      <li class="settingsSidebarOption book" id="settingsSidebarMeasurementsOption"
+          ng-click="setContentSection(ContentSection.MEASUREMENTS)"
+          ng-class="{ 'active' : getContentSection() === ContentSection.MEASUREMENTS}">
+        <i class="fa fa-wrench"></i>&nbsp; MY MEASUREMENTS
+      </li>
+      <li class="settingsSidebarOptionDivider"></li>
+
+      <li class="settingsSidebarOption book" id="settingsSidebarMyDesignsOption"
+          ng-click="setContentSection(ContentSection.MYDESIGNS)"
+          ng-class="{ 'active' : getContentSection() === ContentSection.MYDESIGNS}">
+        <i class="fa fa-wrench"></i>&nbsp; MY DESIGNS
+      </li>
+      <li class="settingsSidebarOptionDivider"></li>
+
+    </ul>
+
+    <div class="settingsSidebarButtons"
+         ng-class="{'showSettingsSidebarButtons' : getContentSection() !== ContentSection.ORDERS, 'hideSettingsSidebarButtons' : getContentSection() === ContentSection.ORDERS}">
+      <button class="settingsSidebarButton medium"
+              id="settingsSidebarSaveButton"
+              data-ng-click="save()" data-ng-bind="saveMessage"></button>
+    </div>
+
+  </div>
+
+  <!--- CONTENT SECTIONS --->
+
+  <div class="settingsContentWrapper">
+
+    <!-- MY ACCOUNT -->
+
+    <div class="settingsContent" id="settingsAccountContent"
+         ng-class="{'showSettingsContent' : getContentSection() === ContentSection.ACCOUNT}">
+
+      <div class="settingsContentInputSection">
+        <form action="" id="settingsContentForm-contact">
+          <div class="settingsContentSectionTitle book">Contact Information</div>
+          <ul>
+            <li>
+              <label for="settingsContentInput-contact-firstName">First Name</label>
+              <input id="settingsContentInput-contact-firstName" name="firstName" type="text" data-ng-model="accountModel.fName" />
+            </li>
+            <li>
+              <label for="settingsContentInput-contact-lastName">Last Name</label>
+              <input id="settingsContentInput-contact-lastName" name="lastName" type="text" data-ng-model="accountModel.lName" />
+            </li>
+            <li>
+              <label for="settingsContentInput-contact-phone">Phone</label>
+              <input id="settingsContentInput-contact-phone" name="phone" type="text" data-ng-model="accountModel.phone" />
+            </li>
+          </ul>
+        </form>
+      </div>
+
+      <div class="settingsContentInputSection">
+        <form action="" id="settingsContentForm-shipping">
+          <div class="settingsContentSectionTitle book">Shipping Address</div>
+          <ul>
+            <li>
+              <label for="settingsContentInput-shipping-streetAddress">Street Address</label>
+              <input id="settingsContentInput-shipping-streetAddress" name="streetAddress" type="text" data-ng-model="accountModel.addr" />
+            </li>
+            <li>
+              <label for="settingsContentInput-shipping-streetAddress2">Street Address 2</label>
+              <input id="settingsContentInput-shipping-streetAddress2" name="streetAddress2" type="text" data-ng-model="accountModel.addr2" />
+            </li>
+            <li>
+              <label for="settingsContentInput-shipping-city">City</label>
+              <input id="settingsContentInput-shipping-city" name="city" type="text" data-ng-model="accountModel.city" />
+            </li>
+            <li>
+              <label for="settingsContentInput-shipping-state">State</label>
+              <input id="settingsContentInput-shipping-state" name="state" type="text" data-ng-model="accountModel.state" />
+            </li>
+            <li>
+              <label for="settingsContentInput-shipping-zip">Zip Code</label>
+              <input id="settingsContentInput-shipping-zip" name="zip" type="text" data-ng-model="accountModel.zip" />
+            </li>
+          </ul>
+        </form>
+      </div>
+
+      <div class="settingsContentInputSection">
+        <form action="" id="settingsContentForm-password">
+          <div class="settingsContentSectionTitle book">Change Password <span data-ng-bind="errMessage"></span></div>
+          <ul>
+            <li>
+              <label for="settingsContentInput-password-oldPassword">Current Password</label>
+              <input id="settingsContentInput-password-oldPassword" name="oldPassword" type="password" data-ng-model="accountModel.oldPass" />
+            </li>
+            <li>
+              <label for="settingsContentInput-password-newPassword">New Password</label>
+              <input id="settingsContentInput-password-newPassword" name="newPassword" type="password" data-ng-model="accountModel.newPass1" />
+            </li>
+            <li>
+              <label for="settingsContentInput-password-passwordConfirm">Confirm New Password</label>
+              <input id="settingsContentInput-password-passwordConfirm" name="passwordConfirm" type="password" data-ng-model="accountModel.newPass2" />
+            </li>
+          </ul>
+        </form>
+      </div>
+
+    </div>
+
+    <!-- MY ORDERS -->
+
+    <div class="settingsContent" id="settingsOrdersContent"
+         ng-class="{'showSettingsContent' : getContentSection() === ContentSection.ORDERS}">
+      <ul id="settingsOrdersContentItems">
+        <li class="settingsOrdersContentItem" data-ng-repeat="w in wheelchairs">
+          <p><h4><strong data-ng-bind="w.getTitle()"></strong></h4></p>
+          <canvas my-canvas img_arr={{w.getPreviewImages(3)}} width="200"></canvas>
+          <section>
+            <p>Order number: {{w.orderNum}}</p>
+            <table class="orderTable book">
+              <tbody>
+              <tr>
+                <td>Order Date: <span data-ng-bind="w.date.toLocaleDateString()"></span></td>
+                <td>Frame: {{}}</td>
+              </tr>
+              <tr>
+                <td>Total: ${{w.getTotalPrice().toFixed(2)}}</td>
+                <td>Manufacturer: Ti Arrow</td>
+              </tr>
+              <tr>
+                <td>Ship to: {{w.fName}} {{w.lName}}</td>
+              </tr>
+              </tbody>
+            </table>
+          </section>
+          <button>View Invoice</button>
+          <section id="contactInfo">
+            <button ng-init="infoShow = false" ng-click="infoShow = !infoShow">Contact Manufacturer</button>
+            <p ng-show="infoShow">
+              Ti arrow<br> Tel: 08-420 566 73 <br> Mobile: 070-453 9655 <br> vigand@tiarrow.com
+            </p>
+
+          </section>
+
+          <!--<div class="settingsOrdersContentItemMid">-->
+            <!--<div class="settingsOrdersContentItem-date book">Order Placed: <span data-ng-bind="o.sentDate.toLocaleDateString()"></span></div>-->
+            <!--<button class="settingsOrdersContentItem-detailsButton book"-->
+                    <!--data-ng-click="openOrderDetails($index)">View Order Details <i class="fa fa-arrow-circle-down"></i></button>-->
+          <!--</div>-->
+        </li>
+      </ul>
+    </div>
+
+    <!-- MY MEASUREMENTS -->
+
+    <div class="settingsContent" id="settingsMeasurementsContent"
+         ng-class="{'showSettingsContent' : getContentSection() === ContentSection.MEASUREMENTS}">
+      <div id="mainDisplay">
+        <div id="header">
+          <button data-ng-if="wheelchairs.length !== 0" class="button compareButton oReg">COMPARE</button>
+        </div>
+        <div id="mainContent">
+          <ul class="chairBlock" ng-if="wheelchairs.length">
+            <li ng-repeat="w in wheelchairs" class="cart-item {{wheelchairUIOpts[$index].checked ? 'checked-item' : ''}}">
+              <div class="chairTitle" ng-class="{'selectedChair': wheelchairUIOpts[$index].checked }">
+                <span class="medium">{{w.getName()}}</span>
+                <input type="checkbox" class="checkbox-button pull-right" ng-model="wheelchairUIOpts[$index].checked">
+              </div>
+              <div>
+                <div class="media-object">
+                  <canvas my-canvas img_arr={{w.getPreviewImages(3)}} ng-mouseover="editPanelShow = true"
+                          ng-mouseleave="editPanelShow = false"
+                          width="{{WHEELCHAIR_CANVAS_WIDTH}}"
+                          alt="wheelchairImage">
+                  </canvas>
+                </div>
+                <section class="media-body">
+                  <div class="firstLine medium">
+                    <span class="pull-left">Design ID: xxxxxxx</span>
+                    <span class="pull-right bold">${{w.getTotalPrice().toFixed(2)}}</span>
+                  </div>
+                  <table class="actions oReg">
+                    <tbody>
+                    <tr>
+                      <td ng-click="editWheelchair($index)"><a>EDIT</a></td>
+                      <td ng-click="moveToCart($index)"><a>SAVE FOR LATER</a></td>
+                      <td ng-click="duplicateWheelchair($index)"><a>DOWNLOAD PDF</a></td>
+                    </tr>
+                    </tbody>
+                  </table>
+                  <section class="moreInfoTitle oBold">
+                    <p class="clickable-text {{wheelchairUIOpts[$index].showInfo ? 'dropup' : ''}}" ng-click="wheelchairUIOpts[$index].showInfo = !wheelchairUIOpts[$index].showInfo">{{wheelchairUIOpts[$index].showInfo ? 'LESS' : 'MORE'}} INFO <span class="caret"></span></p>
+                    <a class="pull-right">
+                      <img data-ng-src="images/my_design_page/delete.png"
+                           width="20"
+                           ng-click="deleteWheelchair($index)"></a>
+                  </section>
+                  <div class="moreInfo" style="padding:{{WHEELCHAIR_CANVAS_WIDTH}};">
+                    <!-- Parts Table...only shown if toggled -->
+                    <h3 ng-if="wheelchairUIOpts[$index].showInfo">Parts</h3>
+                    <table ng-if="wheelchairUIOpts[$index].showInfo">
+                      <tr class="part-row" ng-repeat="part in parts">
+                        <td class="title-column">
+                          <p data-ng-bind="part.getName()"></p>
+                        </td>
+                        <td class="value-column pull-right">
+                          <p data-ng-bind="getPartOption(w, part)"></p>
+                        </td>
+                      </tr>
+                    </table>
+                    <br>
+
+                    <!-- Measurements Table...only shown if toggled -->
+                    <h3 ng-if="wheelchairUIOpts[$index].showInfo">Measurements</h3>
+                    <table ng-if="wheelchairUIOpts[$index].showInfo">
+                      <tr class="part-row" ng-repeat="measure in getWheelchairMeasures(w)">
+                        <td class="title-column">
+                          <p data-ng-bind="measure.getName()"></p>
+                        </td>
+                        <td class="value-column pull-right">
+                          <p data-ng-bind="getMeasureDetails(w, measure).optionString"></p>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </section>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- MY DESIGNS -->
+    <div class="settingsContent" id="settingsAccountContent"
+         ng-class="{'showSettingsContent' : getContentSection() === ContentSection.MYDESIGNS}">
+         <my-designs></my-designs>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!--<div class="settingsContent" id="settingsMeasurementsContent"-->
+         <!--ng-class="{'showSettingsContent' : getContentSection() === ContentSection.MEASUREMENTS}">-->
+
+      <!--&lt;!&ndash; MEASURE SELECTORS &ndash;&gt;-->
+
+      <!--<div class="settingsContentInputSection">-->
+        <!--<form action="" id="settingsContentForm-measurements">-->
+          <!--<div class="settingsContentSectionTitle book">My Measurements</div>-->
+          <!--<ul>-->
+            <!--<li data-ng-repeat="(m, val) in MeasurementTypes"> &lt;!&ndash; TODO: Angularize (ng-repeat) using $scope.measOptions &ndash;&gt;-->
+              <!--<label ng-click="setMeasurementType(val)"-->
+                     <!--ng-class="{'active' : getMeasurementType() === val}">-->
+                     <!--<span data-ng-bind="measDisplay[val].name"></span> <i class="fa fa-arrow-circle-right" title="Learn More"></i>-->
+              <!--</label>-->
+              <!--<select ng-click="setMeasurementType(val)" class="sexy-toggle" data-ng-options="o for o in measDisplay[val].options" data-ng-model="measDisplay[val].optionSelected"></select>-->
+            <!--</li>-->
+          <!--</ul>-->
+          <!--<div>-->
+            <!--<h6 class="medium">Unit</h6>-->
+            <!--&lt;!&ndash; Fix Me &ndash;&gt;-->
+            <!--<input type="checkbox"  class="sexy-checkbox" data-ng-model="curUnitSys"-->
+                    <!--data-ng-options="sys.enumVal as sys.name for sys in unitSysList"  > Metric<br>-->
+            <!--<input type="checkbox"  class="sexy-checkbox" data-ng-model="curUnitSys"-->
+                    <!--data-ng-options="sys.enumVal as sys.name for sys in unitSysList"  > Imperial<br>-->
+
+          <!--</div>-->
+        <!--</form>-->
+      <!--</div>-->
+
+      <!--&lt;!&ndash; MEASUREMENT INFO &ndash;&gt;-->
+
+      <!--<div class="settingsContentInputMoreInfoSection"-->
+           <!--ng-repeat="(m, val) in MeasurementTypes"-->
+           <!--ng-class="{'active' : getMeasurementType() === val}">-->
+        <!--<div class="settingsContentSectionTitle" data-ng-bind="measDisplay[val].name"></div>-->
+        <!--<div class="settingsContentSectionDescription" data-ng-bind="measDisplay[val].desc"></div>-->
+        <!--<div class="settingsContentSectionGraphic">-->
+          <!--<img ng-src="{{measDisplay[val].imgURLs[measDisplay[val].imgIndex]}}" width="300" height="288">-->
+          <!--<div class="dots">-->
+            <!--<i class="fa fa-circle-o"-->
+               <!--data-ng-class="{'fa-circle': measDisplay[val].imgIndex === $index}"-->
+               <!--data-ng-repeat="i in measDisplay[val].imgURLs"-->
+               <!--data-ng-click="measDisplay[val].imgIndex = $index"></i>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+
+    <!--</div>-->
+
+  </div><!-- END settingsContentWrapper -->
+
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64294275-1', 'auto');
+  ga('send', 'pageview');
+
+</script>

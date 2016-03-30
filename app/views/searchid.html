@@ -1,0 +1,66 @@
+<link href="../../styles/searchid.css" rel="stylesheet"/>
+<div class="searchid-page-body">
+<!-- 	<div class="top-banner">
+		<p class="banner-text">SEARCH DESIGN ID</p>
+	</div> -->
+	<div class="container-block">
+		<div class="search-form-container" id="searchContainer">
+			<p class="search-header-text">Look up a DesignID</p>
+			<form name="searchForm.form" class="css-form" ng-submit="search()" novalidate>
+				<input type="text" class="search-input" ng-model="searchForm.searchInput" required>
+				<button type="submit" class="search-button" id="submit" ng-disabled="searchForm.form.$invalid">SEARCH</button>
+			</form>
+			<p class="explanation-text">Every design saved in this website has a unique Design ID.  If you would like to share your design with someone else, simply give them your Design ID.  If someone has given you a Design ID, you can enter it here.</p>
+		</div>
+	</div>
+	<div class="arrow-down"></div>
+	
+	<!-- This block is shown before the user ever submits a search query -->
+	<div ng-if="!searchSubmitted" class="container-block">
+		<div class="results-container" style="min-width: {{getWidth()}}px;">
+			<p>Please type in a DesignID</p>
+			<p><a href="#">What is a DesignID?</a></p>
+		</div>
+	</div>
+
+	<!-- This block is shown if a given query found no results -->
+	<div ng-if="searchSubmitted && searchResult === null" class="container-block">
+		<div class="results-container" style="min-width: {{getWidth()}}px;">
+			<p>Oops!</p>
+			<p>Design Not Found.</p>
+		</div>
+	</div>
+
+	<!-- This block is shown if a given query found a result -->
+	<div ng-if="searchSubmitted && searchResult !== null" class="container-block">
+		<div class="search-result-container" style="min-width: {{getWidth()}}px;">
+			<div class="media-object" style="display: inline-block;">
+				<canvas my-canvas img_arr={{searchResult.wheelchair.getPreviewImages(3)}}
+		                width="200"></canvas>
+            </div>
+            <div class="media-body result-body" style="padding-top: 0px;">
+            	<p>Search Result</p>
+            	<p><span style="font-weight: lighter;">DesignID:</span> <span style="font-weight: bold;">{{searchResult._id}}</span></p>
+            	<br>
+            	<p>This wheelchair design belongs to <span style="font-weight: bold;">{{searchResult.creator}}</span>,</p>
+            	<p>Do you want to view the design?</p>
+            	<button type="submit" class="continue-button" ng-click="editWheelchairDesign()">CONTINUE</button>
+            </div>
+        </div>
+	</div>
+  	<div class="bottom-banner">
+		<div class="bottom-banner-left">
+			<ul class="bottom-banner-left">
+				<li><a href="http://www.intelliwheels.net/tinker" target="_blank"><img ng-src="images/Powered-by-Tinker-Logo-white.png" alt="Powered by Tinker"></a></li>
+				<li class="siteLink" ><a href="http://www.intelliwheels.net/tinker" target="_blank"><p>TM, &copy; IntelliWheels, Inc. 2016</p></a></li>
+			</ul>
+		</div>
+		<div class="bottom-banner-right">
+			<ul class="bottom-banner-right">
+				<li><a href="http://www.intelliwheels.net/tinker" target="_blank">ABOUT PER4MAX</a></li>
+				<li><a href="http://www.intelliwheels.net/tinker" target="_blank">FEATURED ATHELETES</a></li>
+				<li><a href="http://www.intelliwheels.net/tinker" target="_blank">CONTACT US</a></li>
+			</ul>
+		</div>
+	</div>
+</div>

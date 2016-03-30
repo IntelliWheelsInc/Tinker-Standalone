@@ -1,0 +1,236 @@
+/* Styles for Search ID page */
+
+
+/*************************
+***** Shared Styles ******
+**************************/
+
+.searchid-page-body {
+	background-color: #F1F1F1;
+	text-align: center;
+	height: 100vh;
+}
+
+.container-block {
+	width: 100%;
+	margin: auto;
+}
+
+/*************************
+******* Top Banner *******
+**************************/
+
+/*.top-banner {
+	width: 100%;
+	background-color: #808184;
+	padding-top: 30px;
+	padding-bottom: 30px;
+	margin-bottom: 20px;
+}
+
+.banner-text {
+	text-align: left;
+	color: white;
+	padding-left: 400px; 
+	font-size: 25px;
+}*/
+
+/*************************
+****** Bottom Banner ******
+**************************/
+
+.bottom-banner {
+	width: 100%;
+	background-color: #4F9DFF;
+	opacity: 1;
+	z-index: 9000;
+	position: fixed;
+    height: calc(100vh - 750px);
+    padding:0px;
+    max-height: 37px;
+    min-height:0px;
+    bottom: 0;
+}
+
+.bottom-banner-left{
+    float:left;
+    color: #FFFFFF;
+    list-style: none;
+    height:40px;
+}
+
+.bottom-banner-left > li {
+  background: no-repeat 0 0;
+  float:left;
+  margin-top: 5px;
+}
+
+
+
+.bottom-banner-left img{
+  height: 27px;
+}
+.bottom-banner-left .siteLink{
+  margin-top: -4px;
+}
+
+.bottom-banner-left > li > a > p {
+  margin-top: 27px;
+  margin-left: 10px;
+  float:left;
+  font-size:0.75em;
+  color: #FFFFFF;
+}
+
+.bottom-banner-right{
+    float:right;
+    color: #FFFFFF;
+    list-style: none;
+    margin-top: 4px;
+}
+
+.bottom-banner-right > li {
+  margin-left:20px;
+  margin-right:20px;
+  background: no-repeat 0 0;
+  float:right;
+}
+
+.bottom-banner-right > li > a {
+  color: #FFFFFF;
+}
+
+.bottom-banner-right > li > a:hover {
+  color: #FFFFFF;
+}
+
+/*************************
+*** Search Form Styles ***
+**************************/
+
+.search-form-container {
+	padding: 15px;
+	padding-left: 100px;
+	padding-right: 100px;
+	margin: 15px;
+	margin-bottom: 0px;
+	background-color: white;
+	display: inline-block; 
+}
+
+.search-input {
+	text-align: center;
+	background-color: #F1F1F1;
+	margin-right: 0px;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    min-width: 200px;
+}
+
+.search-button {
+	background-color: #4896FF;
+	color: white;
+	margin-left: 0px;
+	border: 1px solid #4896FF;
+	border-radius: 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.search-button:hover {
+	background-color: white;
+	color: #4896FF;
+	margin-left: 0px;
+	border: 1px solid #4896FF;
+}
+
+/*.search-button:disabled {
+	background-color: #F1F1F1;
+	color: #4896FF;
+	margin-left: 0px;
+	border: 1px solid #4896FF;
+}*/
+
+.search-header-text {
+	font-weight: bold;
+	font-size: 150%;
+}
+
+.explanation-text {
+	padding: 20px;
+	max-width: 800px;
+}
+
+.arrow-down {
+	width: 0; 
+	height: 0; 
+	margin-top: 0px;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+	border-top: 20px solid #fff;
+	display: inline-block;
+}
+
+/*************************
+**** Results Box ****
+**************************/
+
+.results-container {
+	padding: 70px;
+	padding-left: 100px;
+	padding-right: 100px;
+	padding-bottom: 130px;
+	margin: 25px;
+	background-color: white;
+	display: inline-block;
+}
+
+.result-body {
+	position: -50px;
+	display: inline-block;
+	text-align: left;
+}
+
+.continue-button {
+	background-color: #4896FF;
+	color: white;
+	margin-left: 0px;
+	margin-top: 15px;
+	border: 1px solid #4896FF;
+	border-radius: 0;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    float: right;
+}
+
+.continue-button:hover {
+	background-color: white;
+	color: #4896FF;
+	margin-left: 0px;
+	border: 1px solid #4896FF;
+}
+
+.search-result-container {
+	padding: 70px;
+	padding-bottom: 100px;
+	margin: 25px;
+	background-color: white;
+	display: inline-block;
+}
+
+/*************************
+***** No Results Box *****
+**************************/
+
+.no-results-container {
+	padding: 70px;
+	padding-left: 100px;
+	padding-right: 100px;
+	padding-bottom: 130px;
+	margin: 15px;
+	background-color: white;
+	display: inline-block; 
+}

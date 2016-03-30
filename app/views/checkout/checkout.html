@@ -1,0 +1,68 @@
+﻿<link href="../../styles/checkout/checkout.css" rel="stylesheet" />
+
+
+<div class="checkout text-center">
+  <!-- Google Tag Manager -->
+  <noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-5BJDWF"
+                    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    '//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-5BJDWF');</script>
+  <!-- End Google Tag Manager -->
+  <div class="checkout-header">
+
+    <h2 class="bold">CHECK OUT</h2>
+    <!-- TODO: restore shopping cart data after go back-->
+  </div>
+  <div class="checkout-body">
+    <div class="checkout-left">
+      <div class="checkout-well">
+        <div class="checkout-well-title book">Log In</div>
+        <div class="checkout-well-label book">Email Address</div>
+        <input type="email" data-ng-model="loginForm.email" />
+        <div class="checkout-well-label book">Password</div>
+        <input type="password" data-ng-model="loginForm.pass" />
+        <!--<div class="checkout-well-extras">-->
+          <!--<div class="checkout-well-pass book"-->
+               <!--data-ng-click="recoverPassword()">Forgot your Password?</div>-->
+          <!--<div class="checkout-well-reg book"-->
+               <!--data-ng-click="register()">REGISTER >></div>-->
+        <!--</div>-->
+        <div class="checkout-button button medium"
+             data-ng-click="loginAsUser()">
+          Let's Go
+        </div>
+      </div>
+    </div>
+    <div class="checkout-right">
+      <div class="checkout-well">
+        <div class="checkout-well-title book">Guest Check Out</div>
+        <div id="otc">
+          <p class="book">This option is perfect for one time checkout!</p>
+        </div>
+        <div class="checkout-button button medium"
+             data-ng-click="register()">
+          Register an Account
+        </div>
+        <div class="checkout-button button medium"
+             data-ng-click="loginAsGuest()">
+          Let's Go
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-64294275-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+

@@ -1,0 +1,329 @@
+
+.page {
+  width: 612px;
+  height: 757px;
+  margin: 0;
+}
+
+.wrapper {
+  font-family: 'Roboto', sans-serif;
+  width: 540px;
+  height: 667px;
+  border: 4px solid;
+  margin: 36px auto 32px;
+  padding-top: 3%;
+  padding-bottom: 5%;
+}
+
+.wrapper2 {
+  width: 540px;
+  height: 667px;
+  margin: 36px auto 32px;
+}
+
+div.details {
+  width: 45%;
+  padding-top: 239px;
+  padding-left: 19px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#page-title{
+  font-size: 22px;
+}
+
+div.measurements {
+  width: 92%;
+  padding-top: 15px;
+  margin-left: 19px;
+  padding-left: 7px;
+  display: inline-block;
+  vertical-align: top;
+}
+
+p.description {
+  padding-top: 4px;
+  padding-left: 26px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+span.description{
+  padding-left: 26px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.description-result {
+  padding-left: 41px;
+  font-size: 11px;
+
+}
+
+p.price-bold {
+  font-weight: bold;
+}
+
+img.wheel_measurement_one {
+  width: 224px;
+  padding-left: 26px;
+}
+
+div.images {
+  width: 45%;
+  height: 100%;
+  display: inline-block;
+  vertical-align: top;
+  position: relative;
+}
+
+.invoice-label {
+  font-weight: bold;
+  width: 15%;
+}
+
+.value {
+  padding-left: 11px;
+  word-wrap: break-word;
+}
+
+h2 {
+  font-size: 30px;
+}
+
+.front-page-disp {
+  height: 33%;
+  position: absolute;
+}
+
+.footer {
+  margin-left: 342px;
+}
+
+#address {
+  margin-bottom: 7px;
+}
+
+#logo {
+  margin-bottom: 22px;
+  width: 75px;
+}
+
+#intelliwheels-info {
+  width: 30%;
+  height: 30%;
+  display: inline-block;
+  vertical-align: top;
+}
+
+#summary {
+  width: 69%;
+  display: inline-block;
+  vertical-align: top;
+  padding-left: 15px;
+  padding-bottom: 15px;
+  border-left-style: solid;
+}
+
+h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+#sum-head {
+  margin-bottom: 28px;
+}
+
+.address {
+  padding-top: 11px;
+}
+
+#wheelchair-sum {
+  margin-top: 37px;
+}
+
+table {
+  table-layout: fixed;
+  border-spacing: 0;
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.price {
+  float: right;
+  margin-right: 19px;
+}
+
+.qty {
+  width: 34%;
+}
+
+.header {
+  border-bottom-style: solid;
+  border-color: #080808;
+  padding-bottom: 7px;
+  margin-bottom: 7px;
+}
+
+#final-sum {
+  border-top-style: solid;
+  margin-top: 75px;
+}
+
+#final-sum-frames {
+  margin-left: 19px;
+  margin-top: 0;
+}
+
+table.final-sum-table {
+  width: 357px;
+  float: right;
+}
+
+.dark_line {
+  border-bottom: solid 1px;
+  width: 95%;
+  margin-bottom: 15px;
+}
+
+table.desc_table{
+  width: 92%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 7px;
+}
+
+.bottom-text{
+  overflow: hidden;
+  width: 282px;
+  float: right;
+  margin-right: 22px;
+}
+
+p.type {
+  margin-left: 19px;
+  margin-bottom: 15px;
+}
+
+p.details {
+  text-align: center;
+  margin-left: 16px;
+  margin-bottom: 15px;
+}
+
+p.price_text {
+  text-align: right;
+  margin-right: 19px;
+  margin-bottom: 15px;
+}
+
+p.detailed_text {
+  font-size: 19px;
+  margin-left: 34px;
+  font-weight: bold;
+}
+
+table.priced_table {
+  margin-bottom: 4px;
+}
+
+p.priced_text {
+  text-align: right;
+  font-size: 15px;
+  margin-right: 17px;
+  margin-top: 18px;
+}
+
+p.selection {
+  font-size: 15px;
+  margin-left: 52px;
+}
+
+canvas.frame_img {
+  width: 187px;
+  height: 143px;
+  margin-bottom: 15px;
+  position: absolute;
+}
+
+canvas.frame_img_wheel {
+  width: 187px;
+  height: 143px;
+  margin-bottom: 0;
+  position: absolute;
+}
+
+.image_holder{
+  position: relative;
+  width: 187px;
+  height: 150px;
+}
+
+.desc_img{
+  padding-top: 4px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+table.wheel_selection {
+  margin-bottom: 7px;
+  float: right;
+}
+
+table.wheel_frame {
+  margin-left: 19px;
+}
+
+table.priced_table_wheel {
+  margin-bottom: 56px;
+}
+
+p {
+  font-size: 12px;
+  margin: 1px;
+}
+
+.wheel-image {
+  width: 205px;
+}
+
+td {
+  vertical-align: top;
+}
+
+.left {
+  float: left;
+}
+
+.subtotal {
+  width: 64.4%;
+  float: right;
+}
+
+canvas{
+  display: inline-block;
+  vertical-align: baseline;
+  position: absolute;
+  z-index: 3;
+  background-color: white;
+  width: 264px;
+}
+
+#chair0, .first-image{
+  left: 0;
+  top: 0;
+}
+
+#chair1, .second-image{
+  left: 0;
+  top: 33%;
+}
+
+#chair2, .third-image{
+  left: 0;
+  top: 66%;
+}
+
