@@ -11,9 +11,14 @@
  */
 angular.module('abacuApp')
   .constant('WHEELCHAIR_CANVAS_WIDTH', 187) // width of canvas that renders wheelchair
-  .controller('Cart2Ctrl', ['$scope', '$location', 'localJSONStorage', 'User', '_', 'ComparedDesigns', 'MAX_COMPARISON_CHAIRS', 'FrameData', 'Units', 'Wheelchair', 'Drop', 'WHEELCHAIR_CANVAS_WIDTH', 'Design',
-    function ($scope, $location, localJSONStorage, User, _, ComparedDesigns, MAX_COMPARISON_CHAIRS, FrameData, Units, Wheelchair, Drop, WHEELCHAIR_CANVAS_WIDTH, Design) {
+  .constant('PAYMENT_METHODS', [{'name': 'Credit Card', 'requiresAccount': false}, {'name': 'Credit Card when Order Ships', 'requiresAccount': true},{'name': 'Bill me Net 30', 'requiresAccount': true}])
+  .controller('Cart2Ctrl', ['$scope', '$location', 'localJSONStorage', 'User', '_', 'ComparedDesigns', 'MAX_COMPARISON_CHAIRS', 'FrameData', 'Units', 'Wheelchair', 'Drop', 'WHEELCHAIR_CANVAS_WIDTH', 'Design', 'USER_TYPES', 'PAYMENT_METHODS',
+    '$q', 'Errors', 'ngDialog', 'PromiseUtils', 'Discount', '$http', 'DownloadPDF',
+    function ($scope, $location, localJSONStorage, User, _, ComparedDesigns, MAX_COMPARISON_CHAIRS, FrameData, Units, Wheelchair, Drop, WHEELCHAIR_CANVAS_WIDTH, Design, USER_TYPES, PAYMENT_METHODS, $q, Errors, ngDialog, PromiseUtils, Discount, $http, DownloadPDF) {
       $scope.WHEELCHAIR_CANVAS_WIDTH = WHEELCHAIR_CANVAS_WIDTH;
+      $scope.USER_TYPES = USER_TYPES;
+      $scope.PAYMENT_METHODS = PAYMENT_METHODS;
+
       Drop.setFalse();
 
       $scope.guideSection = false;
@@ -23,31 +28,23 @@ angular.module('abacuApp')
       }
 
       //Array of wheelchair instances in the shopping cart
-      $scope.wheelchairs = [];
       $scope.wheelchairUIOpts = [];
 
       $scope.parts = [];
-      //Array tracking if wheelchair is in curOrder
-      // $scope.wInOrder = [];
-
-      //Array tracking wheelchairs in current order (wInOrder[i] = j means $scope.wheelchairs[i] is at index j in curOrder)
-      //If j === -1 then $scope.wheelchairs[i] is not in curOrder
-      //$scope.wOrderIndex = [];
 
       $scope.imageDisplay1 = -1;
 
       $scope.hoverImage = 'add_icon';
       //A reference to User.curEditOrder (set during init())
       $scope.curOrder = null;
+      $scope.discount = {code: ""};
+      $scope.promoErr = "";
+      $scope.totalGrantAmount = 0;
 
-      $scope.zipcode = null;
-
+      var discount = new Discount();
 
       //Initialize Cart page
       function init() {
-
-        $scope.wheelchairs = User.getCartWheelchairs();    // return array of chair instance
-
         $scope.curOrder = User.getCurEditOrder();   //return order instance
         if (!$scope.curOrder) {
           User.createNewOrder();
@@ -55,31 +52,34 @@ angular.module('abacuApp')
           $scope.curOrder.wheelchairs = User.getCart().wheelchairs;
         }
 
-        $scope.zipcode = $scope.curOrder.zip;
-
-        // download the parts in $scope.parts
-        $scope.wheelchairs.forEach(function (wheelchair) {
-          getParts(wheelchair.wheelchair.getFrameID());
-        });
-
-        $scope.wheelchairs.forEach(function(wheelchair){
-          wheelchair.checked = false;
-        });
         // initialize the ui variables to a default value
-        $scope.wheelchairUIOpts = $scope.wheelchairs.map(function () {
+        $scope.wheelchairUIOpts = User.getCart().wheelchairs.map(function (design) {
           return {
-            'checked': false, // whether the checkbox in each cart item is marked
+            'design': design,
+            'checked': isAComparedDesign(design), // whether the checkbox in each cart item is marked
             'showInfo': false // whether to show the table of wheelchair parts
           };
         });
+
+        // download the parts in $scope.parts
+        $scope.wheelchairUIOpts.forEach(function (chairOpts) {
+          getParts(chairOpts.design.wheelchair);
+        });
+
+        $scope.totalGrantAmount = _.sumBy($scope.curOrder.wheelchairs, 'wheelchair.grantAmount');
       }
 
-      function getParts(fID) {
-        var frame = FrameData.getFrame(fID);
-        var parts = frame.getParts();
-        for (var i = 0; i < parts.length; i++) {
-          if (!inPartsArray(parts[i])) {
-            $scope.parts.push(parts[i]);
+      $scope.printValue = function(printval){
+        console.log(printval);
+      };
+
+      function getParts(wheelchair){
+        var frames = FrameData.getFrame(wheelchair.frameID);
+        for (var i = 0; i < wheelchair.parts.length; i++) {
+          $scope.parts.push(_.clone(wheelchair.parts[i]));
+          $scope.parts[i].name = frames.getPart(wheelchair.parts[i].partID).getName();
+          if(wheelchair.parts[i].optionID != -1) {
+            $scope.parts[i].optionName = frames.getPart(wheelchair.parts[i].partID).getOption(wheelchair.parts[i].optionID).getName();
           }
         }
       }
@@ -92,6 +92,10 @@ angular.module('abacuApp')
         }
         return false;
       }
+
+      $scope.isLoggedIn = function () {
+        return User.isLoggedIn();
+      };
 
 
       /********************CART ITEM BUTTONS******************************/
@@ -109,87 +113,142 @@ angular.module('abacuApp')
 
       //Sends the user back to abacus with the selected wheelchair
       $scope.editWheelchair = function (index) {
-        User.setEditWheelchair(index, $scope.wOrderIndex[index]);
-        $location.path('/tinker');
+        if ($scope.wheelchairUIOpts[index].checked) {
+          // if the item is checked, remove it from ComparedDesigns
+          ComparedDesigns.cart.removeDesign($scope.wheelchairUIOpts[index].design);
+        }
+
+        User.setEditWheelchair(index, $scope.wheelchairUIOpts[index].design)
+          .then(function () {
+            $location.path('/tinker');
+          });
       };
 
       // removes wheelchair from cart and puts it into the users wishlist
       $scope.moveToWishlist = function (index) {
-        alert('TODO: moveToWishlist implementation');
-      };
-
-      $scope.duplicateWheelchair = function (index) {
-        alert('TODO: duplicateWheelchair implementation');
+        var design = $scope.wheelchairUIOpts[index].design;
+        // Remove the wheelchair from the cart and move it into the wishlist
+        $scope.deleteWheelchair(index)
+        .then(function () {
+          // If the design already is in the backend with an ID, no need to make a new entry for it
+          if (design instanceof Design && design.hasID()) {
+            return design;
+          } else {
+            // Make a new entry for the design in the DB
+            return User.saveDesign(design);
+          }
+        })
+        .then(function (design) {
+          return User.addDesignIDToSavedDesigns(design._id);
+        })
+        .catch(function (err) {
+          console.log(err);
+        });
       };
 
       //Deletes wheelchair from user's My Designs
       $scope.deleteWheelchair = function (index) {
+        var design = $scope.wheelchairUIOpts[index].design;
+        ComparedDesigns.cart.removeDesign(design);
 
         //$scope.wOrderIndex.splice(index, 1);
         $scope.wheelchairUIOpts.splice(index, 1);
         //
-        ////Remove wheelchair from My Designs
-        User.deleteWheelchair(index);
+        ////Remove wheelchair from cart
+        return User.deleteWheelchair(index);
       };
 
+      //share function
 
-      ////Adds the selected wheelchair to curOrder
-      //$scope.addWheelchairToOrder = function (index) {
-      //  if ($scope.wheelchairs[index].allMeasuresSet() === false) {
-      //    alert('All measurements must be set before this can be purchased');
-      //    return;
-      //  }
-      //  $scope.curOrder.addWheelchair($scope.wheelchairs[index]);
-      //  User.updateCookie();
-      //  $scope.wInOrder[index] = true;
-      //  $scope.wOrderIndex[index] = $scope.curOrder.getNumWheelchairs() - 1;
-      //  updateCosts();
-      //};
+      // Creates a design from the current wheelchair configuration and saves it in the DB (must be logged in)
+      //
+      function generateDesignIDForCurrentChair(index) {
+        var design = User.getWheelchair(index);
 
-      //Removes the selected wheelchair from curOrder
-      //$scope.removeWheelchairFromOrder = function (index) {
-      //  $scope.curOrder.removeWheelchair($scope.wOrderIndex[index]);
-      //  $scope.wInOrder[index] = false;
-      //  for (var i = 0; i < $scope.wOrderIndex.length; i++)
-      //    if ($scope.wOrderIndex[i] > $scope.wOrderIndex[index])
-      //      $scope.wOrderIndex[i]--;
-      //  $scope.wOrderIndex[index] = -1;
-      //  updateCosts();
-      //  User.updateCookie();
-      //};
+        if (_.isNull(design)) {
+          design = new Design({
+            'creator': User.getID(),
+            'wheelchair': User.getWheelchair(index).wheelchair
+          });
+        }
 
-      /********************SIDEBAR CALCULATIONS************************/
+        design.wheelchair = User.getWheelchair(index).wheelchair;
 
+        // If the design doesn't have an ID, generate one by saving it to the backend
+        var designPromise = design.hasID() ? User.updateDesign(design) : User.saveDesign(design);
 
+        return designPromise;
+      }
+
+      // share design function in tinker page
+      $scope.shareDesignID = function (index) {
+        generateDesignIDForCurrentChair(index)
+          .then(function (design) {
+            $scope.modalDesign = design;
+            User.createCurrentDesign(design);
+            return ngDialog.open({
+              'template': 'views/modals/designIDModal.html',
+              'scope': $scope
+            })
+              .closePromise;
+          })
+          .then(function () {
+            $scope.modalDesign = null;
+            $scope.designIsSaved = true;
+          })
+          .catch(function (err) {
+            if (err instanceof Errors.NotLoggedInError) {
+              ngDialog.open({
+                'template': 'views/modals/loginPromptModal.html'
+              }).closePromise
+                .then(function(){
+                  return Drop.setTrue();
+                });
+            }
+          });
+      };
       /*********************CHECK OUT***********************************/
+      $scope.showLoginModal = function () {
+        if (User.isLoggedIn()) {
+          return PromiseUtils.resolved();
+        } else {
+          return ngDialog.open({
+            'template': 'views/modals/loginPromptModal.html'
+          }).closePromise
+          .then(function () {
+            return Drop.setTrue(); // returns a promise that is resolved once the login dropdown is closed
+          })
+          .then(function () {
+            return User.getPromise();
+          })
+          .then(function () {
+            if (!User.isLoggedIn()) {
+              throw new Errors.NotLoggedInError("User didn't login after dropdown");
+            }
+          });
+        }
+      };
+
+      $scope.chooseUserType = function (userType) {
+        if (userType.requiresAccount) {
+          $scope.showLoginModal()
+          .then(function () {
+            $scope.curOrder.userType = userType.name;
+          });
+        } else {
+          $scope.curOrder.userType = userType.name;
+        }
+      };
 
       $scope.choosePayment = function (paymentMethod) {
-        var paymentMethodCases = {
-          'insurance': function () {
-            alert('TODO: insurance payment handler');
-          },
-          'downPayment': function () {
-            alert('TODO: downPayment payment handler');
-          },
-          'payFull': function () {
-            alert('TODO: payFull payment handler');
-          }
-        };
-
-        var invalidPaymentMethodHandler = function () {
-          alert('The selected payment method is invalid');
-        };
-
-        var paymentHandler = paymentMethodCases[paymentMethod] || invalidPaymentMethodHandler;
-        paymentHandler();
-      };
-
-      $scope.applyPaymentMethod = function () {
-        alert('TODO: applyPaymentMethod implementation');
-      };
-
-      $scope.applyZipcode = function () {
-        $scope.curOrder.zip = $scope.zipcode;
+        if (paymentMethod.requiresAccount) {
+          $scope.showLoginModal()
+          .then(function () {
+            $scope.curOrder.payMethod = paymentMethod.name;
+          });
+        } else {
+          $scope.curOrder.payMethod = paymentMethod.name;
+        }
       };
 
         //Validates the user's "cart" and sends the user to Checkout or Order if valid
@@ -226,6 +285,7 @@ angular.module('abacuApp')
         return $scope.getPartDetails(wheelchair, part).optionName;
       };
 
+
       // Get all the names for all the measured parts
       $scope.getWheelchairMeasures = function (wheelchair) {
         var frameID = wheelchair.getFrameID();
@@ -242,9 +302,9 @@ angular.module('abacuApp')
 
       $scope.rotate = function (dir) {
         if($scope.imageDisplay1 + dir === -1)
-          $scope.imageDisplay1 = $scope.wheelchairs.length - 1;
+          $scope.imageDisplay1 = $scope.wheelchairUIOpts.length - 1;
         else
-        if($scope.imageDisplay1 + dir === $scope.wheelchairs.length)
+        if($scope.imageDisplay1 + dir === $scope.wheelchairUIOpts.length)
           $scope.imageDisplay1 = 0;
         else
           $scope.imageDisplay1 += dir;
@@ -253,19 +313,16 @@ angular.module('abacuApp')
 
       init();
 
-
-      $scope.$watchCollection('wheelchairs', function (updatedWheelchairs) {
-        $scope.curOrder.wheelchairs = updatedWheelchairs;
-      });
-
-
       //compare functions
 
       $scope.numChecked = function () {
-        return _.filter($scope.wheelchairs, 'checked').length;
+        return _.countBy($scope.wheelchairUIOpts, 'checked').true || 0;
       };
 
-      $scope.$watch('wheelchairs', function (newUIOpts, oldUIOpts) {
+      $scope.$watch('wheelchairUIOpts', function (newUIOpts, oldUIOpts) {
+        if (newUIOpts.length !== oldUIOpts.length) {
+          return; // only works if arrays are same length
+        }
 
         // Get all the wheelchairUIOpts items that have been changed from what they were before
         var checkFlippedOpts = newUIOpts.filter(function (newOpt, index) {
@@ -279,20 +336,69 @@ angular.module('abacuApp')
 
         // Add them to the compared designs service
         checkedOpts.forEach(function (chairOpts) {
-          ComparedDesigns.cart.addDesign(chairOpts);
+          ComparedDesigns.cart.addDesign(chairOpts.design);
         });
 
         // Remove them from the compared designs service
         uncheckedOpts.forEach(function (chairOpts) {
-          ComparedDesigns.cart.removeDesign(chairOpts);
+          ComparedDesigns.cart.removeDesign(chairOpts.design);
         });
       }, true);
 
       $scope.goToCompare = function () {
-        $location.path('/compare').search({
-          'from': 'cart'
+        $location
+          .path('/compare')
+          .search({
+            'from': 'cart'
+          });
+      };
+
+
+      /*****discount  function*******/
+      $scope.applyDiscount = function(){
+
+        Discount.fetchDiscount($scope.discount.code)
+          .then(function(newDiscount){
+            discount = newDiscount;
+            $scope.curOrder.addDiscount(discount);
+            $scope.curOrder.getTotalCost();
+            $scope.promoErr = '';
+            return User.updateCart();
+          })
+          .catch(function(err) {
+            if(err.status == 404){
+              alert('Sorry, did not find your promo code');
+            } else if (err instanceof Errors.CantCombineDiscountError) {
+              alert('Cannot combine this discount with the discounts you currently have');
+            } else if (err instanceof Errors.CantAddDiscountError) {
+              alert('You cannot add another discount to your order');
+            } else if (err instanceof Errors.ExpiredDiscountError) {
+              alert('This discount has expired');
+            } else {
+              console.log(err);
+              $scope.promoErr = err;
+            }
+          });
+        $scope.discount.code = '';
+      };
+
+      $scope.emptyDiscount = function() {
+        $scope.curOrder.emptyDiscount();
+        localJSONStorage.remove('promo')
+      };
+
+      $scope.$on('userChange', function () {
+        init();
+        $scope.$digest();
+      });
+
+      $scope.downloadDesignPDF = function (design) {
+        return DownloadPDF.forWheelchairs(design)
+        .catch(function (err) {
+          alert('Failed to download Wheelchair PDF');
         });
       };
+
 
     }]);
 

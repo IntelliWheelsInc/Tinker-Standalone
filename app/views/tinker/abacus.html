@@ -30,7 +30,7 @@
       <section data-ng-click="saveDesign()" >
         <img
              data-ng-src="images/abacus_page/save_review/add_to_cart.png" alt="save to my design">
-        <h6 class="medium"> ADD TO CART</h6>
+        <h6 class="medium"> ADD TO CART </h6>
       </section>
       <section data-ng-click="saveForLater()">
         <img
@@ -41,7 +41,7 @@
                 data-ng-mouseleave="addiInfo1 = false"></span></h6>
         <p ng-show="addiInfo1" class="medium">Design will be saved under your account for future use</p>
       </section>
-      <section data-ng-click="saveComputer()" >
+      <section data-ng-click="downloadChairPDF()" >
         <img
              data-ng-src="images/abacus_page/save_review/download_pdf.png" alt="save to my design">
         <h6 class="medium"> DOWNLOAD PDF</h6>
@@ -67,9 +67,9 @@
       </article>
       <section class="loginAction center">
         <label for="loginModel.email"></label>
-        <input type="text" data-ng-model="loginModel.email" placeholder="Username">
+        <input type="text" data-ng-model="loginModel.email" placeholder="Username" ng-keypress="enterLogin($event)">
         <label for="loginModel.password"></label>
-        <input type="text" data-ng-model="loginModel.password" placeholder="Password">
+        <input type="password" data-ng-model="loginModel.password" placeholder="Password" ng-keypress="enterLogin($event)">
         <button data-ng-click="login()">LOGIN</button>
         <h5 data-ng-click="register()">REGISTER</h5>
       </section>
@@ -104,6 +104,7 @@
         <canvas ng-mouseover="nothing()"
                 ng-mouseleave="nothing()"
                 ng-click="nothing()"
+                ng-init="initNavBar()"
                 id="NavigationBar"
                 width="2560"
                 height="62"
@@ -131,26 +132,28 @@
       <!-- BODY -->
       <div class="main">
         <!-- CUSTOMIZE: Wheelchair Display and controls -->
-        <div id="main-custom" class="main-custom" data-ng-show="getCurPageType() == pageType.CUSTOMIZE">
-          <div class="main-custom-rotatebuttons" ng-class="{'wide-screen': screenWideQuery()}">
-            <img class="leftButton" src="../../images/icons/rotate_left.jpg" alt="Previous" width="30" height="30"
-                 data-ng-click="rotatePreview(-1)" />
-            <img class="rightButton" src="../../images/icons/rotate_right.jpg" alt="Next" width="30" height="30"
+        <div class="main-custom" data-ng-show="getCurPageType() == pageType.CUSTOMIZE">
+          <div class="main-custom-rotatebuttons" data-ng-class="{'slide-over': !isPanelSelected(-1)}">
+            <img class="leftButton" src="../../images/icons/rotate_left.png" alt="Previous" width="30" height="30"
                  data-ng-click="rotatePreview(1)" />
+            <img class="rightButton" src="../../images/icons/rotate_right.png" alt="Next" width="30" height="30"
+            data-ng-click="rotatePreview(-1)" />
           </div>
           <img class="main-custom-wheelchairDisplay"
+               data-ng-class="{'slide-over': !isPanelSelected(-1)}"
                ng-repeat="img in getPreviewImages()"
                ng-src="{{img.URL}}"
                ng-style="{'z-index': $index }"
                ng-class="{'wide-screen': screenWideQuery()}"
-               alt="Preview wheelchair"
+               show-progress-on-bar="true"
+               onerror="this.src='images/chairPic/emptyImage.png'"
             />
           <img class="main-custom-wheelchairDisplay"
+               data-ng-class="{'slide-over': !isPanelSelected(-1)}"
                ng-src="images/abacus_page/customize/shadow.png"
                ng-class="{'wide-screen': screenWideQuery()}"
                style="top: -33px;" alt="Preview wheelchair shadow"
                />
-
         </div>
 
         <!-- MEASURE: Video + gif + details -->
@@ -197,15 +200,18 @@
             <div class="measure-body">
 
               <div class="measure-content">
-                <h4 class="measure-content-title"
-                    data-ng-if="getCurPageType() === pageType.MEASURE && getMeasureTabs() === MeasureTabs.TUTORIAL">
-                  <span data-ng-bind="getCurMeasureData().name"></span> Tutorial </h4>
-                <iframe
-                  data-ng-if="getCurPageType() === pageType.MEASURE && getMeasureTabs() === MeasureTabs.TUTORIAL"
-                  data-ng-src="{{getCurMeasureData().videoURL}}"
-                  autoplay="0"
-                  allowfullscreen>
-                </iframe>
+                <h4 class="measure-content-title">
+                  <span data-ng-bind="getCurMeasureData().name"></span></h4>
+                <div ng-include="'https://munchery.com/menus/sf/#/0/dinner'"></div>
+
+                <h3 style="font-size: 17px;" data-ng-if="getCurPageType() === pageType.MEASURE && getMeasureTabs() === MeasureTabs.TUTORIAL">Tutorial Video Coming Soon</h3>
+
+                <!--<iframe-->
+                  <!--data-ng-if="getCurPageType() === pageType.MEASURE && getMeasureTabs() === MeasureTabs.TUTORIAL"-->
+                  <!--data-ng-src="http://www.intelliwheels.net"-->
+                  <!--autoplay="0"-->
+                  <!--allowfullscreen>-->
+                <!--</iframe>-->
                 <img
                   data-ng-if="getCurPageType() === pageType.MEASURE && getMeasureTabs() === MeasureTabs.ERGONOMICS"
                   data-ng-src="{{getCurMeasureData().gifURL}}" alt="Ergonomic chart">
@@ -219,6 +225,10 @@
                 </div>
               </div>
             </div>
+            <div class="measure-comments">
+                  <h4>Comments, Questions, and Special Requests</h4>
+                  <textarea data-ng-model="getCurWheelchairMeasure().comments" placeholder="Type your comments, special requests, or questions here" rows="6" cols="65"></textarea>
+            </div>
           </div>
         </div>
       </div>
@@ -231,16 +241,6 @@
 
         <div class="sideBar" data-ng-if="getCurPageType() == pageType.CUSTOMIZE"  >
           <div class="sideBar-header text-center">
-            <img class="leftButtonNav" data-ng-src="images/icons/{{left_button}}"
-                 data-ng-mouseenter="left_button='arrow_left.png'" alt="Previous" width="30" height="30"
-                 data-ng-mouseleave="left_button='arrow_left.png'"
-                 data-ng-click="pageSwitchStep(-1)"
-                 data-ng-show="getCurPage().index > 0" />
-            <img class="rightButtonNav" data-ng-src="images/icons/{{right_button}}" alt="Next" width="30" height="30"
-                 data-ng-mouseenter="right_button='arrow_right.png'"
-                 data-ng-mouseleave="right_button='arrow_right.png'"
-                 data-ng-click="pageSwitchStep(1)"/>
-
             <h3 class="curPage-header" data-ng-bind="getCurPartData().name"></h3>
           </div>
           <div class="sideBar-custom">
@@ -251,6 +251,7 @@
 
               <tr class="sideBar-custom-item"
                   data-ng-repeat="option in getCurPartData().options"
+                  data-ng-if="((option.optionID != 14998) && (option.optionID != 10998))"
                   data-ng-style="(isSidebarColored(option.optionID)) && {'border-left': 'solid 5px ' + getSidebarColor(option.optionID) }"
                 >
                 <td class="sideBar-custom-item-left">
@@ -264,6 +265,11 @@
                        data-ng-click="setPanel(option.optionID);"
                        alt="{{option.name}} thumbnail image"
                     />
+                  <img class="sideBar-custom-item-COLORS"
+                       data-ng-src="images/abacus_page/customize/COLORS-icon-banner.png"
+                       data-ng-if="option.colors.length !== 0 && hideColor(option.optionID) && option.name != 'Same as Main Spoke Color' && option.name != 'Same as Frame'"
+                       data-ng-click="setPanel(option.optionID);"
+                       alt="See color options">
                 </td>
                 <td class="sideBar-custom-item-right">
                   <h4 class="sideBar-custom-item-name" title="{{titleForEllipsis(option.name, 45)}}"
@@ -272,10 +278,6 @@
                     <strong>$<span data-ng-bind="option.price.toFixed(2)"></span> <!--| <span
                       data-ng-bind="(option.weight * getCurUnitSysWeightFactor()).toFixed(2)"></span>
                       <span data-ng-bind="getCurUnitSysWeightName()"></span>--></strong>
-                    <img width="7px" data-ng-src="images/abacus_page/customize/color_option.png"
-                         data-ng-if="option.colors.length !== 0 && getCurCustomizePage().partID !== 2000 && getCurCustomizePage().partID !== 4000"
-                         data-ng-click="setPanel(option.optionID);"
-                         alt="See color options">
                   </h4>
 
                   <div class="sideBar-custom-item-buttonRow">
@@ -290,11 +292,13 @@
                         <strong >LESS INFO</strong></section>
                     </div>
                     <div class="sideBar-custom-item-button text-center selected"
-                         ng-if="getCurWheelchairPart().optionID === option.optionID">Selected
+                         ng-if="curChairHasOption(option.optionID)"
+                         ng-click="getCurPartData().allowMultipleChoices && removeMultiOptionPart(option.optionID)">
+                      Selected
                     </div>
                     <div class="sideBar-custom-item-button text-center"
-                         ng-if="getCurWheelchairPart().optionID !== option.optionID"
-                         ng-click="setCurOption(option.optionID);">Add
+                         ng-if="!curChairHasOption(option.optionID)"
+                         ng-click="getCurPartData().allowMultipleChoices ? setCurMultiOption(option.optionID) : setCurOption(option.optionID);">Select
                     </div>
                   </div>
                 </td>
@@ -302,6 +306,40 @@
             </table>
           </div>
         </div>
+
+        <section class="colorSizeBlockWrapper" data-ng-class="{'slide-over': !isPanelSelected(-1)}">
+            <!--color block display-->
+            <section data-ng-if= "curOption.colors.length>0 && hideColor(curOption.optionID) && curOption.name != 'Same as Main Spoke Color' && curOption.name != 'Same as Frame'"
+                     class="colorBlock" ng-class="{'greyBackGround': !isPanelSelected(-1)}">
+                <p class="colorHeader">Color</p>
+                <div id="colorsInColorBlock">
+                    <div data-ng-repeat="color in curOption.colors" class="colorPanelItem" data-ng-class="{'active': (color.colorID === getCurWheelchairPart().colorID) && (getCurWheelchairPart().optionID === getCurColorPanelID())}"
+                       data-ng-style="{'background-color': color.hex, 'max-height':90}"
+                       data-ng-click="getCurPartData().allowMultipleChoices ? setCurMultiOption(curOption.optionID) : setCurOption(curOption.optionID);
+                       getCurPartData().allowMultipleChoices ? setCurMultiOptionColor(curOption.optionID, color.colorID) : setCurOptionColor(color.colorID);"
+                       title="{{color.name}}">
+                    </div>
+                </div>
+                <p class="colorSelected">{{curOption.getColor((curEditWheelchair.getColorIDForPart(getCurCustomizePage().partID))).name}} Selected</p>
+            </section>
+
+            <!--size block display-->
+            <section data-ng-if= "curOption.sizes.length>0" ng-class="{'greyBackGround': !isPanelSelected(-1)}"
+              class="sizeBlock">
+              <p data-ng-if="getCurPartData().name != 'Hand Rims' && getCurPartData().name != 'Cushions'">Size</p>
+              <p data-ng-if="getCurPartData().name == 'Hand Rims' || getCurPartData().name == 'Cushions'">Options</p>
+
+              <div>
+                <div data-ng-repeat="size in curOption.sizes"
+                     data-ng-bind="size"
+                     class="size-button medium"
+                     data-ng-click=" getCurPartData().allowMultipleChoices ? setCurMultiOption(curOption.optionID) : setCurOption(curOption.optionID);
+                     setCurOptionSize($index);"
+                     data-ng-class="{'active': ($index === getCurWheelchairPart().sizeIndex) && (getCurWheelchairPart().optionID === getCurColorPanelID())}">
+                </div>
+              </div>
+            </section>
+        </section>
 
         <!-- detail panel-->
         <div class="panel" data-ng-class="{'hidden': isPanelSelected(-1)}" data-ng-if="!isPanelSelected(-1)">
@@ -320,49 +358,40 @@
             <div data-ng-bind-html="curOption.getDesc()"></div>
           </div>
 
-          <div class="panel-block">
-            <section data-ng-if="curOption.colors.length>0 && getCurCustomizePage().partID !== 2000 && getCurCustomizePage().partID !== 4000">
-              <h5><strong>Color</strong></h5>
+          <!--<div class="panel-block">
+            <section data-ng-if="curOption.colors.length>0 && hideColor(curOption.optionID) && curOption.name != 'Same as Main Spoke Color' && curOption.name != 'Same as Frame'">
+              <h5><strong>Color</strong> <span ng-if="!_.isEmpty(selectedColor)">-</span> <span ng-if="!_.isEmpty(selectedColor)" ">{{curOption.getColor((curEditWheelchair.getColorIDForPart(getCurCustomizePage().partID))).name}}</span></h5>
             <div>
               <div data-ng-repeat="color in curOption.colors" class="colorPanelItem"
                    data-ng-class="{'active': (color.colorID === getCurWheelchairPart().colorID) && (getCurWheelchairPart().optionID === getCurPanelID())}"
                    data-ng-style="{'background-color': color.hex, 'max-height':90}"
-                   data-ng-click="setCurOption(curOption.optionID); setCurOptionColor(color.colorID);"
+                   data-ng-click="setCurOption(curOption.optionID); getCurPartData().allowMultipleChoices ? setCurMultiOptionColor(curOption.optionID, color.colorID) : setCurOptionColor(color.colorID);"
                    title="{{color.name}}">
               </div>
             </div>
             </section>
-          </div>
-          <div class="panel-block" data-ng-if="curOption.sizes.length>0">
+          </div>-->
+          <!--<div class="panel-block" data-ng-if="curOption.sizes.length>0">
             <h5><strong>Size</strong></h5>
 
             <div>
               <div data-ng-repeat="size in curOption.sizes"
                  data-ng-bind="size"
                  class="size-button medium"
-                 data-ng-click="setCurOption(curOption.optionID); setCurOptionSize($index);"
+                 data-ng-click=" setCurOptionSize($index);"
                    data-ng-class="{'active': ($index === getCurWheelchairPart().sizeIndex) && (getCurWheelchairPart().optionID === getCurPanelID())}">
               </div>
             </div>
+          </div>-->
+          <div class="panel-block" ng-init="printval(curOption.comments)">
+              <h5><strong>Comments and Special Requests</strong></h5>
+              <textarea data-ng-model="curOption.comments" placeholder="Type your comments, special requests, or questions here" rows="4" cols="32">{{curOption.comments}}</textarea>
           </div>
         </div>
         <!-- MEASURE: Sidebar-->
 
         <div class="sideBar sidebarM"  data-ng-if="getCurPageType() == pageType.MEASURE" >
           <div class="sideBar-header text-center">
-            <img class="leftButtonNav" data-ng-src="images/icons/{{left_button}}"
-                 data-ng-mouseenter="left_button='arrow_left.png'" alt="Previous"
-                 data-ng-mouseleave="left_button='arrow_left.png'"
-                 data-ng-click="pageSwitchStep(-1)"/>
-            <img class="rightButtonNav" data-ng-src="images/icons/{{right_button}}" alt="Next"
-                 data-ng-mouseenter="right_button='arrow_right.png'"
-                 data-ng-mouseleave="right_button='arrow_right.png'"
-                 data-ng-click="pageSwitchStep(1)"
-                 data-ng-if="getCurPage().index < getCurPages().length - 1" />
-            <img class="rightButtonNav" data-ng-src="images/icons/complete_check.png"
-                 data-ng-click="toggleSaveDropDown()"
-                 data-ng-if="getCurPage().index === getCurPages().length - 1" alt="Complete"/>
-
             <h3 class="curPage-header" data-ng-bind="getCurMeasureData().name"></h3>
           </div>
           <div class="sideBar-measure">
@@ -407,11 +436,42 @@
           </div>
         </div>
 
-        <!--save and review button-->
-        <div id="SaveButton" class="btn medium" data-ng-class="{'sidebarMSave': getCurPageType() == pageType.MEASURE}"
-                data-ng-click="saveDropDown()">Save & Review
-        </div>
+        <!--next and previous buttons-->
+        <div id="nextPrevButtons">
+            <div id="prevButton">
+                <img data-ng-src="images/abacus_page/prev-arrow.svg"
+                    data-ng-click="pageSwitchStep(-1)"
+                    data-ng-show="getCurPage().index > 0 || getCurPageType() == pageType.MEASURE" />
+                <p data-ng-click="pageSwitchStep(-1)"
+                    data-ng-show="getCurPage().index > 0 || getCurPageType() == pageType.MEASURE"
+                   >PREVIOUS</p>
+                <img data-ng-src="images/abacus_page/prev-arrow-gray.svg"
+                    data-ng-show="getCurPage().index === 0 && getCurPageType() == pageType.CUSTOMIZE"/>
+                <p data-ng-show="getCurPage().index === 0 && getCurPageType() == pageType.CUSTOMIZE">PREVIOUS</p>
+            </div>
 
+            <!--save button-->
+            <div id="saveButtonInline"
+                 data-ng-class="{'saveButtonInlineDisabled': getCurPage().index === 0 && getCurPageType() == pageType.CUSTOMIZE}"
+                 data-ng-class="{'sidebarMSave': getCurPageType() == pageType.MEASURE}"
+                 data-ng-click="saveDropDown()">
+                <p>SAVE</p>
+            </div>
+
+            <div id="nextButton">
+                <img data-ng-src="images/abacus_page/next-arrow.svg"
+                    data-ng-click="pageSwitchStep(1)"
+                    data-ng-show="getCurPage().index < getCurPages().length - 1 || getCurPageType() == pageType.CUSTOMIZE" />
+                <p data-ng-click="pageSwitchStep(1)"
+                    data-ng-show="getCurPage().index < getCurPages().length - 1 || getCurPageType() == pageType.CUSTOMIZE"
+                   >NEXT</p>
+                <img data-ng-src="images/abacus_page/next-arrow-gray.svg" ng-click="saveDropDown()"
+                    data-ng-show="getCurPage().index === getCurPages().length - 1 && getCurPageType() == pageType.MEASURE"/>
+                <p data-ng-show="getCurPage().index === getCurPages().length - 1 && getCurPageType() == pageType.MEASURE"
+                   ng-click="saveDropDown()">NEXT</p>
+            </div>
+        </div>
+        <!-- TEMPORARILY DISSABLE UNITS CHANGE UNTIL IT CAN BE FIXED
         <div class="unit-toggle" data-ng-class="{'sidebarMSave': isInMPage()}">
           <div class="onoffswitch">
             <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" checked
@@ -422,35 +482,38 @@
             </label>
           </div>
         </div>
+        -->
       </div>
 
-
-
-
       <!--Unit Toggle-->
+      <span id="shareIcon" data-ng-if="getCurPageType() !== pageType.MEASURE" data-ng-click="shareDesignID()">
+          <img style="height:20px; display: inline;" data-ng-src="images/abacus_page/share-icon.svg"/>
+          <p style="display: inline;">share</p>
+      </span>
 
-      <div id="siteCredit">
+      <div id="siteCredit" data-ng-if="getCurPageType() !== pageType.MEASURE">
           <!--<a ng-href="#/about"><img ng-src="images/tinker_logo_small.png"></a>-->
           <a href="http://www.intelliwheels.net/tinker" target="_blank"><img ng-src="images/Powered-by-Tinker-Logo-Gray.png" alt="Powered by Tinker">
           </a>
       </div>
-      <div class="bottom-banner">
-          <div class="bottom-banner-left">
-              <ul class="bottom-banner-left">
-                <li><a href="http://www.intelliwheels.net/tinker" target="_blank"><img ng-src="images/Powered-by-Tinker-Logo-white.png" alt="Powered by Tinker"></a></li>
-                <li class="siteLink" ><a href="http://www.intelliwheels.net/tinker" target="_blank"><p>TM, &copy; IntelliWheels, Inc. 2016</p></a></li>
-              </ul>
-          </div>
-          <div class="bottom-banner-right">
-               <ul class="bottom-banner-right">
-                <li><a href="http://www.intelliwheels.net/tinker" target="_blank">ABOUT PER4MAX</a></li>
-                <li><a href="http://www.intelliwheels.net/tinker" target="_blank">FEATURED ATHELETES</a></li>
-                <li><a href="http://www.intelliwheels.net/tinker" target="_blank">CONTACT US</a></li>
-              </ul>
-          </div>
-      </div>
+
     </div>
 </div>
+  <footer class="bottom-banner">
+    <div class="bottom-banner-left">
+      <ul class="bottom-banner-left">
+        <li><a href="http://www.intelliwheels.net/tinker" target="_blank"><img ng-src="images/Powered-by-Tinker-Logo-White.png" alt="Powered by Tinker"></a></li>
+        <li class="siteLink" ><a href="http://www.intelliwheels.net/tinker" target="_blank"><p>TM, &copy; IntelliWheels, Inc. 2016</p></a></li>
+      </ul>
+    </div>
+    <div class="bottom-banner-right">
+      <ul class="bottom-banner-right">
+        <li><a href="http://per4max.com/about/" target="_blank">ABOUT PER4MAX</a></li>
+        <li><a href="http://per4max.com/athletes/" target="_blank">FEATURED ATHELETES</a></li>
+        <li><a href="http://per4max.com/contact/" target="_blank">CONTACT US</a></li>
+      </ul>
+    </div>
+  </footer>
 </div>
 
   <script>

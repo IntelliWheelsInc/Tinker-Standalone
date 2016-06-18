@@ -19,10 +19,21 @@
  * Orders can be constructed directly from a JSON object using the Order.fromJSONData() function
  */
 angular.module('abacuApp')
-  .factory('Order', ['$q', '$http', 'Wheelchair', 'localJSONStorage', 'Design', function ($q, $http, Wheelchair, localJSONStorage, Design) {
+  .constant('FRAME_SHIPPING_PRICES', {'CHAIR': 47.98, 'WHEEL': 18.45})
+  .constant('USER_TYPES', [{'name': 'User', 'requiresAccount': false}, {'name': 'Dealer', 'requiresAccount': true}, {'name': 'VA', 'requiresAccount': true}, {'name': 'P4X Sales Rep', 'requiresAccount': true}])
+  .factory('Order', ['$q', '$http', 'Wheelchair', 'localJSONStorage', 'Design', 'FRAME_SHIPPING_PRICES', 'FrameData', 'Discount', 'Errors','_', function ($q, $http, Wheelchair, localJSONStorage, Design, FRAME_SHIPPING_PRICES, FrameData, Discount, Errors, _) {
 
     function Order(taxRate, shippingFee, order) {
       this.wheelchairs = [];
+      var DEFAULT_DETAILS = {
+        'fName': '',
+        'lName': '',
+        'addr': '',
+        'addr2': '',
+        'city': '',
+        'state': '',
+        'zip': ''
+      };
       if (order == null) {
         this._id = -1;
         this._rev = null;
@@ -30,19 +41,19 @@ angular.module('abacuApp')
         this.taxRate = taxRate;
         this.shippingFee = shippingFee;
         this.sentDate = null; //null = "unsent"
-
-        this.userID = -1;
-        this.fName = '';
-        this.lName = '';
         this.email = '';
         this.phone = '';
-        this.addr = '';
-        this.addr2 = '';
-        this.city = '';
-        this.state = '';
-        this.zip = '';
+        this.poNumber = '';
 
-        this.payMethod = '';
+        this.userID = -1;
+        this.shippingDetails = _.clone(DEFAULT_DETAILS);
+
+        this.billingDetails = _.clone(DEFAULT_DETAILS);
+
+        this.userType = 'User'; // default to the 'User' User Type
+
+        this.payMethod = 'Credit Card';
+        this.discounts = [];
       }
       else {
         this._id = order._id || order.id  || -1;
@@ -52,16 +63,18 @@ angular.module('abacuApp')
         this.shippingFee = order.shippingFee;
         this.sentDate = new Date(order.sentDate);
         this.userID = order.userID;
-        this.fName = order.fName;
-        this.lName = order.lName;
         this.email = order.email;
         this.phone = order.phone;
-        this.addr = order.addr;
-        this.addr2 = order.addr2;
-        this.city = order.city;
-        this.state = order.state;
-        this.zip = order.zip;
-        this.payMethod = order.payMethod;
+        this.shippingDetails = _.defaults(order.shippingDetails || {}, DEFAULT_DETAILS);
+        this.billingDetails = _.defaults(order.billingDetails || {}, DEFAULT_DETAILS);
+        this.payMethod = order.payMethod || 'Credit Card'; // default to credit card
+        this.userType = order.userType || 'User'; // default to user
+        this.poNumber = order.poNumber || '';
+
+        order.discounts = _.isArray(order.discounts) ? order.discounts : [];
+        this.discounts = order.discounts.map(function (discountObj) {
+          return new Discount(discountObj);
+        });
 
         this.wheelchairs = order.wheelchairs.map(function (wheelchairDesign) {
           return new Design(wheelchairDesign);
@@ -79,10 +92,55 @@ angular.module('abacuApp')
       localJSONStorage.put('cartWheelchairs', tempWheelchairs);
     }
 
+
+
     Order.prototype = {
 
-      addWheelchair: function (newWheelchair) {
-        this.wheelchairs.push(newWheelchair);
+      isValidOrder: function () {
+        // Only checks that the order contains at least one wheelchair and that if
+        // any of the discounts are not multi discounts, then there's only one discount being applied
+        if (_.isEmpty(this.wheelchairs)) {
+          return false;
+        }
+
+        if (!this.canAddDiscount() && this.discounts.length > 1) {
+          return false; // you've mixed a discount with another nonmultidiscount discount
+        }
+
+        return true;
+      },
+
+      canAddDiscount: function () {
+        return _.every(this.discounts, 'isMultiDiscount');
+      },
+
+      addDiscount: function (discount) {
+        if (discount instanceof Discount && this.canAddDiscount()) {
+          if (discount.isExpired()) {
+            throw new Errors.ExpiredDiscountError("This Discount has Expired");
+          }
+
+          if (this.discounts.length > 0 && !discount.isMultiDiscount) {
+            throw new Errors.CantCombineDiscountError("This discount can't be combined with other discounts");
+          }
+
+          this.discounts.push(discount);
+          this.discounts = _.uniqBy(this.discounts, '_id'); // remove any duplicate discounts
+        } else {
+          throw new Errors.CantAddDiscountError('Input to order.addDiscount() must be instance of Discount & must be valid discount combination');
+        }
+      },
+
+      emptyDiscount: function(){
+        this.discounts = [];
+      },
+
+      addWheelchair: function (newDesign) {
+        if (newDesign instanceof Design) {
+          this.wheelchairs.push(newDesign);
+        } else {
+          throw new Error('Input to order.addWheelchair must be an instance of a Design');
+        }
       },
 
       removeWheelchair: function (index) {
@@ -102,19 +160,17 @@ angular.module('abacuApp')
           shippingFee: this.shippingFee,
           sentDate: this.sentDate,
           userID: this.userID,
-          fName: this.fName,
-          lName: this.lName,
           email: this.email,
           phone: this.phone,
-          addr: this.addr,
-          addr2: this.addr2,
-          city: this.city,
-          state: this.state,
-          zip: this.zip,
-          paymethod: this.paymethod,
-          wheelchairs: this.wheelchairs.map(function (w) {
-            return w.allDetails();
-          })
+          shippingDetails: this.shippingDetails,
+          billingDetails: this.billingDetails,
+          payMethod: this.payMethod,
+          userType: this.userType,
+          poNumber: this.poNumber,
+          wheelchairs: this.wheelchairs.map(function (design) {
+            return design.allDetails();
+          }),
+          discounts: this.discounts
         };
 
         if (this._id && this._id !== -1) {
@@ -135,8 +191,8 @@ angular.module('abacuApp')
           shippingFee: this.shippingFee,
           sentDate: this.sentDate,
           userID: this.userID,
-          fName: this.fName,
-          lName: this.lName,
+          shippingDetails: this.shippingDetails,
+          billingDetails: this.billingDetails,
           email: this.email,
           phone: this.phone,
           addr: this.addr,
@@ -147,19 +203,29 @@ angular.module('abacuApp')
           paymethod: this.paymethod,
           wheelchairs: this.wheelchairs.map(function (w) {
             return w.allDetails();
-          })
+          }),
+          poNumber: this.poNumber,
+          discounts: this.discounts
         };
       },
 
+      getDiscounts: function () {
+        return this.discounts;
+      },
+
+      getShippingDetails: function () {
+        return this.shippingDetails;
+      },
+
+      getBillingDetails: function () {
+        return this.billingDetails;
+      },
 
       getPayMethod: function () {
         return this.payMethod;
       },
       getTaxRate: function () {
         return this.taxRate;
-      },
-      getShippingFee: function () {
-        return this.shippingFee;
       },
       getOrderNum: function () {
         return this.orderNum;
@@ -176,32 +242,14 @@ angular.module('abacuApp')
       getUserID: function () {
         return this.userID;
       },
-      getFname: function () {
-        return this.fName;
-      },
-      getLname: function () {
-        return this.lName;
-      },
       getEmail: function () {
         return this.email;
       },
       getPhone: function () {
         return this.phone;
       },
-      getAddr: function () {
-        return this.addr;
-      },
-      getAddr2: function () {
-        return this.addr2;
-      },
-      getCity: function () {
-        return this.city;
-      },
-      getState: function () {
-        return this.state;
-      },
-      getZip: function () {
-        return this.zip;
+      getPONumber: function () {
+        return this.poNumber;
       },
 
       getFullName: function () {
@@ -242,19 +290,37 @@ angular.module('abacuApp')
 
       //The combined cost of all the Wheelchairs in the Order
       getSubtotal: function () {
-        if (this.wheelchairs.length > 0) {
-          var total = 0;
-          for (var i = 0; i < this.wheelchairs.length; i++) {
-            total += this.wheelchairs[i].wheelchair.getTotalPrice();
-          }
-          return total;
-        }
-        return 0;
+        return _.sumBy(this.wheelchairs, function (design) {
+          return design.wheelchair.getTotalPrice();
+        });
+      },
+
+      getSubtotalNoGrant: function () {
+        return _.sumBy(this.wheelchairs, function (design) {
+          return design.wheelchair.getTotalPriceForAbacusCtrl();
+        });
+      },
+
+      // Returns amount of money to take off of subtotal given the current discounts in the order
+      getDiscountAmount: function () {
+        var subtotal = this.getSubtotal();
+
+
+        var discountPercent =1;
+
+        this.discounts.forEach(function(discount){
+          discountPercent *= (1 - discount.percent);
+        });
+        return discountPercent;
       },
 
       //The estimated cost of shipping this Order
       getShippingCost: function () {
-        return this.getShippingFee() * this.getNumWheelchairs();
+        var orderInstance = this;
+        return _.sumBy(this.wheelchairs, function (design) {
+          var frameID = design.wheelchair.frameID;
+          return FrameData.getFrame(frameID).getShippingCost();
+        });
       },
 
       //The Tax to be paid for this Order
@@ -264,50 +330,57 @@ angular.module('abacuApp')
 
       //The sum of Subtotal, Shipping Cost, and Tax Cost
       getTotalCost: function () {
-        return this.getSubtotal() + this.getShippingCost() + this.getTaxCost();
+        return (this.getSubtotal() + this.getShippingCost() + this.getTaxCost()) * (this.getDiscountAmount());
       },
+
+
 
       /********************Saving to DB***********************/
 
       //This asyncronous funtion takes in various user information
       //and sends the Order to the distibutor with it.
       //This method also saves the Order to the database and marks it as "sent"
-      send: function (userID, userData, shippingData, payMethod, token) {
-        var deferred = $q.defer();
-
+      send: function (userID, userData, shippingData, billingData, payMethod, token) {
         //Need a reference to the current scope when inside the callback function
         var curThis = this;
 
         //Save userData, shippingData, and payMethod into Order
         this.userID = userID;
-        this.fName = userData.fName;
-        this.lName = userData.lName;
-        this.email = userData.email;
-        this.phone = userData.phone;
-        this.addr = shippingData.addr;
-        this.addr2 = shippingData.addr2;
-        this.city = shippingData.city;
-        this.state = shippingData.state;
-        this.zip = shippingData.zip;
+        this.email  = userData.email;
+        this.phone  = userData.phone;
+
+        this.shippingDetails.fName = shippingData.fName;
+        this.shippingDetails.lName = shippingData.lName;
+        this.shippingDetails.addr  = shippingData.addr;
+        this.shippingDetails.addr2 = shippingData.addr2;
+        this.shippingDetails.city  = shippingData.city;
+        this.shippingDetails.state = shippingData.state;
+        this.shippingDetails.zip   = shippingData.zip;
+
+        this.billingDetails.fName = billingData.fName;
+        this.billingDetails.lName = billingData.lName;
+        this.billingDetails.addr  = billingData.addr;
+        this.billingDetails.addr2 = billingData.addr2;
+        this.billingDetails.city  = billingData.city;
+        this.billingDetails.state = billingData.state;
+        this.billingDetails.zip   = billingData.zip;
+
         this.payMethod = payMethod;
-        this.sentDate = new Date(); //Set date to now - doing this marks this Order as "sent"
-        $http   ({
+        this.sentDate  = new Date(); //Set date to now - doing this marks this Order as "sent"
+
+        return $http({
           url: '/order',
-          data: {order: this.getAll(), token: token},
+          data: {order: this.getAll(), token: token, totalPrice: this.getTotalCost()},
           method: 'POST'
-        }).success(function(data){
-          console.log(data);
-          if(!data.err)
-            curThis.orderNum = data;
-          else {
-            curThis.orderNum = -1;
-            alert('error processing order:'+ data.err);
-          }
+        })
+        .then(function(res) {
+          curThis.orderNum = res.data.orderNum;
+
           for(var i=0; i<curThis.wheelchairs.length; i++)
             curThis.wheelchairs[i].wheelchair.toggleInOrder();
-          deferred.resolve();
+
+          return res.data;
         });
-        return deferred.promise;
       }
     };
 
@@ -318,15 +391,10 @@ angular.module('abacuApp')
       newOrder.payMethod = jsonData.payMethod;
       newOrder.userID = jsonData.userID;
       newOrder.sentDate = jsonData.sentDate; //TODO: Need to convert?
-      newOrder.fName = jsonData.fName;
-      newOrder.lName = jsonData.lName;
       newOrder.phone = jsonData.phone;
       newOrder.email = jsonData.email;
-      newOrder.addr = jsonData.addr;
-      newOrder.addr2 = jsonData.addr2;
-      newOrder.city = jsonData.city;
-      newOrder.state = jsonData.state;
-      newOrder.zip = jsonData.zip;
+      newOrder.billingDetails = jsonData.billingDetails;
+      newOrder.shippingDetails = jsonData.shippingDetails;
       for (var i = 0; i < jsonData.wheelchairs.length; i++) {
         newOrder.addWheelchair(new Design(jsonData.wheelchairs[i]));
       }

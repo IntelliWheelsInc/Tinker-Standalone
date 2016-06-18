@@ -1,0 +1,169 @@
+#wrapper{
+  width:100%;
+  /*padding-left: 30px;*/
+  /*padding-right: 30px;*/
+  padding-top: 35px;
+  overflow: auto;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 500;
+}
+
+header{
+  font-weight: bold;
+  font-size:1.1em;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.title{
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.themeBlue{
+  color:#4f9dff
+}
+
+.parts{
+  width:24%;
+  text-align: left;
+  margin-left: -27px;
+}
+.details{
+  width:61%;
+  font-size: 13px;
+  text-align: left;
+}
+.price{
+  float: right;
+  clear: right;
+}
+.optionTable{
+  padding-bottom: 5px;
+}
+
+.optionTable .colorInfo{
+  padding:0 22px;
+  margin:0 22px;
+  border-left:2px solid black;
+  border-right:2px solid black;
+}
+.comments{
+  width:100%;
+  float: right;
+}
+
+.comments p{
+  margin-bottom: 20px;
+  white-space: normal;
+  margin-top: 10px;
+  text-align: left;
+  border-bottom:1px solid darkgrey;
+  padding-left: 15px;
+}
+
+section{
+  width:100%;
+}
+
+section div{
+  display: inline-block;
+}
+
+/**********measurement parts*********/
+.mParts{
+  width:70%;
+  text-align: left;
+  float: left;
+}
+
+.mInput{
+  float: right;
+  clear: right;
+}
+
+.image-hint-text {
+  -ms-transform:translate(36.000px,650.480px) rotate(0.000deg) skew(0.000deg) scale(0.65,0.65);
+  -ms-transform-origin:0% 0%;
+  -webkit-transform:translate(36.000px,650.480px) rotate(0.000deg) skew(0.000deg) scale(0.65,0.65);
+  -webkit-transform-origin:0% 0%;
+  height:595px;
+  left:36px;
+  overflow:hidden;
+  position:absolute;
+  top:0px;
+  transform:translate(36.000px,650.480px) rotate(0.000deg) skew(0.000deg) scale(0.65,0.65);
+  transform:translate(36.000px,650.480px) rotate(0.000deg) skew(0.000deg) scale(0.65,0.65);
+  transform-origin:0% 0%;
+  transform-origin:0% 0%;
+  width:780px;
+  z-index:3;
+  text-align: center;
+  font-size: 16px;
+  padding-bottom: 3px;
+  font-family:Roboto, sans-serif;
+}
+
+
+/*********font book********* */
+
+h1 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+  font-size: 1em;
+
+  font-weight: bold;
+
+}
+
+
+.font1
+{
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.55em;
+  line-height: 0.75em;
+  font-weight: 400;
+}
+
+
+.font2 {
+
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.75em;
+  font-weight: 400;
+  line-height: 1em;
+}
+
+
+.font3 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.8em;
+  font-weight: 400;
+  line-height: 1em;
+  text-transform: uppercase;
+}
+
+.font4 {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.8em;
+  font-weight: bold;
+  line-height: 1.2em;
+}
+
+
+.font5
+{
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-size: 0.8em;
+  font-weight: 400;
+  line-height: 1em
+}
+
+.font6
+{
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif  ;
+  font-size: 0.8em;
+  font-weight: 400;
+  line-height: 1em;
+  text-transform: uppercase;
+}

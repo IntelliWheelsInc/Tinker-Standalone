@@ -5,7 +5,10 @@
 'use strict';
 
 angular.module('abacuApp')
-  .controller('HeaderController', ['$scope', '$location', '$http', '$timeout', 'User', 'Drop', '$window','$q', function ($scope, $location, $http, $timeout, User, Drop, $window, $q) {
+  .run(['$anchorScroll', function($anchorScroll) {
+    $anchorScroll.yOffset = 5;   // always scroll by 50 extra pixels
+  }])
+  .controller('HeaderController', ['$scope', '$location', '$http', '$timeout', 'User', 'Drop', '$window','$q','$anchorScroll', function ($scope, $location, $http, $timeout, User, Drop, $window, $q, $anchorScroll) {
 
     //Returns true is the current angular URL matches viewLocation
     $scope.isActive = function (viewLocation) {
@@ -75,6 +78,12 @@ angular.module('abacuApp')
       $scope.loginModel.password = '';
     };
 
+    $scope.enterLogin = function(keyEvent){
+      if (keyEvent.which === 13){
+        $scope.login();
+      }
+    };
+
     $scope.logout = function () {
       User.logout();
       if($location.path() === '/settings')
@@ -83,9 +92,8 @@ angular.module('abacuApp')
     };
 
     $scope.loginSection = function (section) {
-      User.setContentSection(section);
       Drop.setFalse();
-      $location.path('/settings');
+      $location.path('/settings').search({'section': section});
     };
 
     $scope.loginDropdown = function(){
@@ -141,6 +149,24 @@ angular.module('abacuApp')
     $scope.$on('$viewContentLoaded', function(event) {
       $window.ga('send', 'pageview', { page: $location.url() });
     });
+
+    $scope.goToWheels = function() {
+      // set the location.hash to the id of
+      // the element you wish to scroll to.
+      $location.hash('wheels');
+
+      // call $anchorScroll()
+      $anchorScroll();
+    };
+
+    $scope.goToFrames = function() {
+      // set the location.hash to the id of
+      // the element you wish to scroll to.
+      $location.hash('wheelchairFrames');
+
+      // call $anchorScroll()
+      $anchorScroll();
+    };
 
 
   }]);

@@ -10,8 +10,8 @@
  * Controller of the abacuApp
  */
 angular.module('abacuApp')
-  .controller('SettingsCtrl', ['$scope', '$location', '$http', 'User', 'Units', 'Drop', 'FrameData','WHEELCHAIR_CANVAS_WIDTH', 'UserData',
-    function ($scope, $location, $http, User, Units, Drop, FrameData, WHEELCHAIR_CANVAS_WIDTH, UserData) {
+  .controller('SettingsCtrl', ['$scope', '$location', '$http', 'User', 'Units', 'Drop', 'FrameData','WHEELCHAIR_CANVAS_WIDTH', 'UserData', '_', 'Errors', 'PromiseUtils','ngDialog','$q',
+    function ($scope, $location, $http, User, Units, Drop, FrameData, WHEELCHAIR_CANVAS_WIDTH, UserData, _, Errors, PromiseUtils, ngDialog,$q) {
       Drop.setFalse();
       //Kick user off page if not logged in
       if (User.isLoggedIn() === false) {
@@ -43,19 +43,19 @@ angular.module('abacuApp')
       $scope.ContentSection = {
         ACCOUNT: 'account',
         ORDERS: 'orders',
-        MEASUREMENTS: 'measurements',
+        //MEASUREMENTS: 'measurements',
         MYDESIGNS: 'myDesigns'
       };
 
       //Categories inside the 'My Measurements' Section of the User
-      $scope.MeasurementTypes = {
-        REAR_SEAT_HEIGHT: 'rearSeatHeight',
-        REAR_SEAT_WIDTH: 'rearSeatWidth',
-        FOLDING_BACKREST_HEIGHT: 'foldingBackrestHeight',
-        //AXEL_POSITION: 'axelPosition',
-        SEAT_DEPTH: 'seatDepth'
-      };
-      var curMeasureType = $scope.MeasurementTypes.REAR_SEAT_HEIGHT;
+      // $scope.MeasurementTypes = {
+      //   REAR_SEAT_HEIGHT: 'rearSeatHeight',
+      //   REAR_SEAT_WIDTH: 'rearSeatWidth',
+      //   FOLDING_BACKREST_HEIGHT: 'foldingBackrestHeight',
+      //   AXEL_POSITION: 'axelPosition',
+      //   SEAT_DEPTH: 'seatDepth'
+      // };
+      // var curMeasureType = $scope.MeasurementTypes.REAR_SEAT_HEIGHT;
 
 
       /***************** SIDEBAR BUTTONS ***************************************/
@@ -147,17 +147,26 @@ angular.module('abacuApp')
         //Array of orders
         //TODO: needs to be integrated with the Order factory
       var orders = User.getSentOrders();
+      $scope.orderWheelchairs = _.chain(User.getSentOrders())
+      .map(function (order) {
+        var chairs = _.map(order.wheelchairs, 'wheelchair');
+        chairs = _.reject(chairs, _.isNull);
 
-      $scope.wheelchairs = [];
-      for(var i=0; i<orders.length; i++){
-        var wheelchairs = orders[i].getWheelchairs();
-        for(var j=0; j<wheelchairs.length; j++){
-          wheelchairs[j].orderNum = orders[i].orderNum;
-          wheelchairs[j].date = orders[i].getSentDate();
-          wheelchairs[j].fName = orders[i].getFname();
-          wheelchairs[j].lName = orders[i].getLname();
-          $scope.wheelchairs.push(wheelchairs[j]);
-        }
+        return chairs.map(function (chair) {
+          return {
+            chair: chair,
+            order: order
+          };
+        });
+      })
+      .flatten()
+      .value();
+      $scope.orderWheelchairs = _.orderBy($scope.orderWheelchairs, 'order.sentDate', 'desc');
+
+
+      $scope.getChairFrame = function (chair) {
+        var frameID = chair.frameID;
+        return FrameData.getFrame(frameID);
       };
 
       $scope.openOrderDetails = function (index) {
@@ -222,7 +231,7 @@ angular.module('abacuApp')
 
       //Sends the user back to abacus with the selected wheelchair
       $scope.editWheelchair = function (index) {
-        User.setEditWheelchair(index, $scope.wOrderIndex[index]);
+        User.setDesignedWheelchair(index, $scope.wOrderIndex[index]);
         $location.path('/tinker');
       };
 
@@ -237,6 +246,19 @@ angular.module('abacuApp')
         //
         ////Remove wheelchair from My Designs
         User.deleteWheelchair(index);
+      };
+
+     
+
+      // share design function in tinker page
+      $scope.shareDesignID = function (index) {
+
+            $scope.modalDesign = User.getOneSavedDesign(index);
+            return ngDialog.open({
+              'template': 'views/modals/designIDModal.html',
+              'scope': $scope
+            })
+
       };
 
 
@@ -265,6 +287,13 @@ angular.module('abacuApp')
       //Returns an object of display-friendly strings regarding the given measure
       $scope.getMeasureDetails = function (wheelchair, measure) {
         return wheelchair.getMeasureDetails(measure.measureID, User.getUnitSys());
+      };
+
+      $scope.downloadDesignPDF = function (design) {
+        return DownloadPDF.forWheelchairs(design)
+        .catch(function (err) {
+          alert('Failed to download Wheelchair PDF');
+        });
       };
 
       init();

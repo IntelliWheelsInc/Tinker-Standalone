@@ -7,7 +7,7 @@ in the project directory:
 (1) npm install
 (2) bower install
 
-## Notes on Server Code Design
+## Notes on Server Code Structure
 
 The server side code is no longer under one long `server.js` script.
 It has now been split up into seperate files inside the `server_scripts` directory.
@@ -26,3 +26,13 @@ This directory contains all middleware policies. These are small checks that hap
 
 ### server_scripts/services
 Services are fairly generic. Anytime you want to define a function or expose a variable that needs to be referenced in multiple places, expose it in a file under `server_scripts/services` and then import it with `require` wherever you need it.
+
+## Testing
+
+To run the tests for this project, just run `npm test`
+
+To run just tests for the backend, run `npm run test_backend`
+To run just tests for the frontend, run `npm run test_frontend`
+
+Backend tests are written with the [Mocha](https://mochajs.org/) test runner.
+In addition to this, the tests also use [supertest](https://github.com/visionmedia/supertest) for interacting with the backend, and [Should](http://shouldjs.github.io) for assertions.

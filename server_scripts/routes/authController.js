@@ -37,9 +37,6 @@ router.post('/login', function (req, res) {
     return;
   }
 
-  console.log('email ' + email);
-  console.log('password ' + password);
-
   //Query the database
   dbUtils.getUserByID(email, function (err, body) { //body is the object we retrieve from the successful query
     if (!err) {
@@ -67,20 +64,21 @@ router.post('/login', function (req, res) {
   });
 });
 
-router.get('/loadMyDesign', function(req,res){
-  var ID = req.body.email;
-  dbService.users.search('view101','search', {q:'creator:' + ID}, function(err,body){
-    if(!err){
-      res.json(body);
-    }
-    else {
-      res.status(400);
-      res.json(err);
-    }
-  });
-
-
-});
+// router.get('/loadMyDesign', function(req,res){
+//   var ID = req.body.email;
+//   console.log("user ID is" + ID);
+//   dbService.users.search('view101','search', {q:'creator:' + ID}, function(err,body){
+//     if(!err){
+//       res.json(body);
+//     }
+//     else {
+//       res.status(400);
+//       res.json(err);
+//     }
+//   });
+//
+//
+// });
 
 //LOGOUT
 router.post('/logout', restrict, function (req, res) {
@@ -150,7 +148,7 @@ router.post('/register', function (req, res) {
             }
             //Send an email to the user using the sendgrid API
             email.to = data.email;
-            email.text = 'Thank you for registering an account with Abacus.';
+            email.text = 'Thank you for registering with the Per4max Wheelchair Configurator powered by Tinker.  To confirm your account, please go to http://per4max.fit.';
             sendgrid.send(email, function () {
               res.json({'success': true});
             });
@@ -158,7 +156,7 @@ router.post('/register', function (req, res) {
         });
       }
       else { // No error in query means the user exists
-        res.json({err: 'user already exists', field: 'email'});
+        res.json({err: 'user already exists', field: 'email', success: false});
       }
     });
 });

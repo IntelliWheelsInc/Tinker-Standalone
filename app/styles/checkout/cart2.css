@@ -1,8 +1,18 @@
 /*******font******/
+.cart{
+  font-family: inherit;
+  font-size: 27px;
+  position: relative;
+  clear: left;
+  float: left;
+  width: 65%;
+}
+
 .oBold{
   font-family: 'oswald-bold';
   font-size: 1em;
 }
+
 .oReg{
   font-family: 'oswald-regular';
   font-size: 1em;
@@ -22,8 +32,17 @@
 
 
 #wrapper{
-  background-color: #F1F1F1;
   overflow: auto;
+}
+
+#background {
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 80vh;
+  width: 100%;
+  z-index: -5000;
+  background: linear-gradient(#EAEAEA, #FFFFFF);
 }
 
 #contentWrapper{
@@ -207,6 +226,7 @@
   top: 71px;
   margin:0 29px;
   float: right;
+  overflow: visible;
 }
 
 @media  (max-width: 1060px) {
@@ -245,7 +265,6 @@
 
 #summary section {
   color: black;
-  text-decoration: underline;
 }
 
 
@@ -253,8 +272,36 @@
   overflow: auto;
 }
 
+#userType .dropDown{
+  width: 95%;
+  border-radius: 0;
+  overflow: visible;
+}
+
+#userType .dropDown button {
+  width: 100%;
+  text-align: left;
+}
+
+#userType .dropDown .caretShape {
+  position: relative;
+  top: 9px;
+  color: green;
+}
+
+#userType>p:hover{
+  cursor: pointer;
+}
+
+#summary #userType {
+  margin: 20px 0 10px;
+  color: #4f9dff;
+  font-size: 13px;
+  overflow: visible;
+}
+
 #orderType .dropDown{
-  width: 78%;
+  width: 95%;
   border-radius: 0;
   overflow: visible;
 }
@@ -281,10 +328,18 @@
 
 
 #summary #orderType {
-  margin: 20px 0 10px;
+  margin: 0px 0 10px;
   color: #4f9dff;
   font-size: 13px;
   overflow: visible;
+}
+
+.cleanDiscount {
+  text-decoration: underline;
+}
+
+.cleanDiscount:hover {
+  cursor: pointer;
 }
 
 
@@ -303,7 +358,17 @@
 #summary section .totalPrice {
   border-top: 1px solid black;
   padding-top: 15px;
-  margin-top: 10px;;
+  margin-top: 40px;;
+}
+
+.zipcode-input {
+  height: 35px;
+  border-radius: 0px;
+}
+
+.discount-input {
+  height: 35px;
+  border-radius: 0px;
 }
 
 .checkoutButton {

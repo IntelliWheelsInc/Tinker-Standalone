@@ -8,8 +8,8 @@
  * Controller of the abacuApp
  */
 angular.module('abacuApp')
-  .controller('MyDesignsCtrl', ['$scope', '$location', 'User', '_', 'ComparedDesigns', 'MAX_COMPARISON_CHAIRS', 'WHEELCHAIR_CANVAS_WIDTH', 'FrameData', '$q', 'Design',
-  	function ($scope, $location, User, _, ComparedDesigns, MAX_COMPARISON_CHAIRS, WHEELCHAIR_CANVAS_WIDTH, FrameData, $q, Design) {
+  .controller('MyDesignsCtrl', ['$scope', '$location', 'User', '_', 'ComparedDesigns', 'MAX_COMPARISON_CHAIRS', 'WHEELCHAIR_CANVAS_WIDTH', 'FrameData', '$q', 'Design', 'PromiseUtils', 'DownloadPDF',
+  	function ($scope, $location, User, _, ComparedDesigns, MAX_COMPARISON_CHAIRS, WHEELCHAIR_CANVAS_WIDTH, FrameData, $q, Design, PromiseUtils, DownloadPDF) {
   		$scope.MAX_COMPARISON_CHAIRS = MAX_COMPARISON_CHAIRS;
   		$scope.WHEELCHAIR_CANVAS_WIDTH = WHEELCHAIR_CANVAS_WIDTH;
 
@@ -24,15 +24,13 @@ angular.module('abacuApp')
       // promise is returned with that object as its resolved value
       function getDesignById(designID) {
         if (designID instanceof Design) {
-          var deferred = $q.defer();
-          deferred.resolve(designID);
-          return deferred.promise;
+          return PromiseUtils.resolved(designID);
         } else if (_.isObject(designID)) {
-          var deferred = $q.defer();
-          deferred.resolve(new Design(designID));
-          return deferred.promise;
+          return PromiseUtils.resolved(new Design(designID));
         } else if (_.isString(designID)) {
           return User.fetchDesign(designID);
+        } else {
+          return PromiseUtils.rejected(new Error('Bad Argument to getDesignById: ' + JSON.stringify(designID) ));
         }
       }
 
@@ -70,24 +68,32 @@ angular.module('abacuApp')
   			if (isAComparedDesign(designToRemove)) {
   				ComparedDesigns.myDesigns.removeDesign(designToRemove);
   			}
-  		}
 
-		//Sends the user back to abacus with the selected wheelchair
-		$scope.editWheelchair = function (index) {
-			alert('TODO: editWheelchair');
-			// User.setEditWheelchair(index, $scope.wOrderIndex[index]);
-			// $location.path('/tinker');
-		};
+        return User.removeDesignFromSavedDesigns(designToRemove);
+  		};
+
+  		//Sends the user back to abacus with the selected wheelchair
+  		$scope.editWheelchair = function (index) {
+        if ($scope.wheelchairUIOpts[index].checked) {
+          // if it is a comared design, remove it from ComparedDesigns storage
+          ComparedDesigns.myDesigns.removeDesign($scope.wheelchairUIOpts[index].design);
+        }
+
+  			User.setEditWheelchairFromMyDesign(index, $scope.wheelchairUIOpts[index].design)
+          .then(function () {
+            $location.search({}).path('/tinker');
+          });
+  		};
 
   		$scope.addToCart = function (chairIdx) {
   			var design = $scope.wheelchairUIOpts[chairIdx].design;
   			User.getCart().addWheelchair(design);
-
+        return $scope.deleteWheelchair(chairIdx);
   		};
 
   		$scope.dowloadDesignPDF = function (chairIdx) {
   			var design = $scope.wheelchairUIOpts[chairIdx].design;
-  			alert('TODO: dowloadDesignPDF');
+        DownloadPDF.forWheelchairs(design);
   		};
 
   		$scope.numChecked = function () {

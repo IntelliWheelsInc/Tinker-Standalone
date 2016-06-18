@@ -8,6 +8,7 @@ var async = require('async');
 
 var dbService = require('../db');
 var generateUniqueID = require('../generateUniqueID');
+var dbGetters = require('./getters');
 
 function isValidID(id) {
 	if (_.isString(id)) {
@@ -17,6 +18,15 @@ function isValidID(id) {
 	}
 
 	return false;
+}
+
+function getEntryID(entry) {
+	if (entry.id || entry._id) {
+		var entryID = entry.id || entry._id;
+		return isValidID(entryID) ? entryID : null;
+	} else {
+		return null;
+	}
 }
 
  /**
@@ -62,6 +72,7 @@ function updateOrInsertAllEntries(argsObj, cb) {
 						cb(err);
 					} else {
 						entry._rev = res.rev; // update the revision number
+						entry._id = res.id;
 						cb(null, entry); // created the entry succesfully...return the entry value
 					}
 				});
@@ -102,21 +113,40 @@ function insertDesign(designValue, id, cb) {
 			if (err) {
 				cb(err);
 			} else {
-				dbService.designs.insert(designValue, generatedID, cb);
+				dbService.designs.insert(designValue, generatedID, (err, res) => {
+					if (err) {
+						cb(err);
+					} else {
+						// attach revision stamp and id
+						designValue._id = res.id;
+						designValue._rev = res.rev;
+						designValue.id = res.id;
+						designValue.rev = res.rev;
+						cb(null, designValue);
+					}
+				});
 			}
 		});
 	} else {
 		// An ID is specified, so update the design with that given ID
-		dbService.designs.insert(designValue, id, cb);
+		dbService.designs.insert(designValue, id, (err, res) => {
+			if (err) {
+				cb(err);
+			} else {
+				// attach revision stamp
+				designValue._rev = res.rev;
+				designValue.rev = res.rev;
+				cb(null, designValue);
+			}
+		});
 	}
 }
 
 exports.insertDesign = insertDesign;
 
 // Updates all linked Order fields: wheelchairs
-function updateOrderLinkedFields(orderObj, cb) {
-	var wheelchairs = orderObj.wheelchairs || [];
-
+function updateLinkedOrderFields(orderObj, cb) {
+	var wheelchairs = _.isArray(orderObj.wheelchairs) ? orderObj.wheelchairs : [];
 	updateOrInsertAllEntries({
 		db: dbService.designs,
 		dbInsert: insertDesign,
@@ -126,34 +156,82 @@ function updateOrderLinkedFields(orderObj, cb) {
 		if (err) {
 			cb(err);
 		} else {
-			orderObj.wheelchairs = wheelchairs;
+			orderObj.wheelchairs = wheelchairs; // set the wheelchairs field appropriately
+
 			cb(null, orderObj);
 		}
 	});
 }
 
-exports.updateOrderLinkedFields = updateOrderLinkedFields;
+exports.updateLinkedOrderFields = updateLinkedOrderFields;
 
+function getMinimizedOrderEntry(order) {
+	var designs = _.isArray(order.wheelchairs) ? order.wheelchairs : [];
+	var designIDs = _.reject(_.map(designs, getEntryID), _.isNull);
+
+	var discounts = _.isArray(order.discounts) ? order.discounts : [];
+	var discountIDs = _.reject(_.map(discounts, getEntryID), _.isNull);
+
+	var clonedOrder = _.clone(order);
+	clonedOrder.wheelchairs = designIDs;
+	clonedOrder.discounts = discountIDs;
+
+	return clonedOrder;
+}
+
+exports.getMinimizedOrderEntry = getMinimizedOrderEntry;
+
+/**
+ * Insert the given order
+ * If no id is given, this will create a new order
+ *
+ * NOTE:
+ * DOES NOT update each corresponding order's discounts. It will just set the order.discounts to be an
+ * array of IDs for the discounts that were already in the given order.
+ * Validation that the discount IDs are actual discount IDs in the DB should be done when the order is being sent
+ */
 function insertOrder(order, id, cb) {
 	if (_.isFunction(id)) {
 		// No ID is given, must create a new order entry
 		cb = id;
 		id = null;
 
-		updateOrderLinkedFields(order, function (err, updatedOrder) {
+		updateLinkedOrderFields(order, function (err, updatedOrder) {
 			if (err) {
 				cb(err);
 			} else {
-				dbService.insert(updatedOrder, cb);
+				const minOrder = getMinimizedOrderEntry(updatedOrder);
+				dbService.orders.insert(minOrder, (err, res) => { // insert the minorder, not the full order
+					if (err) {
+						cb(err);
+					} else {
+						// attach the revision stamp and the id
+						updatedOrder._rev = res.rev;
+						updatedOrder._id = res.id;
+						updatedOrder.rev = res.rev;
+						updatedOrder.id = res.id;
+						cb(null, updatedOrder); // return the full order, not the minOrder
+					}
+				});
 			}
 		});
 	} else {
 		// ID was given, update corresponding record after updating linked records
-		updateOrderLinkedFields(order, function (err, updatedOrder) {
+		updateLinkedOrderFields(order, function (err, updatedOrder) {
 			if (err) {
 				cb(err);
 			} else {
-				dbService.insert(updatedOrder, id, cb); // update the order with the given id
+				const minOrder = getMinimizedOrderEntry(updatedOrder);
+				// update the order with the given id, but use the minOrder as the DB entry
+				dbService.orders.insert(minOrder, id, (err, res) => { // insert the minorder, not the full order
+					if (err) {
+						cb(err);
+					} else {
+						updatedOrder._rev = res.rev; // update the revision stamp
+						updatedOrder.rev = res.rev;
+						cb(null, updatedOrder); // return the full order, not the minOrder
+					}
+				});
 			}
 		});
 	}
@@ -166,7 +244,7 @@ function updateLinkedUserFields(userObj, cb) {
 	var updateOrders = function (cb) {
 		var orders = userObj.orders || [];
 		updateOrInsertAllEntries({
-			db: dbService.order,
+			db: dbService.orders,
 			dbInsert: insertOrder,
 			idField: '_id',
 			entries: orders
@@ -195,7 +273,19 @@ function updateLinkedUserFields(userObj, cb) {
 				cb(null, null);
 			});
 		} else if (_.isObject(cart)) {
-			updateOrderLinkedFields(cart, cb);
+			updateOrInsertAllEntries({
+				db: dbService.orders,
+				dbInsert: insertOrder,
+				idField: '_id',
+				entries: [cart]
+			}, function (err, cartArr) {
+				if (err) {
+					cb(err);
+				} else {
+					const cart = _.first(cartArr);
+					cb(null, cart);
+				}
+			});
 		} else {
 			cb(new Error("Bad Cart Value:\n" + JSON.stringify(cart, null, 2)));
 		}
@@ -220,4 +310,79 @@ function updateLinkedUserFields(userObj, cb) {
 }
 
 exports.updateLinkedUserFields = updateLinkedUserFields;
+
+/**
+ * Given a User object with all linked fields completely populater,
+ * Returns same user object with linked fields only referencing data via IDs
+ */
+function getMinimizedUserEntry(userObj) {
+	const userOrders       = _.isArray(userObj.orders) ? userObj.orders : [];
+	const userSavedDesigns = _.isArray(userObj.savedDesigns) ? userObj.savedDesigns : [];
+
+	const orderIDs       = _.reject(userOrders.map(getEntryID), _.isNull);
+	const cartID         = userObj.cart ? getEntryID(userObj.cart) : null;
+	const savedDesignIDs = _.reject(userSavedDesigns.map(getEntryID), _.isNull);
+
+	const userCopy = _.clone(userObj);
+
+	userCopy.orders       = orderIDs;
+	userCopy.cart         = cartID;
+	userCopy.savedDesigns = savedDesignIDs;
+
+	return userCopy;
+}
+
+exports.getMinimizedUserEntry = getMinimizedUserEntry;
+
+function insertUser(user, id, cb) {
+	if (_.isFunction(id)) {
+		// No ID is given, must create a new user entry
+		cb = id;
+		id = null;
+
+		updateLinkedUserFields(user, function (err, updatedUser) {
+			if (err) {
+				cb(err);
+			} else {
+				// only store IDs of linked fields in the user entry
+				const minUser = getMinimizedUserEntry(updatedUser);
+				// create the new user entry
+				dbService.users.insert(minUser, (err, res) => {
+					if (err) {
+						cb(err);
+					} else {
+						// attach the revision stamp and the id
+						updatedUser._rev = res.rev;
+						updatedUser._id = res.id;
+						updatedUser.rev = res.rev;
+						updatedUser.id = res.id;
+						cb(null, updatedUser);
+					}
+				});
+			}
+		});
+	} else {
+		// ID was given, update corresponding record after updating linked records
+		updateLinkedUserFields(user, function (err, updatedUser) {
+			if (err) {
+				cb(err);
+			} else {
+				// only store IDs of linked fields in the user entry
+				const minUser = getMinimizedUserEntry(updatedUser);
+				// update the order with the given id
+				dbService.users.insert(minUser, id, (err, res) => {
+					if (err) {
+						cb(err);
+					} else {
+						updatedUser._rev = res.rev; // update the revision stamp
+						updatedUser.rev = res.rev;
+						cb(null, updatedUser);
+					}
+				});
+			}
+		});
+	}
+}
+
+exports.insertUser = insertUser;
 

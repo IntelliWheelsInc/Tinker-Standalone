@@ -1,0 +1,566 @@
+[
+  {
+    "createdAt": "2016-05-12T21:20:52.026Z",
+    "updatedAt": "2016-05-12T21:20:52.026Z",
+    "wheelchair": {
+      "frameID": 21,
+      "title": "My Custom Wheelchair",
+      "parts": [
+        {
+          "partID": 1000,
+          "optionID": 2100,
+          "colorID": 1115,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": false
+        },
+        {
+          "partID": 3000,
+          "optionID": 3150,
+          "colorID": 1113,
+          "sizeIndex": -1,
+          "colorIn": false
+        },
+        {
+          "partID": 11000,
+          "optionID": 11200,
+          "colorID": 1113,
+          "sizeIndex": 1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 4000,
+          "optionID": 4300,
+          "colorID": 1115,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 12000,
+          "optionID": 12200,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 6000,
+          "optionID": 6300,
+          "colorID": 6304,
+          "sizeIndex": 1,
+          "comments": "",
+          "colorIn": false
+        },
+        {
+          "partID": 7000,
+          "optionID": 7100,
+          "colorID": 0,
+          "sizeIndex": 1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 8000,
+          "optionID": 8100,
+          "colorID": 0,
+          "sizeIndex": 0,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 5000,
+          "optionID": 5100,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 13000,
+          "optionID": 13100,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 14000,
+          "optionID": 14998,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 10000,
+          "optionID": 10998,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        }
+      ],
+      "measures": [
+        {
+          "measureID": 15001,
+          "measureOptionIndex": "3",
+          "comments": ""
+        },
+        {
+          "measureID": 15002,
+          "measureOptionIndex": "5",
+          "comments": ""
+        },
+        {
+          "measureID": 15003,
+          "measureOptionIndex": "0",
+          "comments": ""
+        },
+        {
+          "measureID": 15004,
+          "measureOptionIndex": "0",
+          "comments": ""
+        },
+        {
+          "measureID": 15005,
+          "measureOptionIndex": "3",
+          "comments": ""
+        },
+        {
+          "measureID": 15006,
+          "measureOptionIndex": "7",
+          "comments": ""
+        },
+        {
+          "measureID": 15007,
+          "measureOptionIndex": "6",
+          "comments": ""
+        },
+        {
+          "measureID": 15008,
+          "measureOptionIndex": "2",
+          "comments": ""
+        },
+        {
+          "measureID": 15009,
+          "measureOptionIndex": "1",
+          "comments": ""
+        },
+        {
+          "measureID": 15010,
+          "measureOptionIndex": "4",
+          "comments": ""
+        },
+        {
+          "measureID": 15011,
+          "measureOptionIndex": "2",
+          "comments": ""
+        },
+        {
+          "measureID": 15012,
+          "measureOptionIndex": "1",
+          "comments": ""
+        },
+        {
+          "measureID": 15013,
+          "measureOptionIndex": "2",
+          "comments": ""
+        },
+        {
+          "measureID": 15014,
+          "measureOptionIndex": "1",
+          "comments": ""
+        },
+        {
+          "measureID": 15015,
+          "measureOptionIndex": "3",
+          "comments": ""
+        },
+        {
+          "measureID": 15016,
+          "measureOptionIndex": "0",
+          "comments": ""
+        }
+      ],
+      "inCurOrder": false
+    }
+  },
+  {
+    "createdAt": "2016-05-12T21:20:52.026Z",
+    "updatedAt": "2016-05-12T21:20:52.026Z",
+    "wheelchair": {
+      "frameID": 21,
+      "title": "My Custom Wheelchair",
+      "parts": [
+        {
+          "partID": 1000,
+          "optionID": 2100,
+          "colorID": 1115,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": false
+        },
+        {
+          "partID": 3000,
+          "optionID": 3150,
+          "colorID": 1113,
+          "sizeIndex": -1,
+          "colorIn": false
+        },
+        {
+          "partID": 11000,
+          "optionID": 11200,
+          "colorID": 1113,
+          "sizeIndex": 1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 4000,
+          "optionID": 4300,
+          "colorID": 1115,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 12000,
+          "optionID": 12200,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 6000,
+          "optionID": 6300,
+          "colorID": 6304,
+          "sizeIndex": 1,
+          "comments": "",
+          "colorIn": false
+        },
+        {
+          "partID": 7000,
+          "optionID": 7100,
+          "colorID": 0,
+          "sizeIndex": 1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 8000,
+          "optionID": 8100,
+          "colorID": 0,
+          "sizeIndex": 0,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 5000,
+          "optionID": 5100,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 13000,
+          "optionID": 13100,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 14000,
+          "optionID": 14998,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 10000,
+          "optionID": 10998,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        }
+      ],
+      "measures": [
+        {
+          "measureID": 15001,
+          "measureOptionIndex": "3",
+          "comments": ""
+        },
+        {
+          "measureID": 15002,
+          "measureOptionIndex": "5",
+          "comments": ""
+        },
+        {
+          "measureID": 15003,
+          "measureOptionIndex": "0",
+          "comments": ""
+        },
+        {
+          "measureID": 15004,
+          "measureOptionIndex": "0",
+          "comments": ""
+        },
+        {
+          "measureID": 15005,
+          "measureOptionIndex": "3",
+          "comments": ""
+        },
+        {
+          "measureID": 15006,
+          "measureOptionIndex": "7",
+          "comments": ""
+        },
+        {
+          "measureID": 15007,
+          "measureOptionIndex": "6",
+          "comments": ""
+        },
+        {
+          "measureID": 15008,
+          "measureOptionIndex": "2",
+          "comments": ""
+        },
+        {
+          "measureID": 15009,
+          "measureOptionIndex": "1",
+          "comments": ""
+        },
+        {
+          "measureID": 15010,
+          "measureOptionIndex": "4",
+          "comments": ""
+        },
+        {
+          "measureID": 15011,
+          "measureOptionIndex": "2",
+          "comments": ""
+        },
+        {
+          "measureID": 15012,
+          "measureOptionIndex": "1",
+          "comments": ""
+        },
+        {
+          "measureID": 15013,
+          "measureOptionIndex": "2",
+          "comments": ""
+        },
+        {
+          "measureID": 15014,
+          "measureOptionIndex": "1",
+          "comments": ""
+        },
+        {
+          "measureID": 15015,
+          "measureOptionIndex": "3",
+          "comments": ""
+        },
+        {
+          "measureID": 15016,
+          "measureOptionIndex": "0",
+          "comments": ""
+        }
+      ],
+      "inCurOrder": false
+    }
+  },
+  {
+    "createdAt": "2016-05-12T21:20:52.026Z",
+    "updatedAt": "2016-05-12T21:20:52.026Z",
+    "wheelchair": {
+      "frameID": 21,
+      "title": "My Custom Wheelchair",
+      "parts": [
+        {
+          "partID": 1000,
+          "optionID": 2100,
+          "colorID": 1115,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": false
+        },
+        {
+          "partID": 3000,
+          "optionID": 3150,
+          "colorID": 1113,
+          "sizeIndex": -1,
+          "colorIn": false
+        },
+        {
+          "partID": 11000,
+          "optionID": 11200,
+          "colorID": 1113,
+          "sizeIndex": 1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 4000,
+          "optionID": 4300,
+          "colorID": 1115,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 12000,
+          "optionID": 12200,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 6000,
+          "optionID": 6300,
+          "colorID": 6304,
+          "sizeIndex": 1,
+          "comments": "",
+          "colorIn": false
+        },
+        {
+          "partID": 7000,
+          "optionID": 7100,
+          "colorID": 0,
+          "sizeIndex": 1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 8000,
+          "optionID": 8100,
+          "colorID": 0,
+          "sizeIndex": 0,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 5000,
+          "optionID": 5100,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 13000,
+          "optionID": 13100,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 14000,
+          "optionID": 14998,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        },
+        {
+          "partID": 10000,
+          "optionID": 10998,
+          "colorID": 0,
+          "sizeIndex": -1,
+          "comments": "",
+          "colorIn": true
+        }
+      ],
+      "measures": [
+        {
+          "measureID": 15001,
+          "measureOptionIndex": "3",
+          "comments": ""
+        },
+        {
+          "measureID": 15002,
+          "measureOptionIndex": "5",
+          "comments": ""
+        },
+        {
+          "measureID": 15003,
+          "measureOptionIndex": "0",
+          "comments": ""
+        },
+        {
+          "measureID": 15004,
+          "measureOptionIndex": "0",
+          "comments": ""
+        },
+        {
+          "measureID": 15005,
+          "measureOptionIndex": "3",
+          "comments": ""
+        },
+        {
+          "measureID": 15006,
+          "measureOptionIndex": "7",
+          "comments": ""
+        },
+        {
+          "measureID": 15007,
+          "measureOptionIndex": "6",
+          "comments": ""
+        },
+        {
+          "measureID": 15008,
+          "measureOptionIndex": "2",
+          "comments": ""
+        },
+        {
+          "measureID": 15009,
+          "measureOptionIndex": "1",
+          "comments": ""
+        },
+        {
+          "measureID": 15010,
+          "measureOptionIndex": "4",
+          "comments": ""
+        },
+        {
+          "measureID": 15011,
+          "measureOptionIndex": "2",
+          "comments": ""
+        },
+        {
+          "measureID": 15012,
+          "measureOptionIndex": "1",
+          "comments": ""
+        },
+        {
+          "measureID": 15013,
+          "measureOptionIndex": "2",
+          "comments": ""
+        },
+        {
+          "measureID": 15014,
+          "measureOptionIndex": "1",
+          "comments": ""
+        },
+        {
+          "measureID": 15015,
+          "measureOptionIndex": "3",
+          "comments": ""
+        },
+        {
+          "measureID": 15016,
+          "measureOptionIndex": "0",
+          "comments": ""
+        }
+      ],
+      "inCurOrder": false
+    }
+  }
+]

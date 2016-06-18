@@ -8,7 +8,7 @@
 
 // ----------------------------------------
 
-function stackImages(canvy, image_dirs, width, height) {
+function stackImages(canvy, image_dirs, width, height, cfpLoadingBar) {
   console.log(height);
   //interval is set so if image fails to load at first it would retry.
   var ctx = canvy.getContext("2d");
@@ -19,12 +19,23 @@ function stackImages(canvy, image_dirs, width, height) {
   //console.log("stacking images");
   var images = [];
   var loaded = [];
+  var numErrored = 0;
   for (var i = 0; i < image_dirs.length; i++) {
     loaded.push(false);
     var image = new Image();
     image.src = image_dirs[i].URL;
     images.push(image);
   }
+
+  function getLoadingStatus() {
+    var totalLoaded = loaded.reduce(function (sum, isLoaded) {
+      return sum + isLoaded;
+    }, 0);
+
+    return totalLoaded / (loaded.length - numErrored);
+  }
+
+  cfpLoadingBar.start();
 
   for(i = 0; i<images.length; i++){
     images[i].onload = (function (i) {
@@ -35,8 +46,18 @@ function stackImages(canvy, image_dirs, width, height) {
             break;
           ctx.drawImage(images[j], 0, 0, width, height);
         }
+
+        // Update the loading bar
+        cfpLoadingBar.set(getLoadingStatus());
+        if (cfpLoadingBar.status() === 1.0) {
+          cfpLoadingBar.complete();
+        }
       }
     })(i);
+    
+    images[i].onerror = function () {
+      numErrored++;
+    };
   }
 }
 

@@ -1,4 +1,4 @@
-﻿'use strict';
+'use strict';
 
 /**
  * @ngdoc function
@@ -8,8 +8,9 @@
  * Controller of the abacuApp
  */
 angular.module('abacuApp')
-  .controller('AbacusCtrl', ['$scope', '$location', 'localJSONStorage', '$routeParams', 'FrameData', 'User', 'Angles', 'Units', 'Drop', 'Design', '_', '$q', 'ngDialog', 'Errors',
-    function ($scope, $location, localJSONStorage, $routeParams, FrameData, User, Angles, Units, Drop, Design, _, $q, ngDialog, Errors) {
+  .constant('REFRESH_WARNING_TEXT', "Please Make sure you save your design before refreshing the page!")
+  .controller('AbacusCtrl', ['$scope', '$location', 'localJSONStorage', '$routeParams', 'FrameData', 'User', 'Angles', 'Units', 'Drop', 'Design', '_', '$q', 'ngDialog', 'Errors', 'DownloadPDF', 'REFRESH_WARNING_TEXT',
+    function ($scope, $location, localJSONStorage, $routeParams, FrameData, User, Angles, Units, Drop, Design, _, $q, ngDialog, Errors, DownloadPDF, REFRESH_WARNING_TEXT) {
 
       Drop.setFalse();
       /*********************Enums*******************************/
@@ -20,6 +21,14 @@ angular.module('abacuApp')
         CURRENT: 'current',
         Warning: 'warning'
       };
+
+      //Indicates the current panel
+      //ID = -1 indicates no panel open
+      var curPanel = -1;
+      var curColorPanel = -1;
+
+
+      $scope.designIsSaved = true;
 
       $scope.saveDropdown = false;
 
@@ -42,6 +51,7 @@ angular.module('abacuApp')
         password: ''
       };
 
+
       var loginPanelStatus = {
         MAIN:'main',
         LOGIN:'login',
@@ -51,6 +61,13 @@ angular.module('abacuApp')
       };
 
       $scope.loginPanel = loginPanelStatus.MAIN;
+
+      $scope.selectedColor = {};
+
+      var grantAmount = 0;
+
+
+
 
 
       /**********************Main Variables****************************/
@@ -96,6 +113,14 @@ angular.module('abacuApp')
 
       $scope.currChairIsNew = User.isNewWheelchair();
 
+      $scope.downloadChairPDF = function () {
+        var curChair = $scope.curEditWheelchair;
+        DownloadPDF.forWheelchairs(new Design({wheelchair: curChair}))
+        .catch(function (err) {
+          alert('Failed to download Wheelchair PDF');
+        });
+      };
+
       /***************************Initialization****************************/
 
       //Generates the page arrays inside of pages
@@ -131,15 +156,80 @@ angular.module('abacuApp')
         //set our current pages to the beginning
         curPage.page[$scope.pageType.CUSTOMIZE] = pages.customizePages[0];
         curPage.page[$scope.pageType.MEASURE] = pages.measurePages[0];
+
+        var partID = pages.customizePages[0].partID;
+        if(partID) {
+          var part = $scope.curFrameData.getPart(partID);
+          var id = $scope.curEditWheelchair.getOptionIDForPart(partID)
+          $scope.curOption = part.getOption(id);
+          curColorPanel = id;
+        }
+      }
+
+      // design is locked if it is part of the users order history
+      function designIsLocked(design) {
+        var designID = _.isString(design) ? design : design._id;
+
+        var sentOrders = User.getSentOrders();
+        return sentOrders.some(function (order) {
+          return order.wheelchairs.some(function (lockedDesign) {
+            return lockedDesign._id === designID || _.isEqual(lockedDesign, design);
+          });
+        });
       }
 
       //Initialize the page - called on pageLoad
       function init() {
-        var id = parseInt($routeParams.param1);
-        console.log(id);
-        if(id && FrameData.getFrame(id)) {
-          User.createCurrentDesign(id);
+        var initCurrentWheelchair = function (chair) {
+          $scope.curEditWheelchair = chair;
+          //Load data about the frame type of curEditWheelchair
+          $scope.curFrameData = FrameData.getFrame($scope.curEditWheelchair.getFrameID());
+          $scope.curOption = $scope.getCurPartData().getDefaultOption();
+          generatePages();
+        };
+
+        var id = $routeParams.param1;
+
+        if(id != null && id != 'grant') {
+          if (designIsLocked(id)) {
+            ngDialog.open({
+              template: "views/modals/lockedDesignModal.html",
+              controller: "LockedDesignModalCtrl"
+            }).closePromise
+            .then(function (result) {
+              if (result.value === 'copy') {
+                return User.fetchDesign(id)
+                  .then(function (design) {
+                    var cloneDesign = design.clone();
+                    User.createCurrentDesign(cloneDesign);
+                    initCurrentWheelchair(cloneDesign.wheelchair);
+                  });
+              } else {
+                $location.path('/frames')
+              }
+            });
+          } else {
+            User.fetchDesign(id)
+            .then(function (design) {
+              User.createCurrentDesign(design);
+              initCurrentWheelchair(design.wheelchair);
+            })
+            .catch(function (err) {
+              console.log(err);
+            });
+          }
+        } else if(id == 'grant'){
+          User.createCurrentDesign(25);
+          ngDialog.open({
+            template: "views/modals/grantModal.html",
+            scope: $scope
+          }).closePromise
+            .then(function(val){
+              User.getCurEditWheelchair().setGrantAmount(val.value);
+              grantAmount = val.value;
+            })
         }
+
         //Send the user back to Frames if no curEditWheelchair set
         $scope.curEditWheelchair = User.getCurEditWheelchair();
         if ($scope.curEditWheelchair === null) {
@@ -147,9 +237,18 @@ angular.module('abacuApp')
           return;
         }
 
+        grantAmount = $scope.curEditWheelchair.getGrantAmount();
+
         //Load data about the frame type of curEditWheelchair
         $scope.curFrameData = FrameData.getFrame($scope.curEditWheelchair.getFrameID());
         generatePages();
+
+        // Warn user before they reload the page to save their changes
+        window.onbeforeunload = function () {
+          return REFRESH_WARNING_TEXT;
+        };
+
+
       }
 
       init(); //Initialize the page
@@ -173,6 +272,12 @@ angular.module('abacuApp')
 
       $scope.register = function(){
         $scope.loginPanel = loginPanelStatus.REGISTER;
+      };
+
+      $scope.enterLogin = function(keyEvent){
+        if (keyEvent.which === 13){
+          $scope.login();
+        }
       };
 
       //register group
@@ -207,7 +312,7 @@ angular.module('abacuApp')
       };
 
       $scope.saveMessage = function(){
-        User.setContentSection('measurements');
+        User.setContentSection('measurements'); // set content section for my account page
         $location.path('/settings').search({section: 'myDesigns'});
       };
 
@@ -231,12 +336,13 @@ angular.module('abacuApp')
       };
 
       $scope.getTotalPrice = function () {
-        return $scope.curEditWheelchair.getTotalPrice();
+        return $scope.curEditWheelchair.getTotalPriceForAbacusCtrl() - grantAmount;
       };
 
       /*******************Unit Systems ****************************/
 
         //Options for the Unit System Drop-Down-List
+        //set default to imperial
       $scope.unitSysList = [
         {
           name: 'Metric',
@@ -283,6 +389,7 @@ angular.module('abacuApp')
 
       /****************Page Functions******************/
 
+      //return array of current page objects
       $scope.getCurPages = function () {
 
         if (curPage.type === $scope.pageType.CUSTOMIZE) {
@@ -291,6 +398,8 @@ angular.module('abacuApp')
         return pages.measurePages;
         //.concat(pages.customizePages);
       };
+
+      //return array of customize page
       $scope.getCustomizePages = function () {
         return pages.customizePages;
       };
@@ -338,6 +447,7 @@ angular.module('abacuApp')
 
       $scope.setCurPageType = function (newType) {
         curPage.type = newType;
+        $scope.curOption = {};
       };
 
       $scope.setCurPage = function (newIndex) {
@@ -394,6 +504,22 @@ angular.module('abacuApp')
 
 
       /****************ProgressBar******************/
+      // initialize $scope.curOption
+      function setColor(){
+        var partID = $scope.getCurPage().partID;
+        if(partID) {
+          $scope.designIsSaved = false;
+          var part = $scope.curFrameData.getPart(partID);
+          var id = $scope.curEditWheelchair.getOptionIDForPart(partID)
+          $scope.curOption = part.getOption(id);
+          curColorPanel = id;
+        }else{
+          $scope.designIsSaved = false;
+          curColorPanel = -1;
+          $scope.curOption = {};
+        }
+      }
+
 
         //Switches pages left/right based on dir
       $scope.pageSwitchStep = function (dir) {
@@ -423,8 +549,11 @@ angular.module('abacuApp')
         $scope.getCurPage().visitstatus = visitstatus.CURRENT;
         $scope.closeAllPanels();
         resetSelectedMeasureImageIndex();
-        navigateArrows(dir)
+        navigateArrows(dir);
         $scope.setMeasureTabs($scope.MeasureTabs.TUTORIAL);
+
+        // initial $scope.curOption after page jump
+       setColor();
       };
 
 
@@ -437,13 +566,14 @@ angular.module('abacuApp')
         else
           $scope.getCurPage().visitstatus = visitstatus.UNVISITED;  //set current page to visit status: visited
         $scope.setCurPage(page.index); //set new current page
-        $scope.getCurPage().visitstatus = visitstatus.CURRENT; //set new current page to visit status : current
+        $scope.getCurPage().visitstatus = visitstatus.CURRENT;
+          //set new current page to visit status : current
         $scope.closeAllPanels(); //close any panels we may have opened
         if ($scope.getCurPageType() === $scope.pageType.MEASURE) { //resets the selected image in the measure panel
           resetSelectedMeasureImageIndex();
           $scope.setMeasureTabs($scope.MeasureTabs.TUTORIAL);
         }
-
+        setColor()
       };
 
       //Returns the image for the given progress bar segment based on visit status and index
@@ -495,11 +625,11 @@ angular.module('abacuApp')
 
       $scope.getCustomizeTooltipText = function (page){
            return $scope.curEditWheelchair.getPartDetails(page.partID, 0).partName;
-      }
+      };
 
       $scope.getMeasurementTooltipText = function (page){
           return $scope.curEditWheelchair.getMeasureDetails(page.measureID, 0).name;
-      }
+      };
 
       /*********Save $ review Dropdown*********/
 
@@ -572,63 +702,200 @@ angular.module('abacuApp')
         $scope.getCurPage().visitstatus = visitstatus.CURRENT;
       };
 
+      /************Color panel function***********/
+      //hide color option for special parts
+      $scope.hideColor = function(optionID){
+        var partID = $scope.getCurPartData().partID;
+        var id = optionID;
+        if((id !== 3100) && (id !== 11200) &&( partID !== 4000 ))
+          return true;
+        else
+          return false;
+      };
+
       /*****************Building CurWheelchair*****/
 
+      $scope.curChairHasOption = function (optionID) {
+        var option = _.find($scope.curEditWheelchair.parts, {'optionID': optionID});
+        return !_.isUndefined(option);
+      };
+
       $scope.setCurOption = function (newOptionID) {
-        $scope.curEditWheelchair.setOptionForPart($scope.getCurPartData().partID, newOptionID);
+
+        var curPartID = $scope.getCurPartData().partID;
+
+        if($scope.curEditWheelchair.getPart(curPartID).optionID == newOptionID){
+          return
+        }
+
+        $scope.curEditWheelchair.setOptionForPart(curPartID, newOptionID);
+
+        //sync colors between parts
+        if(newOptionID == 2300 || newOptionID ==2100){
+          if($scope.curEditWheelchair.getPart(3000).optionID === 3100){
+            var color = $scope.curEditWheelchair.getPart(1000).colorID;
+            $scope.curEditWheelchair.setColorForPart(3000, color);
+          }
+        }
+        if(newOptionID == 11200){
+          var color = $scope.curEditWheelchair.getPart(3000).colorID;
+          $scope.curEditWheelchair.setColorForPart(11000, color);
+        }
+        if(newOptionID == 3100){
+          var color = $scope.curEditWheelchair.getPart(1000).colorID;
+          $scope.curEditWheelchair.setColorForPart(3000, color);
+        }
+        if((newOptionID == 3100 || newOptionID == 3150 || newOptionID == 3200 || newOptionID == 3300) && (_.get($scope.curEditWheelchair.getPart(11000), 'optionID') === 11200)){
+          var color = $scope.curEditWheelchair.getPart(3000).colorID;
+          $scope.curEditWheelchair.setColorForPart(11000, color);
+        }
+        if((newOptionID == 2100) || (newOptionID == 2300)){
+          var color = $scope.curEditWheelchair.getPart(1000).colorID;
+          $scope.curEditWheelchair.setColorForPart(4000, color);
+        }
+        if((newOptionID == 4100) || (newOptionID == 4300) || (newOptionID == 4200) || (newOptionID == 4400) || (newOptionID == 4500) || (newOptionID == 4600)){
+          var color = $scope.curEditWheelchair.getPart(1000).colorID;
+          $scope.curEditWheelchair.setColorForPart(4000, color);
+        }
+        //if((newOptionID == 2100) || (newOptionID == 2300)){
+        //    if($scope.curEditWheelchair.getPart(3000).colorIn == true){
+        //      $scope.curEditWheelchair.setColorForPart(3000, newColorID);
+        //      $scope.curEditWheelchair.setColorForPart(11000, newColorID);
+        //    }
+        //}
+        if(newOptionID == 6100){
+            // they just selected NONE as their option for wheels
+            $scope.curEditWheelchair.setOptionForPart(7000, 7500);
+            $scope.curEditWheelchair.setOptionForPart(8000, 8800);
+        }
+        if((newOptionID == 6200) || (newOptionID == 6300) || (newOptionID == 6400) || (newOptionID ==6500) || (newOptionID == 6600) || (newOptionID == 6700)){
+            //They just elected a wheel, select the default hand rim and tire too
+            if($scope.curEditWheelchair.getPart(7000).optionID === 7500){
+                //there is currently no hand rim selected
+                $scope.curEditWheelchair.setOptionForPart(7000, 7100);
+            }
+            if($scope.curEditWheelchair.getPart(8000).optionID === 8800){
+                //there is currently no tire selected
+                $scope.curEditWheelchair.setOptionForPart(8000, 8100);
+            }
+        }
+
         console.log('Changed option');
+
+        setColor();
+      };
+
+      $scope.setCurMultiOption = function (newOptionID) {
+        $scope.designIsSaved = false;
+        $scope.curEditWheelchair.setMultiOptionForPart($scope.getCurPartData().partID, newOptionID);
+      };
+
+      $scope.setSelectedColor = function (colorObject) {
+        $scope.designIsSaved = false;
+        $scope.selectedColor = colorObject;
       };
 
       $scope.setCurOptionColor = function (newColorID) {
+        $scope.designIsSaved = false;
         console.log($scope.getCurPanelID());
-        if ($scope.getCurPanelID() === $scope.getCurWheelchairPart().optionID) {
-          $scope.curEditWheelchair.setColorForPart($scope.getCurWheelchairPart().partID, newColorID);
-          var ID = $scope.getCurWheelchairPart().partID
-          if(ID == 1000){
-            $scope.curEditWheelchair.setColorForPart(2000, newColorID);
-            $scope.curEditWheelchair.setColorForPart(4000, newColorID);
-
-          }
-          console.log('Changed color option');
+        if ($scope.getCurColorPanelID() !== $scope.getCurWheelchairPart().optionID) {
+            $scope.setCurOption($scope.getCurPanelID());
         }
+        $scope.curEditWheelchair.setColorForPart($scope.getCurWheelchairPart().partID, newColorID);
+        $scope.curEditWheelchair.setColorIn($scope.getCurWheelchairPart().partID);
+
+        var ID = $scope.getCurWheelchairPart().partID;
+
+          if (($scope.curEditWheelchair.frameID >= 20) && ($scope.curEditWheelchair.frameID < 30))  {
+           //update the linking color for the THunders
+            if(ID == 1000 && ($scope.curEditWheelchair.getPart(3000).optionID == 3100)){
+              $scope.curEditWheelchair.setColorForPart(3000, newColorID);
+              $scope.curEditWheelchair.setColorForPart(11000, newColorID);
+
+              $scope.curEditWheelchair.setColorForPart(2222, newColorID);
+            }
+
+            if (ID == 1000 && ($scope.curEditWheelchair.getPart(4000).colorIn == true)){
+              $scope.curEditWheelchair.setColorForPart(4000, newColorID);
+            }
+
+            if(ID == 3000 && $scope.curEditWheelchair.getPart(11000).optionID === 11200){
+              var color = $scope.curEditWheelchair.getPart(3000).colorID;
+              $scope.curEditWheelchair.setColorForPart(11000, color);
+            }
+        }
+
+        if (($scope.curEditWheelchair.frameID >= 10) && ($scope.curEditWheelchair.frameID < 20)) {
+            //for the spinergy wheels
+            if(ID == 1000 && ($scope.curEditWheelchair.getPart(2222).optionID == 2100)){
+              $scope.curEditWheelchair.setColorForPart(2222, newColorID);
+            }
+        }
+
+        console.log('Changed color option');
+      };
+
+      // setting color for parts that allows multiple color options
+      $scope.setCurMultiOptionColor = function (optionID, newColorID) {
+        $scope.designIsSaved = false;
+        if ($scope.getCurPanelID() !== $scope.getCurWheelchairPart().optionID) {
+            $scope.setCurMultiOption($scope.getCurPanelID());
+        } $scope.curEditWheelchair.setColorForMultiPart($scope.getCurWheelchairPart().partID, optionID, newColorID);
+        var ID = $scope.getCurWheelchairPart().partID
+        if(ID == 1000){
+          $scope.curEditWheelchair.setColorForPart(2000, newColorID);
+          $scope.curEditWheelchair.setColorForPart(4000, newColorID);
+          $scope.curEditWheelchair.setColorForPart(2222, newColorID);
+        }
+        console.log('Changed color option');
       };
 
       $scope.setCurOptionSize = function (newSizeIndex) {
-        if ($scope.getCurPanelID() === $scope.getCurWheelchairPart().optionID) {
-          $scope.curEditWheelchair.setSizeForPart($scope.getCurWheelchairPart().partID, newSizeIndex);
-          console.log('Changed size option');
-        }
+        $scope.designIsSaved = false;
+        if ($scope.getCurColorPanelID() !== $scope.getCurWheelchairPart().optionID) {
+            $scope.setCurOption($scope.getCurPanelID());
+        } $scope.curEditWheelchair.setSizeForPart($scope.getCurWheelchairPart().partID, newSizeIndex);  console.log('Changed size option');
+      };
+
+      $scope.removeMultiOptionPart = function (optionID) {
+        $scope.designIsSaved = false;
+        $scope.curEditWheelchair.removeMultiOption(optionID);
       };
 
       /*****************Panels*********************/
-
-      $scope.curOption = $scope.getCurPartData().getDefaultOption();
-
-      //Indicates the current panel
-      //ID = -1 indicates no panel open
-      var curPanel = -1;
-
       //Sets curPanel to the chosen panel
       //Closes the panel if id and type match curPanel
       $scope.setPanel = function (id) {
+        var partID = $scope.getCurPage().partID;
+        var part = $scope.curFrameData.getPart(partID);
           if ($scope.isPanelSelected(id)) {
             curPanel = -1;
-            console.log('I am true')
-            $scope.curOption = $scope.getCurPartData().getDefaultOption();
+            if($scope.getCurPageType() === $scope.pageType.CUSTOMIZE) {
+              var optionID = $scope.curEditWheelchair.getPart(partID).optionID;
+              $scope.curOption = part.getOption(optionID);
+            }
           }
           else {
             curPanel = id;
-            var partID = $scope.getCurPage().partID;
-            var part = $scope.curFrameData.getPart(partID);
             $scope.curOption = part.getOption(id);
           }
           //console.log("set");
       };
 
+      $scope.$watch('curOption.comments', function(oVal, nVal){
+        console.log(nVal);
+        $scope.designIsSaved = oVal === nVal;
+        var partID = $scope.getCurPage().partID;
+        if($scope.curOption.optionID == $scope.curEditWheelchair.getPart(partID).optionID){
+          $scope.curEditWheelchair.getPart(partID).comments = nVal;
+        }
+      });
+
+
       //Closes any open panel
       $scope.closeAllPanels = function () {
+        curPanel = -1;
         $scope.setPanel(-1);
-        $scope.curOption = $scope.getCurPartData().getDefaultOption();
         $scope.closeSaveDropDown();
       };
 
@@ -636,6 +903,10 @@ angular.module('abacuApp')
       $scope.isPanelSelected = function (id) {
         return (curPanel === id);
       };
+
+      $scope.isColorPanelselected = function(id) {
+        return(curColorPanel === id);
+      }
 
 
       $scope.panelReset = function(){
@@ -646,6 +917,11 @@ angular.module('abacuApp')
       $scope.getCurPanelID = function () {
         return curPanel;
       };
+
+      $scope.getCurColorPanelID = function() {
+        return curColorPanel;
+      };
+
 
       /*******************Sidebar Colors***************/
 
@@ -658,13 +934,12 @@ angular.module('abacuApp')
         var partID = $scope.getCurPage().partID;
         var part = $scope.curFrameData.getPart(partID);
         var option = part.getOption(optionID);
-        var wPart = $scope.curEditWheelchair.getPart(partID);
         var invalidPart = true;
         if (partID == 2000 && partID == 4000){
           invalidPart = false;
         }
 
-        return (wPart.optionID === optionID) && (option.getNumColors() > 0 && invalidPart);
+        return $scope.curChairHasOption(optionID) && (option.getNumColors() > 0 && invalidPart);
       };
 
       //Returns a CSS-styled hex string for the given option
@@ -687,13 +962,9 @@ angular.module('abacuApp')
       $scope.saveDesign = function () {
         User.pushNewWheelchair()
         .then(function (user) {
+          $scope.designIsSaved = true;
           $location.path('/cart');
         });
-      };
-
-      $scope.saveComputer = function () {
-        $scope.saveDropdown = false;
-        User.saveComputer();
       };
 
       /*******************Sharing***********************/
@@ -718,6 +989,7 @@ angular.module('abacuApp')
         return designPromise;
       }
 
+      // share design function in tinker page
       $scope.shareDesignID = function () {
         generateDesignIDForCurrentChair()
         .then(function (design) {
@@ -731,20 +1003,30 @@ angular.module('abacuApp')
         })
         .then(function () {
           $scope.modalDesign = null;
+          $scope.designIsSaved = true;
         })
         .catch(function (err) {
           if (err instanceof Errors.NotLoggedInError) {
             ngDialog.open({
-              'template': 'views/modals/loginPromptModal.html'
+              'template': 'views/modals/loginPromptModal.html',
+              'scope': $scope
+            }).closePromise
+            .then(function(){
+              // return Drop.setTrue();
             });
           }
         });
+      };
+
+      $scope.loginPanelDrop = function(){
+        Drop.setTrue();
       };
 
       /*********************Saving For Later*********************/
 
       // save the current wheelchair to the wishlist and make sure its not the currently editing wheelchair anymore
       $scope.saveForLater = function () {
+        //check if user has login
         if (!User.isLoggedIn()) {
           $scope.loginPanel = loginPanelStatus.LOGIN;
         }
@@ -776,12 +1058,23 @@ angular.module('abacuApp')
                   design.creator = User.getID();
                   return User.saveDesign(design);
                 }
+                // overwrite the existing design
                 case 'overwrite': {
                   if (User.getID() === design.creator || User.isAdmin()) {
-                    return User.updateDesign(design);
+                    return User.updateDesign(design)
+                      .then(function (updatedDesign) {
+                        // Replace cart Item with newest version of chair
+                        var userCart = User.getCart();
+                        userCart.wheelchairs = userCart.wheelchairs.map(function (design) {
+                          design = design._id == updatedDesign._id ? updatedDesign : design;
+                          return design;
+                        });
+
+                        return updatedDesign;
+                      });
                   } else {
                     return ngDialog.open({
-                      'template': '<div><h2>Sorry, you can\'t overwrite this design</h2></div>',
+                      'template': '<div style="text-align: center;"><h2>Sorry, you can\'t overwrite this design</h2></div>',
                       'plain': true
                     })
                     .closePromise
@@ -805,6 +1098,7 @@ angular.module('abacuApp')
             })
             .then(function (updatedUserData) {
               if (updatedUserData) { // only show Saved dialog if a user update was made
+                $scope.designIsSaved = true;
                 $scope.loginPanel = loginPanelStatus.SAVED;
               }
             })
@@ -854,19 +1148,59 @@ angular.module('abacuApp')
 
       $scope.nothing = function(){
         return
-      }
+      };
+
       $scope.measureChanged = function(){
         measureChanged();
         calcCompleteness();
-      }
-      $scope.$on('$viewContentLoaded', function() {
-          initNavBar();
+      };
+      // $scope.$on('$viewContentLoaded', _.once(function() {
+      //     initNavBar();
+      // }));
+
+      $scope.initNavBar = _.once(initNavBar);
+
+      $scope.$watch('curEditWheelchair', function (oldVal, newVal) {
+        console.log('change for curEditWheelchair');
+        console.log([oldVal, newVal]);
       });
 
+      $scope.$on('$destroy', function () {
+        window.onbeforeunload = null;
+      });
 
+      function getBaseURL() {
+        var absUrl = $location.absUrl();
+        var path = $location.url();
+        var baseUrl = _.trimEnd(absUrl, path);
+        return baseUrl;
+      }
 
+      // This code is from: http://weblogs.asp.net/dwahlin/cancelling-route-navigation-in-angularjs-controllers
+      var onRouteChangeOff = $scope.$on('$locationChangeStart', function (event, newUrl) {
 
-    /*********** canvas function*********/
+        if ($scope.designIsSaved) {
+          return; // let the navigation happen, chair is already saved
+        }
+
+        ngDialog.open({
+          template: 'views/modals/saveDesignModal.html'
+        }).closePromise
+          .then(function (result) {
+            if (result.value === 'continue') {
+              onRouteChangeOff();
+
+              var baseURL = getBaseURL();
+              var newPath = newUrl.replace(baseURL, '');
+              $location.url(newPath);
+            }
+          });
+
+        //prevent navigation by default since we'll handle it
+        //once the user selects a dialog option
+        event.preventDefault();
+      });
+
 
 
 

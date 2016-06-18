@@ -24,8 +24,17 @@ exports.getObjectID = getObjectID;
 
 // Given a cloudant DB isntance, and a list of object IDs within that DB, returns
 // a list of all the entries corresponding to the given IDs
+// Eventually, use this for bulk read: https://docs.cloudant.com/database.html#get-documents
 function getAllByID(db, ids, cb) {
-	async.map(ids, db.get, cb); // async is a great npm module: https://www.npmjs.com/package/async
+  // Does a bulk get request...one request gets all of the documents given by their ids
+  db.fetch({keys: ids}, (err, body) => {
+    if (err) {
+      cb(err);
+    } else {
+      var documents = _.map(body.rows, 'doc');
+      cb(null, documents);
+    }
+  });
 }
 
 // Expose this helper method
@@ -38,16 +47,42 @@ function getOrderByID(orderID, cb) {
 			return cb(err);
 		}
 
-		// Populate the 'wheelchairs' field
-		getAllByID(dbService.designs, order.wheelchairs || [], function (err, designs) {
+		// get the 'wheelchairs' field
+		var getOrderChairs = function (cb) {
+			var wheelchairs = order.wheelchairs || [];
+			var wheelchairIDs = wheelchairs.map(chair => getObjectID(chair, '_id'));
+			getAllByID(dbService.designs, wheelchairIDs, function (err, designs) {
+				if (err) {
+					return cb(err);
+				}
+				cb(null, designs); // return the designs
+			});
+		};
+
+		var getOrderDiscounts = function (cb) {
+			var discounts = order.discounts || [];
+			var discountIDs = discounts.map(discount => getObjectID(discount, '_id'));
+			getAllByID(dbService.discounts, discountIDs, function (err, discounts) {
+				if (err) {
+					return cb(err);
+				}
+
+				cb(null, discounts);
+			})
+		};
+
+		async.parallel({
+			'wheelchairs': getOrderChairs,
+			'discounts': getOrderDiscounts
+		}, function (err, results) {
 			if (err) {
 				return cb(err);
 			}
 
-			// Set the wheelchairs field to be the actual designs objects instead of just the design IDs
-			order.wheelchairs = designs;
+			order.wheelchairs = results.wheelchairs;
+			order.discounts = results.discounts;
 
-			cb(null, order); // return the order
+			cb(null, order); // return the order via the callback
 		});
 	});
 };
@@ -66,10 +101,10 @@ function getUserByID(userID, cb) {
 			if (user.cart) {
 				try {
 					var cartID = getObjectID(user.cart, '_id');
-					dbService.orders.get(cartID, cb);
+					getOrderByID(cartID, cb); // get the cart along with all linked fields populated
 				} catch (badCartValueErr) {
 					// The given cart didn't have an ID field...this means the cart value is invalid and can be treated as null
-					cb(null, null);	
+					cb(null, null);
 				}
 			} else {
 				cb(null, null); // if user doesnt have a cart yet, just resolve it to be null
@@ -89,7 +124,7 @@ function getUserByID(userID, cb) {
 		var getUserOrders = function (cb) {
 			var userOrders = user.orders || [];
 			var orderIDS = userOrders.map(function (order) {
-				return getObjectID(order, '_id');	
+				return getObjectID(order, '_id');
 			});
 			// Gets all the orders with their linked fields populated. (Only linked field in Orders is 'wheelchairs' which are designs)
 			async.map(orderIDS, getOrderByID, cb);
@@ -115,3 +150,46 @@ function getUserByID(userID, cb) {
 }
 
 exports.getUserByID = getUserByID;
+
+/**
+ * Given a array of discounts (either discount Objects or just discount ID strings),
+ * tells you whether its okay to have all these discounts applied to a single order
+ *
+ * Reasons that this can return false:
+ * - At least one of the discounts is not a multi-discount even though there's more than one discount that is being applied to the order
+ * - A discount isn't included twice
+ * - At least one of the discounts are expired
+ */
+function areValidOrderDiscounts(discounts, cb) {
+	discounts = _.isArray(discounts) ? discounts : [];
+	var discountIDs = discounts.map(discount => getObjectID(discount, '_id'));
+
+	// Check that no discount is being added twice
+	if (_.uniq(discountIDs).length !== discounts.length) {
+		process.nextTick(() => cb(false));
+		return;
+	}
+
+	getAllByID(dbService.discounts, discountIDs, function (err, discounts) {
+		if (err) {
+			return cb(false);
+		}
+
+		// Check that you're not mixing multi-discounts with non-multi-discounts
+		if (!(_.every(discounts, 'isMultiDiscount')) && discounts.length > 1) {
+			return cb(false);
+		}
+
+		// check that none of the discounts are expired
+		var currDate = new Date();
+		var noneExpired = discounts.every(discount => {
+			var startDate = _.isDate(discount.startDate) ? discount.startDate : new Date(discount.startDate);
+			var endDate = _.isDate(discount.endDate) ? discount.endDate : new Date(discount.endDate);
+			return currDate >= startDate && currDate < endDate;
+		});
+
+		cb(noneExpired);
+	});
+}
+
+exports.areValidOrderDiscounts = areValidOrderDiscounts;

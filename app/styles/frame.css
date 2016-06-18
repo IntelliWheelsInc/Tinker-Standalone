@@ -1,16 +1,18 @@
-#background{
-  background-color: #f1f1f1;
-  height: 100vh;
-  width: 100vw;
-
-}
-
 .wrapper{
   max-width: 1300px;
   margin:auto;
 }
 
-
+#background {
+  position: absolute;
+  min-width: 980px;
+  left: 0px;
+  top: 0px;
+  height: 50vh;
+  width: 100%;
+  z-index: -5000;
+  background: linear-gradient(#EAEAEA, #FFFFFF);
+}
 
 button{
   background-color: #4f9dff;
@@ -51,11 +53,20 @@ button{
 
 .wrapper .mainDisplay{
   width: 80%;
-  margin: 30px auto 0;
+  margin: 30px auto 30px;
 }
 
 section{
   margin-left: 34px;
+}
+
+#wheels{
+  margin-left: 0;
+  width: 100%;
+  border-bottom: 2px solid darkgrey;
+  padding-bottom: 9px;
+  height:auto;
+  margin-bottom: 30px;
 }
 
 .frame-item {
@@ -64,6 +75,7 @@ section{
   width: 400px;
   margin-bottom: 40px;
   border: solid 1px #eaeaea;
+  background-color: #FFFFFF;
 }
 
 .frame-item.right-border {
@@ -78,10 +90,12 @@ section{
 .frame-item.horizontal {
   margin-bottom: 0;
   width: 87.5%;
+  min-width: 600px;
   margin-left: 6.25%;
   padding-left: 20px;
   padding-top: 15px;
 }
+
 
 .frame-item-title {
  padding-top: 20px;
@@ -95,9 +109,10 @@ section{
 }
 
 .frame-item-description {
-  background-color: #88cbc3 ;
+  background-color: #4F9DFF;
+
   font-size: 18px;
-  height: 100%;
+  height: 180px;
   line-height: 25px;
   overflow: auto;
   padding: 2% 5% 0;
@@ -105,6 +120,8 @@ section{
 }
 
 .horizontal .frame-item-description{
+  clear: both;
+  float: right;
   text-align: left;
   padding-left: 0;
 }
@@ -186,23 +203,17 @@ background: white;
   width: 100%;
   left: 9px;
   height: 404px;
-  background-color: #60C2B1;
+  background-color: #4F9DFF;
   opacity: 0.9;
   z-index:2;
 }
 
-
-
-
-
-
-
 .frame-item-button {
   width: 80%;
   display: inline-block;
-  color: #60C2B1;
-  height: 60px;
-  margin-top: 30px;
+  color: #4F9DFF;
+  height: 30px;
+  margin-top: 60px;
   padding-top: 16px;
   text-align: center;
   font-size: 24px;
@@ -210,11 +221,11 @@ background: white;
   padding-right: 20px;
   margin-left: -2%;
   border: solid;
-  border-color: #60C2B1;
+  border-color: #4F9DFF;
 }
 
 .frame-item-button:hover {
-  background-color: #60C2B1;
+  background-color: #4F9DFF;
   color: #ffffff;
   cursor: pointer;
 }
@@ -238,8 +249,10 @@ background: white;
 }
 
 .horizontal .frame-item-footer-details {
+  float: right;
   display: inline-block;
-  margin-left: calc(100% - 325px);
+  text-align: right;
+  margin-left: 0;
   margin-top: 0;
 }
 
@@ -272,15 +285,16 @@ td {
   padding: 5px 15px;
   height: 26px;
   margin: 0;
-  float: right;
 }
 
 .horizontal .addButton{
+  position: relative;
+  float: right;
   width: 150px;
   height: 33px;
   font-size: 19px;
   padding-top: 6px;
-  margin-top: 16px;
+  margin-top: 15px;
 }
 
 .horizontal_icon_horizontal{
@@ -315,7 +329,69 @@ td {
 
 #siteCredit {
   position: fixed;
-  bottom: 5px;
-  left: 5px;
+  bottom: 15px;
+  left: 50px;
   font-size: 0.75em;
+}
+
+.bottom-banner {
+	width: 100%;
+	background-color: #4F9DFF;
+	opacity: 1;
+	z-index: 9000;
+	position: relative;
+    padding:0px;
+    height: 37px;
+    bottom: 0px;
+    margin-bottom:-20px;
+}
+
+.bottom-banner-left{
+    float:left;
+    color: #FFFFFF;
+    list-style: none;
+  height:27px;
+}
+
+.bottom-banner-left > li {
+  background: no-repeat 0 0;
+  float:left;
+  margin-top: 5px;
+}
+
+.bottom-banner-left img{
+  height: 27px;
+}
+.bottom-banner-left .siteLink{
+  margin-top: -4px;
+}
+
+.bottom-banner-left > li > a > p {
+  margin-top: 27px;
+  margin-left: 10px;
+  float:left;
+  font-size:0.75em;
+  color: #FFFFFF;
+}
+
+.bottom-banner-right{
+    float:right;
+    color: #FFFFFF;
+    list-style: none;
+    margin-top: 4px;
+}
+
+.bottom-banner-right > li {
+  margin-left:20px;
+  margin-right:20px;
+  background: no-repeat 0 0;
+  float:right;
+}
+
+.bottom-banner-right > li > a {
+  color: #FFFFFF;
+}
+
+.bottom-banner-right > li > a:hover {
+  color: #FFFFFF;
 }

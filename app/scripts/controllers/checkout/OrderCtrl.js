@@ -9,12 +9,14 @@
  * Controller of the abacuApp
  */
 angular.module('abacuApp')
-  .controller('OrderCtrl', ['$scope', '$location', '$http', 'User', 'FrameData', 'Bank', 'Drop',
-    function ($scope, $location, $http, User, FrameData, Bank, Drop) {
+  .controller('OrderCtrl', ['$scope', '$location', '$http', 'User', 'FrameData', 'Bank', 'Drop', '_',
+    function ($scope, $location, $http, User, FrameData, Bank, Drop, _) {
 
       /*************************** CONTROL VARIABLES *************************/
 
       Drop.setFalse();
+
+      $scope.completeClicked = false;
 
       $scope.stages = {
         INFO: 0,
@@ -41,7 +43,7 @@ angular.module('abacuApp')
         },
         { //COMPLETE
           title: "Complete",
-          button: "GO TO MY ORDER >>"
+          button: "GO TO MY ORDERS >>"
         }
       ];
 
@@ -62,7 +64,7 @@ angular.module('abacuApp')
 
       /**************************** WHEELCHAIRS ************************************/
 
-      $scope.wheelchairs = $scope.curOrder.getWheelchairs();
+      $scope.wheelchairs = _.map($scope.curOrder.getWheelchairs(), 'wheelchair');
 
       $scope.getFrame = function (fID) {
         return FrameData.getFrame(fID);
@@ -102,6 +104,7 @@ angular.module('abacuApp')
         switch ($scope.curStage) {
 
           case $scope.stages.INFO:
+            $scope.completeClicked = false;
             if (allInputsFilled() === false) {
               alert('You must fill in all contact information');
               return;
@@ -111,11 +114,22 @@ angular.module('abacuApp')
 
 
           case $scope.stages.PAYMENT:
-            if($scope.payForm.method === $scope.payMethods.PAYPAL) {
-              payment();
+            $scope.completeClicked = false;
+            if (!allFormFieldsComplete($scope.billingForm, ['addr2'])) {
+              alert('You must fill in all billing information');
+              return;
             }
-            else
+            if ($scope.creditCardRequired() && !allFormFieldsComplete($scope.card)) {
+              alert('Incomplete Credit Card Information');
+              return;
+            }
+
+            if ($scope.creditCardRequired() && allFormFieldsComplete($scope.card)) {
+              payment();
+            } else if (!$scope.creditCardRequired()) {
               $scope.curStage++;
+            }
+
             break;
 
 
@@ -126,16 +140,20 @@ angular.module('abacuApp')
               return;
             }
 
+            $scope.completeClicked = true;
             //div show
-            User.sendCurEditOrder($scope.contactForm, $scope.shippingForm, $scope.payForm.method, token)
-              .then(function () {
+            User.sendCurEditOrder($scope.contactForm, $scope.shippingForm, $scope.billingForm, $scope.curOrder.payMethod, token)
+              .then(function (response) {
                 //div go
-                $scope.orderNum = $scope.curOrder.getOrderNum();
+                $scope.orderNum = response.orderNum;
                 if($scope.orderNum !== -1) {
                   $scope.curStage++;
-                  User.updateCookie();
+                  $scope.completeClicked = false;
                 }
-              }, function () {
+
+                User.clearCart();
+              })
+              .catch(function () {
                 alert('Error sending order');
               });
             break;
@@ -153,11 +171,24 @@ angular.module('abacuApp')
         $location.path('/cart');
       };
 
+      // Given a string, returns a new string with all the non-numerical chars gone
+      // If arg isn't a string, output is just the input arg
+      function retainNumberChars(str) {
+        if (_.isString(str)) {
+          return Array.prototype.slice.call(str)
+            .filter(function (char) {
+              // Only keep the chars that are numerical digits
+              return char.charCodeAt(0) >= "0".charCodeAt(0) && char.charCodeAt(0) <= "9".charCodeAt(0);
+            })
+            .join('');
+        }
+
+        return str;
+      }
+
       //Returns true if all inputs on INFO filled in (except addr2)
       function allInputsFilled() {
         var allFilled = true;
-        allFilled = $scope.contactForm.fName !== '' ? allFilled : false;
-        allFilled = $scope.contactForm.lName !== '' ? allFilled : false;
         allFilled = $scope.contactForm.email !== '' ? allFilled : false;
         allFilled = $scope.contactForm.phone !== '' ? allFilled : false;
         allFilled = $scope.shippingForm.addr !== '' ? allFilled : false;
@@ -165,6 +196,15 @@ angular.module('abacuApp')
         allFilled = $scope.shippingForm.state !== '' ? allFilled : false;
         allFilled = $scope.shippingForm.zip !== '' ? allFilled : false;
         return allFilled;
+      }
+
+      function allFormFieldsComplete(form, optionalFields) {
+        optionalFields = optionalFields || [];
+        return _(form)
+          .omit(optionalFields)
+          .every(function (fieldValue) {
+            return _.isString(fieldValue) && !_.isEmpty(fieldValue);
+          });
       }
 
       $scope.register = function(){
@@ -176,8 +216,6 @@ angular.module('abacuApp')
         //Model for the contact form
         //Init'ed using User settings - does not change User values b/c they're primitives
       $scope.contactForm = {
-        fName: User.getFname(),
-        lName: User.getLname(),
         email: User.getEmail(),
         phone: User.getPhone()
       };
@@ -185,6 +223,20 @@ angular.module('abacuApp')
       //Model for the shipping form
       //Init'ed using User settings - does not change User values b/c they're primitives
       $scope.shippingForm = {
+        fName: User.getFname(),
+        lName: User.getLname(),
+        addr: User.getAddr(),
+        addr2: User.getAddr2(),
+        city: User.getCity(),
+        state: User.getState(),
+        zip: User.getZip()
+      };
+
+      // Model for the order form AKA the billing address details
+      // Init'ed using User settings - does not change User values b/c they're primitives
+      $scope.billingForm = {
+        fName: User.getFname(),
+        lName: User.getLname(),
         addr: User.getAddr(),
         addr2: User.getAddr2(),
         city: User.getCity(),
@@ -194,11 +246,12 @@ angular.module('abacuApp')
 
       /**************************** PAYMENT ******************************/
 
-        //Payment Method radio buttons
-      $scope.payMethods = {
-        PAYPAL: 'paypal',
-        ADVANCE: 'advance'
+      $scope.creditCardRequired = function () {
+        return $scope.curOrder.payMethod === 'Credit Card';
       };
+
+        //Payment Method radio buttons
+      $scope.payMethods = $scope.curOrder.payMethod;
 
       //User's choice of payment method
       $scope.payForm = {
@@ -211,15 +264,18 @@ angular.module('abacuApp')
         number: '',
         cvc: '',
         exp_month: '',
-        exp_year: ''
+        exp_year: '',
       };
+
+
 
       $scope.payment_errors = '';
 
 
       var token = '';
       function payment(){
-        console.log($scope.card);
+        // console.log($scope.card);
+        Stripe.setPublishableKey('pk_live_IDUKUfHE9yeCm8x1qmFBemBZ');
         Stripe.card.createToken($scope.card, stripeResponseHandler);
       }
 
@@ -227,7 +283,7 @@ angular.module('abacuApp')
         if (response.error) {
           // Show the errors on the form
           $scope.payment_errors = response.error.message;
-          console.log(response.error.message);
+          console.log('stripe created error' + response.error.message);
         } else {
           // response contains id and card, which contains additional card details
           token = response.id;
@@ -237,6 +293,29 @@ angular.module('abacuApp')
           });
         }
       }
+
+      // function payment() {
+      //   Stripe.tokens.create({
+      //     card: {
+      //       "number": $scope.card.number,
+      //       "exp_month": $scope.card.exp_month,
+      //       "exp_year": $scope.card.exp_year,
+      //       "cvc": $scope.card.cvc
+      //     }
+      //   }, function (err, tokenIn) {
+      //     // asynchronously called
+      //     if (err) {
+      //       $scope.payment_errors = response.error.message;
+      //       console.log('stripe created error' + response.error.message);
+      //     } else {
+      //       token = tokenIn;
+      //       console.log(token);
+      //       $scope.$apply(function () {
+      //         $scope.curStage++;
+      //       });
+      //     }
+      //   });
+      // }
       /**************************** CONFIRM ******************************/
 
         //T&C Checkbox model
@@ -250,6 +329,23 @@ angular.module('abacuApp')
 
         //The Number assigned to the user's order
       $scope.orderNum = "0000";
+
+      // Make sure that the zipcode field only has numbers in it
+      $scope.$watch('shippingForm.zip', function (zip) {
+        $scope.shippingForm.zip = retainNumberChars(zip);
+      });
+
+      // Make sure that the zipcode field only has numbers in it
+      $scope.$watch('billingForm.zip', function (zip) {
+        $scope.billingForm.zip = retainNumberChars(zip);
+      });
+
+      // Make sure you can only input numbers for the cards CVC, exp_month, & exp_year
+      $scope.$watchCollection('card', function (card) {
+        card.cvc = retainNumberChars(card.cvc);
+        card.exp_month = retainNumberChars(card.exp_month);
+        card.exp_year = retainNumberChars(card.exp_year);
+      });
 
     }]);
 

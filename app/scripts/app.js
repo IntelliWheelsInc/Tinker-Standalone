@@ -16,13 +16,15 @@ angular
     'ngRoute',
     'ngSanitize',
     'ngTouch',
-    'ngDialog'
+    'ngDialog',
+    'ngclipboard',
+    'angular-loading-bar'
   ])
   .run(['$rootScope', function ($rootScope) {
     // Attach lodash object to $rootScope so it can be used in views
     $rootScope._ = window._;
   }])
-  .config(function ($routeProvider, $sceDelegateProvider, $httpProvider, $locationProvider) {
+  .config(function ($routeProvider, $sceDelegateProvider, $httpProvider, $locationProvider ,cfpLoadingBarProvider) {
     // Set up routes
     $routeProvider
       .when('/', {
@@ -35,11 +37,21 @@ angular
       })
       .when('/tinker', {
         templateUrl: '../views/tinker/abacus.html',
-        controller: 'AbacusCtrl'
+        controller: 'AbacusCtrl',
+        resolve: {
+          UserData: ['$q', 'User', function($q, User) {
+            return User.getPromise();
+          }]
+        }
       })
-      .when('/abacus/:param1', {
+      .when('/tinker/:param1', {
         templateUrl: '../views/tinker/abacus.html',
-        controller: 'AbacusCtrl'
+        controller: 'AbacusCtrl',
+        resolve: {
+          UserData: ['$q', 'User', function($q, User) {
+            return User.getPromise();
+          }]
+        }
       })
       .when('/about', {
         templateUrl: 'views/about.html',
@@ -125,12 +137,15 @@ angular
     $sceDelegateProvider.resourceUrlWhitelist([
       'self',
       'https://www.youtube.com/embed/**',
-      'http://www.youtube.com/embed/**'
+      'http://www.youtube.com/embed/**',
+      'http://http://www.intelliwheels.net/**'
     ]);
     $httpProvider.defaults.useXDomain = true;
 
     $locationProvider.hashPrefix('!');
     //$locationProvider.html5Mode(true);
+
+    cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
 
 
 
