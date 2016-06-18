@@ -13,7 +13,8 @@ angular.module('abacuApp')
 
       Drop.setFalse();
       //An array of all Frames
-      $scope.frames = FrameData.getWheelchairFrames();
+      $scope.frames = FrameData.getFrames();
+      //$scope.frames = FrameData.getWheelchairFrames();
       $scope.wheels = FrameData.getWheels();
       $scope.detailPanel = false;
 
