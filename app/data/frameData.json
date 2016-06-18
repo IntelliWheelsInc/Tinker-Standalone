@@ -1,5 +1,383 @@
 [
   {
+    "manufacturer": "Tinker",
+    "name": "Custom Men's Watch",
+    "desc": "This fully customizeable men's watch can be designed be sporty, sleek, elegant, or anywhere in between.  Choose from a variety of metals, faces, and bands to suit your personal style.",
+    "basePrice": 239.95,
+    "shippingInfo": {
+    	"cost": 12.95,
+    	"weight": 1
+	},
+	"baseWeight": 6,
+	"frameID": 101,
+	"imageURL": "images/frame_page_img/tinker-watch.jpg",
+    "parts": [
+      {					
+			"name": "Face",				
+			"partID": 1000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Spt",				
+			"defaultOptionID": 1100,				
+			"options": [				
+				{			
+					"name": "Modern Watch Face",		
+					"optionID": 1100,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/faces/blue-face.jpg",		
+					"desc": "For a modern look, this watch face has features sans-serif numbers and moderately glossy finish.",		
+					"weight": 0,		
+					"price": 0,		
+					"defaultColorID": 1107,		
+					"colors": [		
+						{	
+							"name": "White",
+							"colorID": 1101,
+							"hex": "#E5E3DE"
+						},	
+						{	
+							"name": "Red",
+							"colorID": 1102,
+							"hex": "#D22038"
+						},	
+						{	
+							"name": "Black",
+							"colorID": 1103,
+							"hex": "#281C13"
+						},	
+						{	
+							"name": "Yellow",
+							"colorID": 1104,
+							"hex": "#FFD94A"
+						},	
+						{	
+							"name": "Orange",
+							"colorID": 1105,
+							"hex": "#E85C22"
+						},	
+						{	
+							"name": "Royal Blue",
+							"colorID": 1107,
+							"hex": "#172fba"
+						},	
+						{	
+							"name": "Monster Green",
+							"colorID": 1108,
+							"hex": "#00FF00"
+						}	
+					]		
+				},			
+				{			
+					"name": "Classic Face",		
+					"optionID": 1200,		
+					"colors": [],
+                    "defaultColorID": 0,
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/faces/classic-face.jpg",
+					"desc": "For a classic look, go with a white background, and traditional roman numerals.",		
+					"weight": 0,		
+					"price": 0		
+				}			
+			]				
+      },
+      {					
+			"name": "Bezel",				
+			"partID": 2000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 2100,				
+			"options": [				
+				{			
+					"name": "Brushed Stainless Steel",		
+					"optionID": 2100,		
+					"colors": [],
+                    "defaultColorID": 0,
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/bezel/stainless-bezel.jpg",
+					"desc": "Brushed stainless steel is durable, classic, and ready for any occasion.",		
+					"weight": 0,		
+					"price": 0,		
+					"defaultOptionID": 0		
+				},			
+				{			
+					"name": "Polished Platinum",		
+					"optionID": 2200,		
+					"colors": [],
+                    "defaultColorID": 0,
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/bezel/platinum-bezel.jpg",
+					"desc": "For an elegant look, go with our highly polished platinum.",		
+					"weight": 0,		
+					"price": 200,		
+					"defaultOptionID": 0		
+				},			
+				{			
+					"name": "Black Anodized Titanium",		
+					"optionID": 2300,		
+					"colors": [],
+                    "defaultColorID": 0,
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/bezel/black-titanium-bezel.jpg",
+					"desc": "For a light weight feel, go with strong and durable titanium.  We anodize it black to give you that sleek and sporty look.",		
+					"weight": 0,		
+					"price": 75,		
+					"defaultOptionID": 0		
+				},			
+				{			
+					"name": "Gold Anodized Titanium",		
+					"optionID": 2400,		
+					"colors": [],
+                    "defaultColorID": 0,
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/bezel/gold-titanium-bezel.jpg",
+					"desc": "For a light weight feel, and an elegant look, try our gold anodized titanium.",		
+					"weight": 0,		
+					"price": 75,		
+					"defaultOptionID": 0		
+				}			
+			]				
+      },
+      {					
+			"name": "Body",				
+			"partID": 3003,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 3100,				
+			"options": [				
+				{			
+					"name": "Brushed Stainless Steel",		
+					"optionID": 3100,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,		
+					"desc": "Brushed stainless steel is durable, classic, and ready for any occasion.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/body/stainless-body.jpg",	
+                    "weight": 0,		
+					"price": 0,	
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Polished Platinum",		
+					"optionID": 3200,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,		
+					"desc": "For an elegant look, go with our highly polished platinum.",	
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/body/platinum-body.jpg",	
+                    "weight": 0,		
+					"price": 200,	
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Black Anodized Titanium",		
+					"optionID": 3300,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,		
+					"desc": "For a light weight feel, go with strong and durable titanium.  We anodize it black to give you that sleek and sporty look.",	
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/body/black-titanium-body.jpg",	
+                    "weight": 0,		
+					"price": 75,	
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Gold Anodized Titanium",		
+					"optionID": 3400,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,		
+					"desc": "For a light weight feel, and an elegant look, try our gold anodized titanium.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/body/gold-titanium-body.jpg",	
+                    "weight": 0,		
+					"price": 75,	
+					"defaultColorID": 0		
+				}			
+			]				
+      },
+      {					
+			"name": "Band",				
+			"partID": 5000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 4100,				
+			"options": [				
+				{			
+					"name": "Urethane Rubber",		
+					"optionID": 4100,				
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/urethane-band.jpg",	
+					"desc": "Looking for an athletic feel?  Our highly durable rubber-urethane band comes with a easy to secure band and anti-microbial properties.",		
+					"weight": 0,		
+					"price": 0,		
+					"defaultColorID": 4101,	
+                    "displayColor": 1,
+					"colors": [		
+						{	
+							"name": "Black",
+							"colorID": 4101,
+							"hex": "#281C13"
+						},	
+						{	
+							"name": "White",
+							"colorID": 4102,
+							"hex": "#E5E3DE"
+						}	
+					]		
+				},			
+				{			
+					"name": "Leather Band",		
+					"optionID": 4200,		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/leather-band.jpg",	
+					"desc": "For a classic  look, go with a leather band.",		
+					"weight": 0,		
+					"price": 0,		
+					"defaultColorID": 4201,	
+                    "displayColor": 1,
+					"colors": [		
+						{	
+							"name": "Brown",
+							"colorID": 4201,
+							"hex": "#8f590d"
+						},	
+						{	
+							"name": "Black",
+							"colorID": 4202,
+							"hex": "#281C13"
+						},	
+						{	
+							"name": "White",
+							"colorID": 4203,
+							"hex": "#E5E3DE"
+						}	
+					]		
+				},			
+				{			
+					"name": "Brushed Stainless Steel",		
+					"optionID": 4300,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/stainless-band.jpg",	
+					"desc": "Brushed stainless steel is durable, classic, and ready for any occasion.",		
+					"weight": 0,		
+					"price": 0,		
+                    "displayColor": 0,
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Polished Platinum",		
+					"optionID": 4400,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/platinum-band.jpg",
+					"desc": "For an elegant look, go with our highly polished platinum.",		
+					"price": 200,	
+                    "displayColor": 0,
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Black Anodized Titanium",		
+					"optionID": 4500,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/black-titanium-band.jpg",		
+					"desc": "For a light weight feel, go with strong and durable titanium.  We anodize it black to give you that sleek and sporty look.",		
+					"price": 75,	
+                    "displayColor": 0,
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Gold Anodized Titanium",		
+					"optionID": 4600,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/gold-titanium-band.jpg",		
+					"desc": "For a light weight feel, and an elegant look, try our gold anodized titanium.",		
+					"price": 75,	
+                    "displayColor": 0,
+					"defaultColorID": 0		
+				}			
+			]				
+		}
+    ],
+    "measures": [						
+		{					
+			"name": "Wrist Size",				
+			"measureID": 15001,				
+			"desc": "Wrist Size",				
+			"details": "To measure your wrist size, simply wrap a measuring tape around your wrist. We'll size the band perfectly so that it can be adjusted 3 cm larger or smaller.  If you don't know your wrist size, choose 16 cm, and you will be able to adjust from there.",				
+			"tip": "Measure the circumference of your wrist and enter it here.",				
+			"gifDesc": "As the seat width narrows, trunk stability increases. /n As the seat widens, trunk stability decreases.",				
+			"units": ["in","cm"],				
+			"shortName": "SW",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["25.4", "30.5", "35.6", "40.6", "45.7", "50.8", "55.9"],["10", "12", "14", "16", "18", "20", "22"]],				
+			"weights": [0, 0, 0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0, 0, 0]				
+		},
+        {					
+			"name": "Custom Engraving ($85)",				
+			"measureID": 15002,				
+			"desc": "Custom Engraving",				
+			"details": "The perfect gift comes with a touch of personalization.  For a small charge, we will add a custom engraving on the back of the watch.  The custom engraving can be no longer than 120 characters.  Please enter your custom engraving in the comments section.",				
+			"tip": "List your custom engraving in the comments section.",				
+			"gifDesc": "As the seat width narrows, trunk stability increases. /n As the seat widens, trunk stability decreases.",				
+			"units": ["",""],				
+			"shortName": "SW",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["no engraving", "with engraving"],["no engraving", "with engraving"]],				
+			"weights": [0, 0],				
+			"prices": [0, 85]				
+		}
+	]
+  },
+  {
     "manufacturer": "Per4max",
     "name": "Thunder -Basketball",
     "desc": "The PER4MAX Thunder is an elite performance sports wheelchair built by the best for the best!  Offered in different configurations depending on sport, the Thunder has propelled elite athletes for decades in an array of sports! Crush the courts in our feather light tennis model with it’s eliminated front bumper and extended 5th wheel!  Ball with the best of them in a sturdy custom fit tapered lightweight basketball chair. Take on the softball field, rugby courts, lacrosse field, or running trail with The PER4MAX Thunder!!  The Thunder is hand built in the USA with aircraft quality aluminum and custom P4X machined parts highly scrutinized to produce a precise end product!",
