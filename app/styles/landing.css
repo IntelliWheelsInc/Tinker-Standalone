@@ -1,5 +1,5 @@
 #imgdiv{
-  background-image: url("/images/landing_page/b-ball.jpg");
+  background-image: url("/images/landing_page/paint-splatter.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -7,7 +7,7 @@
 #outerDiv{
   height: 100vh;
   width:100vw;
-  background:rgba(64,64,64,0.73);
+  background:rgba(64,64,64,.4);
 }
 
 #wrapper{
