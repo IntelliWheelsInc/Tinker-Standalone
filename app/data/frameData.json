@@ -378,6 +378,479 @@
 	]
   },
   {
+    "manufacturer": "Tinker",
+    "name": "SOLO Fixie Bicycle",
+    "desc": "With its modern design and radical mono-fork design, this bike is the perfect concept for urban speedsters.  This bike is fully customizable down to the metal of the cranks.",
+    "basePrice": 995,
+    "shippingInfo": {
+    	"cost": 85,
+    	"weight": 1
+	},
+	"baseWeight": 6,
+	"frameID": 111,
+	"imageURL": "images/frame_page_img/bike-side-view.jpg",
+    "parts": [
+      {					
+			"name": "Frame Color",				
+			"partID": 1001,				
+			"numSubImages": 1,				
+			"zRank": [[5,5,5,5,5]],				
+			"shortName": "Spt",				
+			"defaultOptionID": 1100,				
+			"options": [				
+				{			
+					"name": "Standard Colors",		
+					"optionID": 1100,				
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/frame/frame-glossy.jpg",		
+					"desc": "For a modern look, this watch face has features sans-serif numbers and moderately glossy finish.",		
+					"weight": 0,		
+					"price": 0,		
+					"defaultColorID": 1102,		
+					"colors": [		
+						{
+							"name": "Sky White",
+							"colorID": 1101,
+							"hex": "#E5E3DE"
+						},	
+						{	
+							"name": "Ruby Red",
+							"colorID": 1102,
+							"hex": "#D22038"
+						},	
+						{	
+							"name": "Glossy Black",
+							"colorID": 1103,
+							"hex": "#281C13"
+						},	
+						{	
+							"name": "Safety Yellow",
+							"colorID": 1104,
+							"hex": "#FFD94A"
+						},	
+						{	
+							"name": "Safety Orange",
+							"colorID": 1105,
+							"hex": "#E85C22"
+						},	
+						{	
+							"name": "Polish (Brushed)",
+							"colorID": 1106,
+							"hex": "#DFD3BF"
+						},	
+						{	
+							"name": "Royal Blue",
+							"colorID": 1107,
+							"hex": "#172fba"
+						},	
+						{	
+							"name": "Monster Green",
+							"colorID": 1108,
+							"hex": "#00FF00",
+							"price": 100
+						}	
+					]		
+				},			
+				{			
+					"name": "Matte Colors",		
+					"optionID": 1200,		
+                    "defaultColorID": 1112,
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/frame/frame-matte.jpg",
+					"desc": "For a sleek look, try our matte finish paints.",		
+					"weight": 0,		
+					"price": 75,
+                    "colors":  [
+                        {	
+							"name": "Matte Red",
+							"colorID": 1112,
+							"hex": "#D22038"
+						},	
+						{	
+							"name": "Matte Black",
+							"colorID": 1113,
+							"hex": "#281C13"
+						},	
+						{	
+							"name": "Matte Royal Blue",
+							"colorID": 1114,
+							"hex": "#172fba"
+						},	
+						{	
+							"name": "Matte Navy Blue",
+							"colorID": 1115,
+							"hex": "#295E6D"
+						}
+                    ]
+				}			
+			]				
+      },
+      {					
+			"name": "Rear Wheel",				
+			"partID": 3003,				
+			"numSubImages": 1,				
+			"zRank": [[4,9,3,4,4]],				
+			"shortName": "Acc",				
+			"price": 0,				
+			"defaultOptionID": 3100,				
+			"options": [				
+				{			
+					"name": "Carbon Fiber Disk",		
+					"optionID": 3100,
+                    "colors": [],
+                    "defaultColorID": 0,
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/wheel/carbon-fiber-wheel.jpg",
+					"desc": "If you're planning on using this bike for time trials, or even just getting across town in record time, the carbon fiber disk wheel is a must for ultimate performance.",
+                    "weight": 0,		
+					"price": 0,		
+					"defaultOptionID": 0
+				},			
+				{			
+					"name": "Spoke Wheel",		
+					"optionID": 3200,		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/wheel/black-wheel.jpg",
+					"desc": "If you're planning on using this bike for time trials, or even just getting across town in record time, the carbon fiber disk wheel is a must for ultimate performance.",
+                    "weight": 0,		
+					"price": -200,		
+					"defaultColorID": 1103,		
+					"colors": [		
+						{	
+							"name": "Sky White",
+							"colorID": 1101,
+							"hex": "#E5E3DE"
+						},	
+						{	
+							"name": "Ruby Red",
+							"colorID": 1102,
+							"hex": "#D22038"
+						},	
+						{	
+							"name": "Glossy Black",
+							"colorID": 1103,
+							"hex": "#281C13"
+						},	
+						{	
+							"name": "Safety Yellow",
+							"colorID": 1104,
+							"hex": "#FFD94A"
+						},	
+						{	
+							"name": "Safety Orange",
+							"colorID": 1105,
+							"hex": "#E85C22"
+						},	
+						{	
+							"name": "Polish (Brushed)",
+							"colorID": 1106,
+							"hex": "#DFD3BF"
+						},	
+						{	
+							"name": "Royal Blue",
+							"colorID": 1107,
+							"hex": "#172fba"
+						},	
+						{	
+							"name": "Monster Green",
+							"colorID": 1108,
+							"hex": "#00FF00"
+						}	
+					]		
+				}			
+			]				
+		},
+      {					
+			"name": "Front Wheel",				
+			"partID": 2002,				
+			"numSubImages": 1,				
+			"zRank": [[10,4,6,7,9]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 2100,				
+			"options": [				
+				{			
+					"name": "Black (Glossy or Matte)",		
+					"optionID": 2100,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,		
+					"desc": "Our standard wheels are jet black.  Even the wind resistant bladed spokes are powder-coated black for a stylish look.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/wheel/black-wheel.jpg",	
+                    "weight": 0,		
+					"price": 0,	
+					"defaultColorID": 0		
+				},						
+				{			
+					"name": "Custom Color",		
+					"optionID": 2200,		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"displayColor": 0,		
+					"desc": "Customize your ride with any of our high gloss colors.",	
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/wheel/red-wheel.jpg",	
+                    "weight": 0,		
+					"price": 85,	
+					"defaultColorID": 1101,
+                    "colors": [
+                        {	
+							"name": "Sky White",
+							"colorID": 1101,
+							"hex": "#E5E3DE"
+						},	
+						{	
+							"name": "Ruby Red",
+							"colorID": 1102,
+							"hex": "#D22038"
+						},	
+						{	
+							"name": "Safety Yellow",
+							"colorID": 1104,
+							"hex": "#FFD94A"
+						},	
+						{	
+							"name": "Safety Orange",
+							"colorID": 1105,
+							"hex": "#E85C22"
+						},	
+						{	
+							"name": "Polish (Brushed)",
+							"colorID": 1106,
+							"hex": "#DFD3BF"
+						},	
+						{	
+							"name": "Royal Blue",
+							"colorID": 1107,
+							"hex": "#172fba"
+						},	
+						{	
+							"name": "Monster Green",
+							"colorID": 1108,
+							"hex": "#00FF00"
+						}
+                    ]
+				}			
+			]				
+      },
+      {					
+			"name": "Handle Bar Grip",				
+			"partID": 4000,				
+			"numSubImages": 1,				
+			"zRank": [[9,6,6,7,8]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 4100,				
+			"options": [				
+				{			
+					"name": "Black Neoprene Rubber",		
+					"optionID": 4100,
+                    "comments": "",	
+					"desc": "Black neoprene rubber is a great modern touch for this bike.",		
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/handle-bars/black-neoprene.jpg",
+					"price": 0,		
+					"defaultColorID": 0	
+                    
+				},			
+				{			
+					"name": "White Neopreen Rubber",		
+					"optionID": 4200,	
+                    "comments": "",	
+					"desc": "Get that classic look with great ergonomics with our white neoprene.",	
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/handle-bars/white-neoprene.jpg",
+					"price": 0,		
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Clasic Brown Leather",		
+					"optionID": 4300,
+                    "comments": "",	
+					"desc": "For a timeless classic look, we'll wrap your handle bars in premium leather.",		
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/handle-bars/brown-leather.jpg",
+					"price": 0,		
+					"defaultColorID": 0	
+				}			
+			]				
+		},
+        {					
+			"name": "Crank & Sprockets",				
+			"partID": 5000,				
+			"numSubImages": 1,				
+			"zRank": [[9,6,6,8,6]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 5100,				
+			"options": [				
+				{			
+					"name": "Brushed Aluminum",		
+					"optionID": 5100,
+                    "comments": "",	
+					"desc": "The crank is made from aircraft grade aluminum for strength and ultralight weight.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/crank/aluminum-crank.jpg",
+					"price": 0,		
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Gold Anodized Aluminum",		
+					"optionID": 5200,
+                    "comments": "",	
+					"desc": "Get retro, and anodize your crank and sprockets gold like an old Subaru WRX rally car.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/crank/gold-crank.jpg",
+					"price": 50,		
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Black Anodized Aluminum",		
+					"optionID": 5300,
+                    "comments": "",	
+					"desc": "A sleek black finish will match any color scheme.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/crank/black-crank.jpg",
+					"price": 50,		
+					"defaultColorID": 0	
+				}			
+			]				
+		},
+        {					
+			"name": "Pedals",				
+			"partID": 6000,				
+			"numSubImages": 1,				
+			"zRank": [[7,7,2,9,11]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 6100,				
+			"options": [				
+                {			
+					"name": "Standard Pedals",		
+					"optionID": 6100,
+                    "comments": "",
+					"desc": "90% of the time, standard pedals work every time… -Lance Armstrong",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/pedals/std-pedal.jpg",
+					"price": 0,		
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Foot Straps",		
+					"optionID": 6200,
+                    "comments": "",
+					"desc": "Tie your feet into the pedals for a more even power cycle.  Get out there and set some records pedaling down 8th street.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/pedals/strap-pedal.jpg",
+					"price": 65,		
+					"defaultColorID": 0	
+				}
+			]				
+		},
+        {					
+			"name": "Saddle",				
+			"partID": 7000,				
+			"numSubImages": 1,				
+			"zRank": [[8,8,8,7,7]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 7100,				
+			"options": [				
+                {			
+					"name": "Black Leather",		
+					"optionID": 7100,	
+                    "comments": "",
+					"desc": "Timeless and classic black leather is a great way to go.",	
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/saddles/saddle-black.jpg",
+					"price": 0,		
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Two Toned Leather",		
+					"optionID": 7200,		
+                    "comments": "",
+					"desc": "Who want's one color, why not two?",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/saddles/saddle-white.jpg",
+					"price": 30,		
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Brown Leather",		
+					"optionID": 7300,		
+                    "comments": "",
+					"desc": "Match the seat to your handle bars with this option.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/saddles/saddle-brown.jpg",
+					"price": 10,		
+					"defaultColorID": 0		
+				}
+			]				
+		},
+        {					
+			"name": "Tires",				
+			"partID": 8000,				
+			"numSubImages": 1,				
+			"zRank": [[10,10,6,10,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 8100,				
+			"options": [				
+				{			
+					"name": "Standard Black",		
+					"optionID": 8100,
+                    "comments": "",
+					"desc": "Our standard black tires are puncture resistant and hand a mild tread for all surfaces.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/tires/std-tire.jpg",
+					"price": 0,		
+					"defaultColorID": 0		
+				},			
+				{			
+					"name": "Throwback White Walls",		
+					"optionID": 8200,
+                    "comments": "",
+					"desc": "White wall tires, what's more to be said?  You know you want them.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/bike/tires/white-wall-tire.jpg",
+					"price": 80,
+                    "defaultColorID": 0	
+				}			
+			]				
+		}
+    ],
+    "measures": [						
+		{					
+			"name": "Leg Length",				
+			"measureID": 15001,				
+			"desc": "The distance from the floor to your hip bone.",				
+			"details": "The seat on this bike is completely adjustable, but we'll go ahead and set it to the right position before we send it to you.  That's part of our white glove service.  To measure your leg length, stand up straight and measure the distance from the floor to your hip bone.",				
+			"tip": "Measure the distance from your hip bone to the floor while standing.",				
+			"gifDesc": "As the seat width narrows, trunk stability increases. /n As the seat widens, trunk stability decreases.",				
+			"units": ["cm","in"],				
+			"shortName": "SW",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["25.4", "30.5", "35.6", "40.6", "45.7", "50.8", "55.9"],["36", "38", "40", "42", "44", "46", "48"]],				
+			"weights": [0, 0, 0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0, 0, 0]				
+		},
+        {					
+			"name": "Extended Warranty $199",				
+			"measureID": 15002,				
+			"desc": "Optional 3 Year Warranty",				
+			"details": "Our standard bikes come with a 1 year warranty, but that can be upgraded to 3 years for an additional $199.  The warranty covers all non-wearing parts, axle to axle, and your bike can be serviced at any of our 273 certified service centers across the country.",				
+			"tip": "Upgrade your warranty to 3 years for $199.",				
+			"gifDesc": "As the seat width narrows, trunk stability increases. /n As the seat widens, trunk stability decreases.",				
+			"units": ["Warranty","Warranty"],				
+			"shortName": "SW",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["Std. 1 year", "Extended 3 year"],["Std. 1 year", "Extended 3 year"]],				
+			"weights": [0, 0],				
+			"prices": [0, 85]				
+		}
+	]
+  },
+  {
     "manufacturer": "Per4max",
     "name": "Thunder -Basketball",
     "desc": "The PER4MAX Thunder is an elite performance sports wheelchair built by the best for the best!  Offered in different configurations depending on sport, the Thunder has propelled elite athletes for decades in an array of sports! Crush the courts in our feather light tennis model with it’s eliminated front bumper and extended 5th wheel!  Ball with the best of them in a sturdy custom fit tapered lightweight basketball chair. Take on the softball field, rugby courts, lacrosse field, or running trail with The PER4MAX Thunder!!  The Thunder is hand built in the USA with aircraft quality aluminum and custom P4X machined parts highly scrutinized to produce a precise end product!",

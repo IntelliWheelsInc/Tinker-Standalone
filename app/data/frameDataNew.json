@@ -1,14 +1,17 @@
-	Header		Parts		Options		Colors
-{							
-	"manufacturer": "Tinker",						
-	"name": "Custom Men's Watch",						
-	"desc": "This fully customizeable men's watch can be designed be sporty, sleek, elegant, or anywhere in between.  Choose from a variety of metals, faces, and bands to suit your personal style",						
-	"basePrice": 239.95,						
-	"baseWeight": 6,						
-	"frameID": 3,						
-	"imageURL": "images/frame_page_img/thunder1.jpg",						
-	"parts": [						
-		{					
+{
+    "manufacturer": "Tinker",
+    "name": "Custom Men's Watch",
+    "desc": "This fully customizeable men's watch can be designed be sporty, sleek, elegant, or anywhere in between.  Choose from a variety of metals, faces, and bands to suit your personal style.",
+    "basePrice": 239.95,
+    "shippingInfo": {
+    	"cost": 12.95,
+    	"weight": 1
+	},
+	"baseWeight": 6,
+	"frameID": 101,
+	"imageURL": "images/frame_page_img/tinker-watch.jpg",
+    "parts": [
+      {					
 			"name": "Face",				
 			"partID": 1000,				
 			"numSubImages": 1,				
@@ -22,9 +25,9 @@
 					"colors": [],		
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
+					"comments": "",		
 					"displayColor": 0,		
-					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/frames/basketball.png",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/faces/blue-face.jpg",		
 					"desc": "For a modern look, this watch face has features sans-serif numbers and moderately glossy finish.",		
 					"weight": 0,		
 					"price": 0,		
@@ -70,19 +73,20 @@
 				{			
 					"name": "Classic Face",		
 					"optionID": 1200,		
-					"colors": [],		
+					"colors": [],
+                    "defaultColorID": 0,
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
-					"displayColor": 0,		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/faces/classic-face.jpg",
 					"desc": "For a classic look, go with a white background, and traditional roman numerals.",		
 					"weight": 0,		
-					"price": 0,		
-					"defaultColorID": 0		
+					"price": 0		
 				}			
 			]				
-		},					
-		{					
+      },
+      {					
 			"name": "Bezel",				
 			"partID": 2000,				
 			"numSubImages": 1,				
@@ -93,64 +97,72 @@
 				{			
 					"name": "Brushed Stainless Steel",		
 					"optionID": 2100,		
-					"colors": [],		
+					"colors": [],
+                    "defaultColorID": 0,
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
-					"displayColor": 0,		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/bezel/stainless-bezel.jpg",
 					"desc": "Brushed stainless steel is durable, classic, and ready for any occasion.",		
 					"weight": 0,		
 					"price": 0,		
-					"defaultColorID": 0		
+					"defaultOptionID": 0		
 				},			
 				{			
 					"name": "Polished Platinum",		
 					"optionID": 2200,		
-					"colors": [],		
+					"colors": [],
+                    "defaultColorID": 0,
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
-					"displayColor": 0,		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/bezel/platinum-bezel.jpg",
 					"desc": "For an elegant look, go with our highly polished platinum.",		
 					"weight": 0,		
 					"price": 200,		
-					"defaultColorID": 0		
+					"defaultOptionID": 0		
 				},			
 				{			
 					"name": "Black Anodized Titanium",		
 					"optionID": 2300,		
-					"colors": [],		
+					"colors": [],
+                    "defaultColorID": 0,
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
-					"displayColor": 0,		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/bezel/black-titanium-bezel.jpg",
 					"desc": "For a light weight feel, go with strong and durable titanium.  We anodize it black to give you that sleek and sporty look.",		
 					"weight": 0,		
 					"price": 75,		
-					"defaultColorID": 0		
+					"defaultOptionID": 0		
 				},			
 				{			
 					"name": "Gold Anodized Titanium",		
 					"optionID": 2400,		
-					"colors": [],		
+					"colors": [],
+                    "defaultColorID": 0,
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
-					"displayColor": 0,		
+					"comments": "",		
+					"displayColor": 0,
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/bezel/gold-titanium-bezel.jpg",
 					"desc": "For a light weight feel, and an elegant look, try our gold anodized titanium.",		
 					"weight": 0,		
 					"price": 75,		
-					"defaultColorID": 0		
+					"defaultOptionID": 0		
 				}			
 			]				
-		},					
-		{					
+      },
+      {					
 			"name": "Body",				
-			"partID": 3000,				
+			"partID": 3003,				
 			"numSubImages": 1,				
 			"zRank": [[10,7,6,7,10]],				
 			"shortName": "Acc",				
-			"defaultOptionID": 2100,				
+			"defaultOptionID": 3100,				
 			"options": [				
 				{			
 					"name": "Brushed Stainless Steel",		
@@ -158,11 +170,12 @@
 					"colors": [],		
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
+					"comments": "",		
 					"displayColor": 0,		
-					"desc": "Brushed stainless steel is durable, classic, and ready for any occasion.",		
-					"weight": 0,		
-					"price": 0,		
+					"desc": "Brushed stainless steel is durable, classic, and ready for any occasion.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/body/stainless-body.jpg",	
+                    "weight": 0,		
+					"price": 0,	
 					"defaultColorID": 0		
 				},			
 				{			
@@ -171,11 +184,12 @@
 					"colors": [],		
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
+					"comments": "",		
 					"displayColor": 0,		
-					"desc": "For an elegant look, go with our highly polished platinum.",		
-					"weight": 0,		
-					"price": 200,		
+					"desc": "For an elegant look, go with our highly polished platinum.",	
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/body/platinum-body.jpg",	
+                    "weight": 0,		
+					"price": 200,	
 					"defaultColorID": 0		
 				},			
 				{			
@@ -184,11 +198,12 @@
 					"colors": [],		
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
+					"comments": "",		
 					"displayColor": 0,		
-					"desc": "For a light weight feel, go with strong and durable titanium.  We anodize it black to give you that sleek and sporty look.",		
-					"weight": 0,		
-					"price": 75,		
+					"desc": "For a light weight feel, go with strong and durable titanium.  We anodize it black to give you that sleek and sporty look.",	
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/body/black-titanium-body.jpg",	
+                    "weight": 0,		
+					"price": 75,	
 					"defaultColorID": 0		
 				},			
 				{			
@@ -197,48 +212,45 @@
 					"colors": [],		
 					"defaultSizeIndex": -1,		
 					"sizes": [],		
-					"comments": " ",		
+					"comments": "",		
 					"displayColor": 0,		
-					"desc": "For a light weight feel, and an elegant look, try our gold anodized titanium.",		
-					"weight": 0,		
-					"price": 75,		
+					"desc": "For a light weight feel, and an elegant look, try our gold anodized titanium.",
+                    "thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/body/gold-titanium-body.jpg",	
+                    "weight": 0,		
+					"price": 75,	
 					"defaultColorID": 0		
 				}			
 			]				
-		},					
-		{					
+      },
+      {					
 			"name": "Band",				
-			"partID": 4000,				
+			"partID": 5000,				
 			"numSubImages": 1,				
 			"zRank": [[10,7,6,7,10]],				
 			"shortName": "Acc",				
-			"defaultOptionID": 3100,				
+			"defaultOptionID": 4100,				
 			"options": [				
 				{			
 					"name": "Urethane Rubber",		
-					"optionID": 4100,		
+					"optionID": 4100,				
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/urethane-band.jpg",	
 					"desc": "Looking for an athletic feel?  Our highly durable rubber-urethane band comes with a easy to secure band and anti-microbial properties.",		
+					"weight": 0,		
 					"price": 0,		
-					"defaultColorID": 4101,		
+					"defaultColorID": 4101,	
+                    "displayColor": 1,
 					"colors": [		
 						{	
 							"name": "Black",
 							"colorID": 4101,
-							"colors": [],
-							"defaultSizeIndex": -1,
-							"sizes": [],
-							"comments": " ",
-							"displayColor": 0,
 							"hex": "#281C13"
 						},	
 						{	
 							"name": "White",
 							"colorID": 4102,
-							"colors": [],
-							"defaultSizeIndex": -1,
-							"sizes": [],
-							"comments": " ",
-							"displayColor": 0,
 							"hex": "#E5E3DE"
 						}	
 					]		
@@ -246,74 +258,90 @@
 				{			
 					"name": "Leather Band",		
 					"optionID": 4200,		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/leather-band.jpg",	
 					"desc": "For a classic  look, go with a leather band.",		
+					"weight": 0,		
 					"price": 0,		
-					"defaultColorID": 1101,		
+					"defaultColorID": 4201,	
+                    "displayColor": 1,
 					"colors": [		
 						{	
 							"name": "Brown",
 							"colorID": 4201,
-							"colors": [],
-							"defaultSizeIndex": -1,
-							"sizes": [],
-							"comments": " ",
-							"displayColor": 0,
-							"hex": "#E5E3DE"
+							"hex": "#8f590d"
 						},	
 						{	
 							"name": "Black",
 							"colorID": 4202,
-							"colors": [],
-							"defaultSizeIndex": -1,
-							"sizes": [],
-							"comments": " ",
-							"displayColor": 0,
-							"hex": "#D22038"
+							"hex": "#281C13"
 						},	
 						{	
 							"name": "White",
 							"colorID": 4203,
-							"colors": [],
-							"defaultSizeIndex": -1,
-							"sizes": [],
-							"comments": " ",
-							"displayColor": 0,
-							"hex": "#281C13"
+							"hex": "#E5E3DE"
 						}	
 					]		
 				},			
 				{			
 					"name": "Brushed Stainless Steel",		
 					"optionID": 4300,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/stainless-band.jpg",	
 					"desc": "Brushed stainless steel is durable, classic, and ready for any occasion.",		
+					"weight": 0,		
 					"price": 0,		
+                    "displayColor": 0,
 					"defaultColorID": 0		
 				},			
 				{			
 					"name": "Polished Platinum",		
 					"optionID": 4400,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/platinum-band.jpg",
 					"desc": "For an elegant look, go with our highly polished platinum.",		
-					"price": 200,		
+					"price": 200,	
+                    "displayColor": 0,
 					"defaultColorID": 0		
 				},			
 				{			
 					"name": "Black Anodized Titanium",		
 					"optionID": 4500,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/black-titanium-band.jpg",		
 					"desc": "For a light weight feel, go with strong and durable titanium.  We anodize it black to give you that sleek and sporty look.",		
-					"price": 75,		
+					"price": 75,	
+                    "displayColor": 0,
 					"defaultColorID": 0		
 				},			
 				{			
 					"name": "Gold Anodized Titanium",		
 					"optionID": 4600,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": "",		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/watch/band/gold-titanium-band.jpg",		
 					"desc": "For a light weight feel, and an elegant look, try our gold anodized titanium.",		
-					"price": 75,		
+					"price": 75,	
+                    "displayColor": 0,
 					"defaultColorID": 0		
 				}			
 			]				
-		}					
-	]						
-	"measures": [						
+		}
+    ],
+    "measures": [						
 		{					
 			"name": "Wrist Size",				
 			"measureID": 15001,				
@@ -329,6 +357,645 @@
 			"measureOptions": [["25.4", "30.5", "35.6", "40.6", "45.7", "50.8", "55.9"],["10", "12", "14", "16", "18", "20", "22"]],				
 			"weights": [0, 0, 0, 0, 0, 0, 0],				
 			"prices": [0, 0, 0, 0, 0, 0, 0]				
+		},
+        {					
+			"name": "Custom Engraving ($85)",				
+			"measureID": 15002,				
+			"desc": "Custom Engraving",				
+			"details": "The perfect gift comes with a touch of personalization.  For a small charge, we will add a custom engraving on the back of the watch.  The custom engraving can be no longer than 120 characters.  Please enter your custom engraving in the comments section.",				
+			"tip": "List your custom engraving in the comments section.",				
+			"gifDesc": "As the seat width narrows, trunk stability increases. /n As the seat widens, trunk stability decreases.",				
+			"units": ["",""],				
+			"shortName": "SW",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["no engraving", "with engraving"],["no engraving", "with engraving"]],				
+			"weights": [0, 0],				
+			"prices": [0, 85]				
+		}
+	]
+  },
+{							
+	"manufacturer": "Tinker",						
+	"name": "Monofork Fixie Bicycle",						
+	"desc": "With its modern design and radical mono-fork design, this bike is the perfect concept for urban speedsters.  This bike is fully customizable down to the metal of the cranks.",						
+	"basePrice": 995,						
+	"baseWeight": 6,						
+	"frameID": 3,						
+	"imageURL": "images/frame_page_img/thunder1.jpg",						
+	"parts": [						
+		{					
+			"name": "Frame Color",				
+			"partID": 1000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Spt",				
+			"defaultOptionID": 1100,				
+			"options": [				
+				{			
+					"name": "Standard Colors",		
+					"optionID": 1100,		
+					"colors": [],		
+					"defaultSizeIndex": -1,		
+					"sizes": [],		
+					"comments": 0,		
+					"displayColor": 0,		
+					"thumbnailURL": "images/abacus_page/customize/thumbnail_images/frames/basketball.png",		
+					"desc": "The standard powder-coat colors have a high gloss finish that is timeless, durable, and easy on the eyes.",		
+					"weight": 0,		
+					"price": 0,		
+					"defaultColorID": 1107,		
+					"colors": [		
+						{	
+							"name": "Sky White",
+							"colorID": 1101,
+							"hex": "#E5E3DE"
+						},	
+						{	
+							"name": "Ruby Red",
+							"colorID": 1102,
+							"hex": "#D22038"
+						},	
+						{	
+							"name": "Glossy Black",
+							"colorID": 1103,
+							"hex": "#281C13"
+						},	
+						{	
+							"name": "Safety Yellow",
+							"colorID": 1104,
+							"hex": "#FFD94A"
+						},	
+						{	
+							"name": "Safety Orange",
+							"colorID": 1105,
+							"hex": "#E85C22"
+						},	
+						{	
+							"name": "Polish (Brushed)",
+							"colorID": 1106,
+							"hex": "#DFD3BF"
+						},	
+						{	
+							"name": "Royal Blue",
+							"colorID": 1107,
+							"hex": "#172fba"
+						},	
+						{	
+							"name": "Monster Green",
+							"colorID": 1108,
+							"hex": "#00FF00",
+							"price": 100
+						}	
+					]		
+				},			
+				{			
+					"name": "Matte Colors",		
+					"optionID": 1200,		
+					"desc": "For a sleek look, try our matte finish paints",		
+					"colors": [		
+						{	
+							"name": "Matte Red",
+							"colorID": 1112,
+							"hex": "#D22038"
+						},	
+						{	
+							"name": "Matte Black",
+							"colorID": 1113,
+							"hex": "#281C13"
+						},	
+						{	
+							"name": "Matte Royal Blue",
+							"colorID": 1114,
+							"hex": "#172fba"
+						},	
+						{	
+							"name": "Matte Navy Blue",
+							"colorID": 1115,
+							"hex": "#295E6D"
+						}	
+					]		
+				}			
+			]				
+		},					
+		{					
+			"name": "Front Wheel Color",				
+			"partID": 2000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 2100,				
+			"options": [				
+				{			
+					"name": "Black (Glossy or Matte)",		
+					"optionID": 2100,		
+					"desc": "Our standard wheels are jet black.  Even the wind resistant bladed spokes are powder-coated black for a stylish look.",		
+					"price": 0		
+				},			
+				{			
+					"name": "Custom Color",		
+					"optionID": 2200,		
+					"desc": "Customize your ride with any of our high gloss colors.",		
+					"price": 85,		
+					"defaultColorID": 1101,		
+					"colors": [		
+						{	
+							"name": "Sky White",
+							"colorID": 1101,
+							"hex": "#E5E3DE"
+						},	
+						{	
+							"name": "Ruby Red",
+							"colorID": 1102,
+							"hex": "#D22038"
+						},	
+						{	
+							"name": "Safety Yellow",
+							"colorID": 1104,
+							"hex": "#FFD94A"
+						},	
+						{	
+							"name": "Safety Orange",
+							"colorID": 1105,
+							"hex": "#E85C22"
+						},	
+						{	
+							"name": "Polish (Brushed)",
+							"colorID": 1106,
+							"hex": "#DFD3BF"
+						},	
+						{	
+							"name": "Royal Blue",
+							"colorID": 1107,
+							"hex": "#172fba"
+						},	
+						{	
+							"name": "Monster Green",
+							"colorID": 1108,
+							"hex": "#00FF00"
+						}	
+					]		
+				}			
+			]				
+		},					
+		{					
+			"name": "Rear Wheel",				
+			"partID": 3000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"price": 0,				
+			"defaultOptionID": 3100,				
+			"options": [				
+				{			
+					"name": "Carbon Fiber Disk",		
+					"optionID": 3100,		
+					"desc": "If you're planning on using this bike for time trials, or even just getting across town in record time, the carbon fiber disk wheel is a must for ultimate performance."		
+				},			
+				{			
+					"name": "Spoke Wheel",		
+					"optionID": 3200,		
+					"desc": "Save some green! We use the same high quality spoked wheel for the rear wheel.",		
+					"price": -200,		
+					"defaultColorID": 1101,		
+					"colors": [		
+						{	
+							"name": "Sky White",
+							"colorID": 1101,
+							"hex": "#E5E3DE"
+						},	
+						{	
+							"name": "Ruby Red",
+							"colorID": 1102,
+							"hex": "#D22038"
+						},	
+						{	
+							"name": "Glossy Black",
+							"colorID": 1103,
+							"hex": "#281C13"
+						},	
+						{	
+							"name": "Safety Yellow",
+							"colorID": 1104,
+							"hex": "#FFD94A"
+						},	
+						{	
+							"name": "Safety Orange",
+							"colorID": 1105,
+							"hex": "#E85C22"
+						},	
+						{	
+							"name": "Polish (Brushed)",
+							"colorID": 1106,
+							"hex": "#DFD3BF"
+						},	
+						{	
+							"name": "Royal Blue",
+							"colorID": 1107,
+							"hex": "#172fba"
+						},	
+						{	
+							"name": "Monster Green",
+							"colorID": 1108,
+							"hex": "#00FF00"
+						}	
+					]		
+				}			
+			]				
+		},					
+		{					
+			"name": "Handle Bar Grip",				
+			"partID": 4000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 3100,				
+			"options": [				
+				{			
+					"name": "Black Neoprene Rubber",		
+					"optionID": 4100,		
+					"desc": "Black neoprene rubber is a great modern touch for this bike.",		
+					"price": 0,		
+					"defaultColorID": 1101		
+				},			
+				{			
+					"name": "White Neopreen Rubber",		
+					"optionID": 4200,		
+					"desc": "Get that classic look with great ergonomics with our white neoprene.",		
+					"price": 0,		
+					"defaultColorID": 1101		
+				},			
+				{			
+					"name": "Clasic Brown Leather",		
+					"optionID": 4300,		
+					"desc": "For a timeless classic look, we'll wrap your handle bars in premium leather.",		
+					"price": 0,		
+					"defaultColorID": 1101		
+				}			
+			]				
+		},					
+		{					
+			"name": "Crank",				
+			"partID": 5000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 3100,				
+			"options": [				
+				{			
+					"name": "Brushed Aluminum",		
+					"optionID": 5100,		
+					"desc": "The crank is made from aircraft grade aluminum for strength and ultralight weight.",		
+					"price": 0,		
+					"defaultColorID": 1101		
+				},			
+				{			
+					"name": "Gold Anodized Aluminum",		
+					"optionID": 5200,		
+					"desc": "Get retro, and anodize your crank and sprockets gold like an old Subaru WRX rally car.",		
+					"price": 50,		
+					"defaultColorID": 1101		
+				},			
+				{			
+					"name": "Black Anodized Aluminum",		
+					"optionID": 5300,		
+					"desc": "A sleek black finish will match any color scheme.",		
+					"price": 50,		
+					"defaultColorID": 1101		
+				}			
+			]				
+		},					
+		{					
+			"name": "Pedals",				
+			"partID": 6000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 3100,				
+			"options": [				
+				{			
+					"name": "Standard Pedals",		
+					"optionID": 6100,		
+					"desc": "90% of the time, standard pedals work every time… -Lance Armstrong",		
+					"price": 0,		
+					"defaultColorID": 1101		
+				},			
+				{			
+					"name": "Foot Straps",		
+					"optionID": 6200,		
+					"desc": "Tie your feet into the pedals for a more even power cycle.  Get out there and set some records pedaling down 8th street.",		
+					"price": 65,		
+					"defaultColorID": 1101		
+				}			
+			]				
+		},					
+		{					
+			"name": "Saddle",				
+			"partID": 7000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 3100,				
+			"options": [				
+				{			
+					"name": "Black Leather",		
+					"optionID": 7100,		
+					"desc": "Timeless and classic black leather is a great way to go.",		
+					"price": 0,		
+					"defaultColorID": 1101		
+				},			
+				{			
+					"name": "Two Toned Leather",		
+					"optionID": 7200,		
+					"desc": "Who want's one color, why not two?  ",		
+					"price": 30,		
+					"defaultColorID": 1101		
+				},			
+				{			
+					"name": "Brown Leather",		
+					"optionID": 7300,		
+					"desc": "Match the seat to your handle bars with this option.",		
+					"price": 30,		
+					"defaultColorID": 1101		
+				}			
+			]				
+		},					
+		{					
+			"name": "Tires",				
+			"partID": 8000,				
+			"numSubImages": 1,				
+			"zRank": [[10,7,6,7,10]],				
+			"shortName": "Acc",				
+			"defaultOptionID": 3100,				
+			"options": [				
+				{			
+					"name": "Standard Black",		
+					"optionID": 8100,		
+					"desc": "Our standard black tires are puncture resistant and hand a mild tread for all surfaces.",		
+					"price": 0,		
+					"defaultColorID": 1101		
+				},			
+				{			
+					"name": "Throwback White Walls",		
+					"optionID": 8200,		
+					"desc": "White wall tires, what's more to be said?  You know you want them.",		
+					"price": 80		
+				}			
+			]				
+		}					
+	]						
+	"measures": [						
+		{					
+			"name": "Seat Width",				
+			"measureID": 15001,				
+			"desc": "The distance between the outside of the seat tube on one side of the chair to the outside of the seat tube on the other, at the hips.",				
+			"details": "Seat width helps determines how the frame fits your body and how much side to side stability you will have. A tighter seat width provides a sleeker appearance and increases your lateral stability. It also gives you easier access to the push rims. /nTiArrow uses a thin tube to outline the shape of the side guard, however. This adds rigidity to the frame and increases your lateral stability, but it also makes the frame fit your body a little differently. We suggest choosing a seat width that is .5\” wider than you would otherwise get to ensure a comfortable fit.",				
+			"tip": "An easy way to measure seat width is to press a book firmly against either hip and measure between them.",				
+			"gifDesc": "As the seat width narrows, trunk stability increases. /n As the seat widens, trunk stability decreases.",				
+			"units": ["cm","in"],				
+			"shortName": "SW",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["30.5", "33", "35.6", "38.1", "40.6", "43.2", "45.7"],["12", "13", "14", "15", "16", "17", "18"]],				
+			"weights": [0, 0, 0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Taper (Knee Width)",				
+			"measureID": 15002,				
+			"desc": "The width of the chair at the knee. (inside of tube to inside of tube)",				
+			"details": " Taper allows a more tailored fit and helps to increase chair control and overall feel while assisting to achieve proper body alignment.  To measure taper place your hand between your legs and measure the outside distance of the contact patch where your legs meet the frame./n TiArrow uses a thin tube to outline the shape of the side guard, however. This adds rigidity to the frame and increases your lateral stability, but it also makes the frame fit your body a little differently. We suggest choosing a seat width that is .5” wider than you would otherwise get to ensure a comfortable fit.",				
+			"tip": "Greater taper will make it easier to maneuver on the court.",				
+			"gifDesc": "You gain more control and body alignment as the taper increases.",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Other Taper Amount (inches)",				
+			"shortName": "Tap",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["45.7", "43.2", "40.6", "38.1", "35.6", "33", "30.5", "27.9", "25.4", "22.9", "20.3", "Other"],["18", "17", "16", "15", "14", "13", "12", "11", "10", "9", "8", "Other"]],				
+			"weights": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Seat Depth",				
+			"measureID": 15003,				
+			"desc": "The distance from your seat back to the front of your seat (typically where your seat cushion ends). Seat depth helps determine how pressure is distributed through your legs.",				
+			"details": "To balance comfort and pressure distribution, we recommend a seat depth that is 2-3 inches (5-8 cm) shorter than the length of your upper leg.  Too short a seat and the pressure may be too concentrated in your upper thighs, however too long a seat may press uncomfortably against the back of your lower leg.",				
+			"tip": "We recommend that the seat depth be 5-8 cm (2-3 inches) shorter that the length of your upper leg. This will provide you maximum leg support while allowing you to comfortably adjust your knee angle.",				
+			"gifDesc": "As seat depth decreases, pressure increases.  ",				
+			"units": ["cm","in"],				
+			"shortName": "SD",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["30.5", "33", "35.6", "38.1", "40.6", "43.2", "45.7"],["12", "13", "14", "15", "16", "17", "18"]],				
+			"weights": [0, 0, 0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Total Length",				
+			"measureID": 15004,				
+			"desc": "The distance from the front of your backrest to the point where the seat bends at the knee. ",				
+			"details": "Per4max defines the total length as the distance from the front of your backrest to the point where the frame bends at the knee.  Most athletes like to have at least a few inches of metal sticking out in front of their knees to protect them during competition.  Additionally, a frame that is slightly longer gives you a place to grab onto and steady your self.",				
+			"tip": "The total length should be long enough so that the frame sticks out a little past your knees.",				
+			"gifDesc": "As the total length increases, you have more room to grab.",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Total Length (inches)",				
+			"shortName": "TL",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["Other"],["Other"]],				
+			"weights": [0],				
+			"prices": [0]				
+		},					
+		{					
+			"name": "Rear Seat Height",				
+			"measureID": 15005,				
+			"desc": "The distance from the back of your seat to the floor.",				
+			"details": "The rear seat height effects how you interact with your wheels.  Sitting a little taller will give you an easier push and the research suggests that it is better for the long term health of your shoulders.  However, a lower seat height can really enhance your stability if you have low trunk control./n Most therapists say that the correct seat height is one where your fingers touch the rear axle when you hang your arms straight down from your shoulders.  Measure your current rear seat height and see if you would like to make any adjustments.",				
+			"tip": "In general, the front seat height should be about 2 inches (5 cm) higher than the rear seat height.  If the front seat height is even higher, it will serve to increase your stability.",				
+			"gifDesc": "As the seat height increases, push ergonomics get better, but stability decreases.",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Other Rear Seat Height (inches)",				
+			"shortName": "RSH",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["35.6", "38.1", "40.6", "43.2", "45.7", "Other"],["14", "15", "16", "17", "18", "Other"]],				
+			"weights": [0, 0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Front Seat Height",				
+			"measureID": 15006,				
+			"desc": "The distance from the front of your seat to the floor.",				
+			"details": "The interaction between the front seat height and rear seat height creates a seat that tilts back slightly. Therapists refer to this property as \"Dump\". If the front seat height is significantly higher than the rear seat height, it will serve hold you in the seat a little better and give you more trunk stability.",				
+			"tip": "In general, the front seat height should be about 5 cm (2 inches) higher than the rear seat height. If the front seat height is even higher, it will serve to increase your stability",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Other Front Seat Height (inches)",				
+			"shortName": "FSR",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["35.6", "38.1", "40.6", "43.2", "45.7", "Other"],["14", "15", "16", "17", "18", "Other"]],				
+			"weights": [0, 0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Backrest Height",				
+			"measureID": 15006,				
+			"desc": "The distance from the top of the seat tube to the top of the seat post. The height of the seat back plays a role in providing trunk stability.",				
+			"details": "The height of the backrest, in combination with the relation between front and rear seat height, helps provide trunk stability. In determining seatback height it is important to assess your level of trunk control as well as the amount of times you need to lean back to perform an activity of daily living (cooking, cleaning, dressing, undressing, etc.). When measuring seatback height, remember to factor in the height of the cushion you will be sitting on. On a TiArrow frame it is easier to lower a seatback that is too high than to raise a seatback that is too low.",				
+			"tip": "The easiest way to determine backrest height is to assess how satisfied you are with your current backrest height and make the necessary adjustments.",				
+			"gifDesc": "Lower backrest height gives you more range of motion but less trunk stability.",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Other Front Seat Height (inches)",				
+			"shortName": "FSR",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["35.6", "38.1", "40.6", "43.2", "45.7", "Other"],["14", "15", "16", "17", "18", "Other"]],				
+			"weights": [0, 0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Backrest Angle",				
+			"measureID": 15007,				
+			"desc": "The angle of the backrest in relation to the ground.",				
+			"details": "Most people want a backrest angle of 0 degrees which makes it perpendicular to the ground.  However, different injury types require different support, so look at your old chair for guidance.",				
+			"tip": "Look at your old chair for reference on the back angle.  Different types of injuries require different types of support.",				
+			"gifDesc": "As the angle increases, trunk stability increases but explosiveness decreases.",				
+			"units": ["deg","deg"],				
+			"writeInLabel": "Other Back Angle (optionally perpendicular to the floor or seat)",				
+			"shortName": "BA",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["0", "3", "5", "Other"],["0", "3", "5", "Other"]],				
+			"weights": [0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Foot Width",				
+			"measureID": 15008,				
+			"desc": "The width of the flat portion of the foot rest.",				
+			"details": "Foot rest width is generally a personal preference.  Some people like the comfort of a wide foot rest, where others prefer the compactness and maneuverability of narrow foot rest.  Make certain that your foot rest is at least as wide as your feet when wearing a pair of shoes.",				
+			"tip": "The foot rest should be at least as wide as your feet when wearing a pair of shoes.",				
+			"gifDesc": "As the foot rest width increases, the size of the wheelchair increases.",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Other Foot Width (inches)",				
+			"shortName": "FW",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["17.8", "20.3", "22.9", "25.4", "Other"],["7", "8", "9", "10", "Other"]],				
+			"weights": [0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Lower Leg Length",				
+			"measureID": 15009,				
+			"desc": "The distance from the back of your knee to the bottom of your foot while wearing shoes.",				
+			"details": "A foot rest should be just high enough to hold your feet securely.  This will push your knees up and take pressure off the back of your legs.    To calculate the footrest height, we just need to know the length from the back of your knee to the bottom of your feet while wearing shoes. The height of a foot rest is adjustable so you will be able to fine tune it after your chair has been built.",				
+			"tip": "The foot rest should be just high enough so that your feet are properly supported.",				
+			"gifDesc": "As the foot rest height increases, pressure on the back of your legs decreases.",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Lower Leg Length (inches)",				
+			"shortName": "LL",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["Other"],["Other"]],				
+			"weights": [0],				
+			"prices": [0]				
+		},					
+		{					
+			"name": "Backrest to Center Axle",				
+			"measureID": 15010,				
+			"desc": "The distance from the front of the seatback post to the center of the axle. Axle position is one of the most important factors in determining the agility of your wheelchair.",				
+			"details": "The axle position affects how easy it is to push and turn your chair (agility) as well as how easy it is for your chair to tip over backwards.  The further forward you place your axle the easier it is to push and turn, though it is also easier for your chair to tip over backwards.   The axle position on your basketball chair will generally be further forward than the axle on your day chair since you have the 5th wheel to prevent wheelies.",				
+			"tip": "The axle position on your basketball chair will generally be further forward than the axle on your day chair.",				
+			"gifDesc": "As the axle position moves forwards, the chair gets more tippy but also more agile.",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Other Center of Gravity (inches)",				
+			"shortName": "CG",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["5.1", "7.6", "10.2", "12.7", "Other"],["2", "3", "4", "5", "Other"]],				
+			"weights": [0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Center Axle To Caster Housing (Wheelbase)",				
+			"measureID": 15011,				
+			"desc": "The distance from the axle to the center of the casters.  On a car, you would call this the wheelbase.",				
+			"details": "To keep you chair agile, Per4max tries to keep your front casters in close to the center of gravity.  Generally, a 24\" rear wheel will warrant a 15\" wheel base, and a 27\" rear wheel will warrant an 18\" wheelbase.",				
+			"tip": "Generally, a 24\" rear wheel will warrant a 15\" wheel base, and a 27\" rear wheel will warrant an 18\" wheelbase.",				
+			"gifDesc": "As the casters move forward, the chair becomes more stable, but less agile.",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Other Wheelbase (inches)",				
+			"shortName": "WB",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["38.1", "40.6", "43.2", "45.7", "Other"],["15", "16", "17", "18", "Other"]],				
+			"weights": [0, 0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Caster Housing To Front Foot Plate",				
+			"measureID": 15012,				
+			"desc": "The distance between the front of the footplate and the center of the caster housing.",				
+			"details": "It's a good idea to have your feet and legs tucked away safely under your body.  It keeps your mass closer to the center of gravity making it easier to pivot and turn.",				
+			"tip": "We generally recommend 5\" for this measurement, but refer to your old chair if you are unsure.",				
+			"gifDesc": "As your feet move closer to your center of gravity, it becomes easier to pivot and turn.",				
+			"units": ["cm","in"],				
+			"writeInLabel": "Other Caster Housing Distance (inches)",				
+			"shortName": "CH",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["12.7 cm, Std.", "Other"],["5\", Std.", "Other"]],				
+			"weights": [0, 0],				
+			"prices": [0, 0]				
+		},					
+		{					
+			"name": "Side Wheel Clearance",				
+			"measureID": 15013,				
+			"desc": "The distance between the side guards and the inside edge of the wheel.",				
+			"details": "You can get more power when your wheels are closer to your body.  But having them too close might not leave enough room for your thumbs if you grab the whole tire.   If you tend to grab the whole tire while pushing, we recommend at least 1 inch of space between the tire and the side guards",				
+			"tip": "If you tend to grab the whole tire while pushing, we recommend at least 1 inch of space between the tire and the side guards to prevent pinching your thumbs.",				
+			"gifDesc": "As the wheels move out, thumb space increases but ergonomics decrease.",				
+			"units": ["cm","in"],				
+			"shortName": "Clr",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["1.3", "2.5", "3.8", "5.1"],["0.5", "1", "1.5", "2"]],				
+			"weights": [0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0]				
+		},					
+		{					
+			"name": "Camber Angle",				
+			"measureID": 15014,				
+			"desc": "The angle of the wheels with respect to the ground.",				
+			"details": "Camber is imperative for a stable ride and easy pivoting.  Generally, more camber will improve both of these aspects.  However, too much camber makes the chair very large and harder to fit through tight gaps.",				
+			"tip": "If you are uncertain of the right camber for you, 15 degrees is a good safe bet.",				
+			"gifDesc": "As camber increases, stability and pivot speed increase, but size also increases.",				
+			"units": ["deg","deg"],				
+			"writeInLabel": "Other Caber Angle",				
+			"shortName": "Cam",				
+			"videoURL": "https://www.youtube.com/watch?v=Lu_mVOJroZg",				
+			"imageURLs": "http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1,http://i.imgur.com/nCcOxqP.png?1",				
+			"gifURL": "http://i.imgur.com/nCcOxqP.png?1",				
+			"measureOptions": [["15", "17", "18", "Other"],["15", "17", "18", "Other"]],				
+			"weights": [0, 0, 0, 0],				
+			"prices": [0, 0, 0, 0]				
 		}					
 	]						
 }							
